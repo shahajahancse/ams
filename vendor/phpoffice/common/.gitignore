@@ -8,6 +8,7 @@ Desktop.ini
 build/
 phpunit.xml
 composer.phar
+vendor
 *.settings
 *.project
 *.buildpath
