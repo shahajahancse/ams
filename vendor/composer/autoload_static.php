@@ -6,22 +6,51 @@ namespace Composer\Autoload;
 
 class ComposerStaticInit7bfd896079101b6ab824fd33f11e69d7
 {
+    public static $files = array (
+        '6124b4c8570aa390c21fafd04a26c69f' => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy/deep_copy.php',
+        'db356362850385d08a5381de2638b5fd' => __DIR__ . '/..' . '/mpdf/mpdf/src/functions.php',
+    );
+
     public static $prefixLengthsPsr4 = array (
-        'Z' => 
+        's' => 
         array (
-            'Zend\\Escaper\\' => 13,
+            'setasign\\Fpdi\\' => 14,
         ),
         'P' => 
         array (
+            'Psr\\Log\\' => 8,
+            'Psr\\Http\\Message\\' => 17,
             'PhpOffice\\PhpWord\\' => 18,
             'PhpOffice\\Common\\' => 17,
+        ),
+        'M' => 
+        array (
+            'Mpdf\\PsrLogAwareTrait\\' => 22,
+            'Mpdf\\PsrHttpMessageShim\\' => 24,
+            'Mpdf\\' => 5,
+        ),
+        'L' => 
+        array (
+            'Laminas\\Escaper\\' => 16,
+        ),
+        'D' => 
+        array (
+            'DeepCopy\\' => 9,
         ),
     );
 
     public static $prefixDirsPsr4 = array (
-        'Zend\\Escaper\\' => 
+        'setasign\\Fpdi\\' => 
         array (
-            0 => __DIR__ . '/..' . '/zendframework/zend-escaper/src',
+            0 => __DIR__ . '/..' . '/setasign/fpdi/src',
+        ),
+        'Psr\\Log\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/log/src',
+        ),
+        'Psr\\Http\\Message\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/psr/http-message/src',
         ),
         'PhpOffice\\PhpWord\\' => 
         array (
@@ -30,11 +59,58 @@ class ComposerStaticInit7bfd896079101b6ab824fd33f11e69d7
         'PhpOffice\\Common\\' => 
         array (
             0 => __DIR__ . '/..' . '/phpoffice/common/src/Common',
+            1 => __DIR__ . '/..' . '/phpoffice/common/src/Common',
+        ),
+        'Mpdf\\PsrLogAwareTrait\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mpdf/psr-log-aware-trait/src',
+        ),
+        'Mpdf\\PsrHttpMessageShim\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mpdf/psr-http-message-shim/src',
+        ),
+        'Mpdf\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/mpdf/mpdf/src',
+        ),
+        'Laminas\\Escaper\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/laminas/laminas-escaper/src',
+        ),
+        'DeepCopy\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/myclabs/deep-copy/src/DeepCopy',
         ),
     );
 
     public static $classMap = array (
-        'PclZip' => __DIR__ . '/..' . '/pclzip/pclzip/pclzip.lib.php',
+        'CGIF' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/gif.php',
+        'CGIFCOLORTABLE' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/gif.php',
+        'CGIFFILEHEADER' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/gif.php',
+        'CGIFIMAGE' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/gif.php',
+        'CGIFIMAGEHEADER' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/gif.php',
+        'CGIFLZW' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/gif.php',
+        'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'INDIC' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/indic.php',
+        'MYANMAR' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/myanmar.php',
+        'OTLdump' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/otl_dump.php',
+        'PDFBarcode' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/barcode.php',
+        'PclZip' => __DIR__ . '/..' . '/chamilo/pclzip/pclzip.lib.php',
+        'SEA' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/sea.php',
+        'SVG' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/svg.php',
+        'TTFontFile' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/ttfontsuni.php',
+        'TTFontFile_Analysis' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/ttfontsuni_analysis.php',
+        'UCDN' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/ucdn.php',
+        'bmp' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/bmp.php',
+        'cssmgr' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/cssmgr.php',
+        'directw' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/directw.php',
+        'grad' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/grad.php',
+        'mPDF' => __DIR__ . '/../..' . '/application/third_party/mpdf/mpdf.php',
+        'meter' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/meter.php',
+        'mpdfform' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/mpdfform.php',
+        'otl' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/otl.php',
+        'tocontents' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/tocontents.php',
+        'wmf' => __DIR__ . '/../..' . '/application/third_party/mpdf/classes/wmf.php',
     );
 
     public static function getInitializer(ClassLoader $loader)
