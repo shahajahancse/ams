@@ -1,0 +1,28 @@
+ERROR - 2018-12-01 19:45:55 --> 404 Page Not Found: ../modules/offices/controllers/Offices/scout_unit_details
+ERROR - 2018-12-01 19:45:55 --> Severity: Error --> Call to undefined function base_url() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/views/errors/html/error_404.php 10
+ERROR - 2018-12-01 19:47:27 --> Severity: Warning --> Missing argument 2 for General_setting::ajax_get_scout_badge_by_section() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1238
+ERROR - 2018-12-01 19:47:27 --> Severity: Warning --> Missing argument 2 for General_setting::ajax_get_scout_role_by_section() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1243
+ERROR - 2018-12-01 19:49:59 --> Severity: Warning --> Missing argument 2 for General_setting::ajax_get_scout_badge_by_section() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1238
+ERROR - 2018-12-01 19:49:59 --> Severity: Warning --> Missing argument 2 for General_setting::ajax_get_scout_role_by_section() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1243
+ERROR - 2018-12-01 19:50:23 --> Severity: Warning --> Missing argument 2 for General_setting::ajax_get_scout_badge_by_section() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1238
+ERROR - 2018-12-01 19:50:23 --> Severity: Warning --> Missing argument 2 for General_setting::ajax_get_scout_role_by_section() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1243
+ERROR - 2018-12-01 19:50:53 --> Severity: Warning --> Missing argument 2 for General_setting::ajax_get_scout_badge_by_section() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1238
+ERROR - 2018-12-01 19:50:53 --> Severity: Warning --> Missing argument 2 for General_setting::ajax_get_scout_role_by_section() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1243
+ERROR - 2018-12-01 20:23:49 --> 404 Page Not Found: details exists user
+ERROR - 2018-12-01 20:27:40 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_expert_group_by_badge() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1198
+ERROR - 2018-12-01 20:30:55 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_upa_tha_by_dis() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1188
+ERROR - 2018-12-01 20:36:58 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2018-12-01 20:51:24 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_district_by_div() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1183
+ERROR - 2018-12-01 21:02:44 --> 404 Page Not Found: verify - exists user
+ERROR - 2018-12-01 21:18:40 --> Severity: Warning --> unlink(/home/admin/web/host.mysoftserver.com/public_html/scouts/profile_img/): Is a directory /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/my_profile/controllers/My_profile.php 779
+ERROR - 2018-12-01 21:27:45 --> 404 Page Not Found: edit group admin
+ERROR - 2018-12-01 21:27:52 --> 404 Page Not Found: edit group admin
+ERROR - 2018-12-01 21:41:42 --> Severity: Warning --> Missing argument 1 for Program::program_badge_resign() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/program/controllers/Program.php 852
+ERROR - 2018-12-01 21:41:42 --> Severity: Warning --> Missing argument 1 for Program::program_badge_promotion() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/program/controllers/Program.php 759
+ERROR - 2018-12-01 21:41:42 --> Severity: Warning --> Missing argument 1 for Program::program_badge_training() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/program/controllers/Program.php 466
+ERROR - 2018-12-01 21:41:42 --> Severity: Warning --> Missing argument 1 for Program::program_badge_camping() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/program/controllers/Program.php 373
+ERROR - 2018-12-01 21:58:12 --> 404 Page Not Found: edit group admin
+ERROR - 2018-12-01 22:15:23 --> Query error: Column 'unit_region_id' cannot be null - Invalid query: INSERT INTO `office_unit` (`unit_name`, `unit_name_bn`, `unit_type`, `unit_region_id`, `unit_scout_dis_id`, `unit_scout_upa_id`, `unit_sc_grp_id`) VALUES ('Hobinandi govt primary school cub unite', 'হবিনন্দী সরকারী প্রাথমিক বিদ্যালয় কাব দল ', '1', NULL, NULL, NULL, 1729)
+ERROR - 2018-12-01 22:49:57 --> Could not find the language line "forgot_password_identity_not_found"
+ERROR - 2018-12-01 23:25:36 --> 404 Page Not Found: details exists user
+ERROR - 2018-12-01 23:43:15 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228

@@ -1,0 +1,96 @@
+<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns="http://www.w3.org/TR/REC-html40">
+<head></head>
+
+<body style="width:800px;">
+    <?php
+        $filename = "item.xls";
+        header('Content-Type: application/vnd.ms-excel'); //mime type
+        header('Content-Disposition: attachment;filename="'.$filename.'"'); //tell browser what's the file name
+        header('Cache-Control: max-age=0'); //no cache
+    ?>
+
+    <style type="text/css">
+        body{font-family: 'Tahoma'}
+        .priview-body{font-size: 16px;color:#000;margin: 25px; }
+        .priview-header{margin-bottom: 10px;text-align:center;}
+        .priview-header div{font-size: 18px;}
+        .priview-memorandum, .priview-from, .priview-to, .priview-subject, .priview-message, .priview-office, .priview-demand, .priview-signature{padding-bottom: 20px;}
+        .priview-office{text-align: center;}
+        .priview-imitation ul{list-style: none;}
+        .priview-imitation ul li{display: block;}
+        .date-name{width: 20%;float: left;padding-top: 23px;text-align: right;}
+        .date-value{width: 70%;float:left;}
+        .date-value ul{list-style: none;}
+        .date-value ul li{text-align: center;}
+        .date-value ul li.underline{border-bottom: 1px solid black;}
+        .subject-content{text-decoration: underline;}
+        .headding{border-top:1px solid #000;border-bottom:1px solid #000;}
+
+        .col-1{width:8.33%;float:left;}
+        .col-2{width:16.66%;float:left;}
+        .col-3{width:25%;float:left;}
+        .col-4{width:33.33%;float:left;}
+        .col-5{width:41.66%;float:left;}
+        .col-6{width:50%;float:left;}
+        .col-7{width:58.33%;float:left;}
+        .col-8{width:66.66%;float:left;}
+        .col-9{width:75%;float:left;}
+        .col-10{width:83.33%;float:left;}
+        .col-11{width:91.66%;float:left;}
+        .col-12{width:100%;float:left;}
+
+        .table{width:100%;border-collapse: collapse;}
+        .table td, .table th{border:1px solid #ddd;}
+        .table tr.bottom-separate td,
+        .table tr.bottom-separate td .table td{border-bottom:1px solid #ddd;}
+        .borner-none td{border:0px solid #ddd;}
+        .headding td, .total td{border-top:1px solid #ddd;border-bottom:1px solid #ddd;}
+        .table th{padding:5px;}
+        .table td{padding:5px;}
+        .text-left{text-align:left;}
+        .text-center{text-align:center;}
+        .text-right{text-align:right;}
+        .report_date{text-align: right; font-size: 14px;}
+        b{font-weight:500;}
+    </style>
+
+	<div class="priview-body">
+        <div class="priview-header">
+            <p class="text-center">
+                <span style="font-size:20px;font-weight: bold;">BFRI Inventory Management System</span>
+                <br> <span style="font-size: 14px;"><?= $headding ?> </span>
+            </p>
+        </div>
+
+        <div class="report_date">Report Date: <?=date('d-m-Y')?></div>
+        <table class="table table-hover table-bordered report">
+            <thead class="headding">
+               <tr>
+                  <th class="text-center" width="20">SL</th>
+                  <th class="text-left" width="150">Office Name</th>
+                  <th class="text-left" width="150">Category</th>
+                  <th class="text-left" width="150">Item Name</th>
+                  <th class="text-left" width="80">Unit</th>
+                  <th class="text-center" width="100">Quantity</th>
+                  <th class="text-center" width="100">Order Level</th>
+               </tr>
+            </thead>
+            <tbody>
+               <?php foreach ($results as $k => $row) { ?>
+                  <tr>
+                     <td class="text-center"><?=$k + 1?>.</td>
+                     <td class="text-left"><?=$row->name_en?></td>
+                     <td class="text-left"><?=$row->category_name?></td>
+                     <td class="text-left"><?=$row->item_name?></td>
+                     <td class="text-left"><?=$row->unit_name?></td>
+                     <td class="text-center"><?=$row->balance?></td>
+                     <td class="text-center"><?=$row->order_level?></td>
+                  </tr>
+               <?php } ?>
+            </tbody>
+            <tfoot class="headding"></tfoot>
+        </table>
+	</div>
+	<?php exit(); ?>
+</body>
+</html>

@@ -1,0 +1,17 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2018-12-13 01:28:57 --> Severity: Warning --> unlink(/home/admin/web/host.mysoftserver.com/public_html/scouts/profile_img/): Is a directory /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/my_profile/controllers/My_profile.php 785
+ERROR - 2018-12-13 07:23:11 --> Could not find the language line "forgot_password_identity_not_found"
+ERROR - 2018-12-13 07:24:01 --> Could not find the language line "forgot_password_identity_not_found"
+ERROR - 2018-12-13 07:24:35 --> Could not find the language line "forgot_password_identity_not_found"
+ERROR - 2018-12-13 14:10:05 --> Severity: Warning --> Missing argument 1 for Site::ajax_get_scout_dis_by_region() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/site/controllers/Site.php 542
+ERROR - 2018-12-13 14:27:21 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2018-12-13 14:28:23 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2018-12-13 14:53:59 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2018-12-13 14:55:43 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_dis_by_region() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1203
+ERROR - 2018-12-13 14:56:14 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2018-12-13 15:00:37 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2018-12-13 15:00:45 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2018-12-13 22:01:42 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_upazila_thana_by_district() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1208
+ERROR - 2018-12-13 22:01:42 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_district() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1223
+ERROR - 2018-12-13 23:29:51 --> Severity: Warning --> unlink(/home/admin/web/host.mysoftserver.com/public_html/scouts/profile_img/): Is a directory /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/my_profile/controllers/My_profile.php 785
