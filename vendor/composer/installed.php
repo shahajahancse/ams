@@ -3,7 +3,7 @@
         'name' => 'shahajahancse/ams',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '18fc81363f8903d13ea691faf882405493d16092',
+        'reference' => 'c8ac9c9700e05b15ffdd74ca1655a96e1f72a411',
         'type' => 'library',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -118,7 +118,7 @@
         'shahajahancse/ams' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '18fc81363f8903d13ea691faf882405493d16092',
+            'reference' => 'c8ac9c9700e05b15ffdd74ca1655a96e1f72a411',
             'type' => 'library',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
