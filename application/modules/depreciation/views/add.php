@@ -35,7 +35,7 @@
                         <select name="method_id" class="form-control input-sm" required>
                            <option value="">-- Select One --</option>
                            <?php foreach ($depreciation_methods as $method) { ?>
-                              <option value="<?=$method->id?>" <?=set_value('method_id', $depreciation_info->method_id ?? '') == $method->id ? 'selected' : ''?>><?=$method->method_name?></option>
+                              <option value="<?=$method->id?>" <?=set_value('method_id', (isset($depreciation_info->method_id) ? $depreciation_info->method_id : '')) == $method->id ? 'selected' : ''?>><?=$method->method_name?></option>
                            <?php } ?>
                         </select>
                      </div>
@@ -44,22 +44,22 @@
                   <div class="row form-row">
                      <div class="col-md-4">
                         <label class="form-label">Useful Life (Years)</label>
-                        <input name="useful_life_years" type="number" value="<?=set_value('useful_life_years', $depreciation_info->useful_life_years ?? '')?>" class="form-control input-sm">
+                        <input name="useful_life_years" type="number" value="<?=set_value('useful_life_years', (isset($depreciation_info->useful_life_years) ? $depreciation_info->useful_life_years : ''))?>" class="form-control input-sm">
                      </div>
                      <div class="col-md-4">
                         <label class="form-label">Useful Life (Units - for Production Method)</label>
-                        <input name="useful_life_units" type="number" value="<?=set_value('useful_life_units', $depreciation_info->useful_life_units ?? '')?>" class="form-control input-sm">
+                        <input name="useful_life_units" type="number" value="<?=set_value('useful_life_units', (isset($depreciation_info->useful_life_units) ? $depreciation_info->useful_life_units : ''))?>" class="form-control input-sm">
                      </div>
                      <div class="col-md-4">
                         <label class="form-label">Salvage Value</label>
-                        <input name="salvage_value" type="number" step="0.01" value="<?=set_value('salvage_value', $depreciation_info->salvage_value ?? '')?>" class="form-control input-sm">
+                        <input name="salvage_value" type="number" step="0.01" value="<?=set_value('salvage_value', (isset($depreciation_info->salvage_value) ? $depreciation_info->salvage_value : ''))?>" class="form-control input-sm">
                      </div>
                   </div>
 
                   <div class="row form-row">
                      <div class="col-md-6">
                         <label class="form-label">Depreciation Start Date <span class="required">*</span></label>
-                        <input name="depreciation_start_date" type="date" value="<?=set_value('depreciation_start_date', $depreciation_info->depreciation_start_date ?? '')?>" class="form-control input-sm" required>
+                        <input name="depreciation_start_date" type="date" value="<?=set_value('depreciation_start_date', (isset($depreciation_info->depreciation_start_date) ? $depreciation_info->depreciation_start_date : ''))?>" class="form-control input-sm" required>
                      </div>
                   </div>
 

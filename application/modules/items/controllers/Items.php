@@ -487,4 +487,153 @@ class Items extends Backend_Controller {
    }
    /*************details_pdf function pdf End**************/
 
+    public function generate_qr_code($id) {
+        $this->load->library('ciqrcode'); // Load the Ciqrcode library
+
+        $asset_id = (int) decrypt_url($id); // Decrypt the asset ID
+
+        // Fetch asset information
+        $asset_info = $this->Items_model->get_info($asset_id);
+
+        if (!$asset_info) {
+            show_404(); // Asset not found
+        }
+
+        // Prepare data for QR code
+        // You can customize this string to include more asset information
+        $qr_data = "Asset ID: " . $asset_info->id . "\n";
+        $qr_data .= "Name: " . $asset_info->item_name . "\n";
+        $qr_data .= "Serial: " . $asset_info->serial_number . "\n";
+        $qr_data .= "Location: " . $asset_info->branch_name . ", " . $asset_info->department_name . ", " . $asset_info->floor_name . ", " . $asset_info->room_name . "\n";
+        $qr_data .= "Status: " . $asset_info->asset_status . "\n";
+        $qr_data .= "Cost: " . $asset_info->cost . "\n";
+        $qr_data .= "Acquisition Date: " . $asset_info->acquisition_date . "\n";
+        $qr_data .= "Supplier: " . $asset_info->supplier_name . "\n";
+        $qr_data .= "Custodian: " . $asset_info->custodian_name . "\n";
+        $qr_data .= "Warranty (Months): " . $asset_info->warranty_months . "\n";
+
+
+        // QR code generation parameters
+        $params['data'] = $qr_data;
+        $params['level'] = 'H'; // Error correction level: L, M, Q, H
+        $params['size'] = 10; // Size of the QR code (1-10)
+        $params['savename'] = FCPATH . 'qrcode_img/' . $asset_info->id . '_qrcode.png'; // Save to qrcode_img directory
+
+        // Ensure the qrcode_img directory exists
+        if (!is_dir(FCPATH . 'qrcode_img')) {
+            mkdir(FCPATH . 'qrcode_img', 0777, TRUE);
+        }
+
+        $this->ciqrcode->generate($params);
+
+        // Redirect to display the QR code or download it
+        // For now, let's redirect to a simple view that displays the image
+        $this->data['qr_code_path'] = base_url('qrcode_img/' . $asset_info->id . '_qrcode.png');
+        $this->data['meta_title'] = 'Asset QR Code';
+        $this->data['subview'] = 'qr_code_display'; // A new view to create
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function bulk_import() {
+        $this->data['meta_title'] = 'Bulk Import Assets';
+        $this->data['subview'] = 'bulk_import'; // View for the upload form
+
+        if ($this->input->post('submit')) {
+            $config['upload_path'] = './uploads/';
+            $config['allowed_types'] = 'xls|xlsx|csv';
+            $config['max_size'] = 2048; // 2MB
+            $config['encrypt_name'] = TRUE;
+
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('asset_file')) {
+                $this->data['error'] = $this->upload->display_errors();
+            } else {
+                $upload_data = $this->upload->data();
+                $file_path = $upload_data['full_path'];
+
+                $this->load->model('Items_import_model'); // Load the new import model
+                $import_result = $this->Items_import_model->import_assets($file_path);
+
+                if ($import_result['status'] == 'success') {
+                    $this->session->set_flashdata('success', $import_result['message']);
+                    redirect('items');
+                } else {
+                    $this->data['error'] = $import_result['message'];
+                }
+            }
+        }
+
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function bulk_export() {
+        $this->load->library('excel'); // Load PHPExcel library
+        $this->load->helper('download'); // For force_download
+
+        $assets = $this->Items_model->get_items(); // Fetch all asset data
+
+        if (empty($assets)) {
+            $this->session->set_flashdata('error', 'No assets found to export.');
+            redirect('items');
+        }
+
+        // Create new PHPExcel object
+        $objPHPExcel = new PHPExcel();
+        $objPHPExcel->setActiveSheetIndex(0);
+        $sheet = $objPHPExcel->getActiveSheet();
+
+        // Set headers
+        $headers = [
+            'ID', 'Item Name', 'Description', 'Division ID', 'Category ID', 'Sub Category ID',
+            'Unit ID', 'Type', 'Order Level', 'Status', 'Acquisition Date', 'Cost',
+            'Supplier ID', 'Serial Number', 'Warranty Months', 'Custodian ID',
+            'Asset Status', 'Branch ID', 'Department ID', 'Floor ID', 'Room ID'
+        ];
+        $col = 0;
+        foreach ($headers as $header) {
+            $sheet->setCellValueByColumnAndRow($col, 1, $header);
+            $col++;
+        }
+
+        // Add data
+        $row = 2;
+        foreach ($assets as $asset) {
+            $col = 0;
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->item_name);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->description);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->division_id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->cat_id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->sub_cat_id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->unit_id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->type);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->order_level);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->status);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->acquisition_date);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->cost);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->supplier_id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->serial_number);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->warranty_months);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->custodian_id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->asset_status);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->branch_id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->department_id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->floor_id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->room_id);
+            $row++;
+        }
+
+        // Set active sheet index to the first sheet, so Excel opens this sheet first
+        $objPHPExcel->setActiveSheetIndex(0);
+
+        // Redirect output to a client’s web browser (Excel2007)
+        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+        header('Content-Disposition: attachment;filename="assets_export_' . date('YmdHis') . '.xlsx"');
+        header('Cache-Control: max-age=0');
+
+        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+        $objWriter->save('php://output');
+        exit;
+    }
 }

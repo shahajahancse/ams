@@ -50,28 +50,28 @@
                   <div class="row form-row">
                      <div class="col-md-4">
                         <label class="form-label">Disposal Date <span class="required">*</span></label>
-                        <input name="disposal_date" type="date" value="<?=set_value('disposal_date', $disposal_info->disposal_date ?? '')?>" class="form-control input-sm" required>
+                        <input name="disposal_date" type="date" value="<?=set_value('disposal_date', (isset($disposal_info->disposal_date) ? $disposal_info->disposal_date : ''))?>" class="form-control input-sm" required>
                      </div>
                      <div class="col-md-4">
                         <label class="form-label">Disposal Type <span class="required">*</span></label>
                         <select name="disposal_type" class="form-control input-sm" required>
                            <option value="">-- Select One --</option>
-                           <option value="Sale" <?=set_value('disposal_type', $disposal_info->disposal_type ?? '') == 'Sale' ? 'selected' : ''?>>Sale</option>
-                           <option value="Write-off" <?=set_value('disposal_type', $disposal_info->disposal_type ?? '') == 'Write-off' ? 'selected' : ''?>>Write-off</option>
-                           <option value="Obsolescence" <?=set_value('disposal_type', $disposal_info->disposal_type ?? '') == 'Obsolescence' ? 'selected' : ''?>>Obsolescence</option>
-                           <option value="Damage" <?=set_value('disposal_type', $disposal_info->disposal_type ?? '') == 'Damage' ? 'selected' : ''?>>Damage</option>
+                           <option value="Sale" <?=set_value('disposal_type', (isset($disposal_info->disposal_type) ? $disposal_info->disposal_type : '')) == 'Sale' ? 'selected' : ''?>>Sale</option>
+                           <option value="Write-off" <?=set_value('disposal_type', (isset($disposal_info->disposal_type) ? $disposal_info->disposal_type : '')) == 'Write-off' ? 'selected' : ''?>>Write-off</option>
+                           <option value="Obsolescence" <?=set_value('disposal_type', (isset($disposal_info->disposal_type) ? $disposal_info->disposal_type : '')) == 'Obsolescence' ? 'selected' : ''?>>Obsolescence</option>
+                           <option value="Damage" <?=set_value('disposal_type', (isset($disposal_info->disposal_type) ? $disposal_info->disposal_type : '')) == 'Damage' ? 'selected' : ''?>>Damage</option>
                         </select>
                      </div>
                      <div class="col-md-4">
                         <label class="form-label">Sale Proceeds</label>
-                        <input name="sale_proceeds" type="number" step="0.01" value="<?=set_value('sale_proceeds', $disposal_info->sale_proceeds ?? '')?>" class="form-control input-sm">
+                        <input name="sale_proceeds" type="number" step="0.01" value="<?=set_value('sale_proceeds', (isset($disposal_info->sale_proceeds) ? $disposal_info->sale_proceeds : ''))?>" class="form-control input-sm">
                      </div>
                   </div>
 
                   <div class="row form-row">
                      <div class="col-md-12">
                         <label class="form-label">Notes</label>
-                        <textarea name="notes" class="form-control input-sm" rows="3"><?=set_value('notes', $disposal_info->notes ?? '')?></textarea>
+                        <textarea name="notes" class="form-control input-sm" rows="3"><?=set_value('notes', (isset($disposal_info->notes) ? $disposal_info->notes : ''))?></textarea>
                      </div>
                   </div>
 

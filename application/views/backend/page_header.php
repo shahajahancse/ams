@@ -286,6 +286,9 @@
                                         <li> <a href="<?=base_url('depreciation');?>"> Depreciation </a> </li>
                                         <li> <a href="<?=base_url('disposal');?>"> Disposal </a> </li>
                                         <li> <a href="<?=base_url('movement');?>"> Movement </a> </li>
+                                        <li> <a href="<?=base_url('qrimages');?>"> Generate Asset Tags </a> </li>
+                                        <li> <a href="<?=base_url('excel_import');?>"> Import Assets </a> </li>
+                                        <li> <a href="<?=base_url('assets/export');?>"> Export Assets </a> </li>
                                     </ul>
                                 </li>
 

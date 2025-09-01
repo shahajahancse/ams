@@ -184,6 +184,7 @@
                   <div class="form-actions">
                      <div class="pull-right">
                         <button type="submit" class="btn btn-primary btn-cons"><i class="icon-ok"></i> Save</button>
+                        <a href="<?=base_url('items/generate_qr_code/' . encrypt_url($info->id))?>" class="btn btn-info btn-cons" target="_blank"><i class="fa fa-qrcode"></i> Generate QR Code</a>
                      </div>
                   </div>
 
