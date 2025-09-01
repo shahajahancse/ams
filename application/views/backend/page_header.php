@@ -158,10 +158,13 @@
                                 </li>
 
                                 <!-- My Requisition section -->
+                                <?php /*
                                 <li class="start <?=backend_activate_menu_class('my_requisition')?>">
                                     <a href="<?=base_url('my_requisition');?>"> <i class="fa fa-tag"></i> <span class="title">My Requisition</span> <span class="badge badge-danger pull-right"><?=$user_ntfy?></span></a>
                                 </li>
+                                */ ?>
 
+                                <?php /*
                                 <?php
                                     if ($this->ion_auth->in_group(array('sm'))) {
                                        $nt = $req_ntfy->sm + $req_ntfy->apv;
@@ -188,6 +191,7 @@
                                     </ul>
                                 </li>
                                 <?php } ?>
+                                */ ?>
 
                                 <!-- Purchase section -->
                                 <?php
@@ -204,13 +208,16 @@
                                 ?>
 
                                 <!-- Direct Purchase section -->
+                                <?php /*
                                 <?php if($this->ion_auth->in_group(array('admin','sm','do'))){ ?>
                                 <li class="start <?=backend_activate_menu_class('direct_purchase')?>">
                                     <a href="<?=base_url('direct_purchase');?>"> <i class="fa fa-tag"></i> <span class="title"> Direct Purchase</span></a>
                                 </li>
                                 <?php } ?>
+                                */ ?>
 
                                 <!-- Purchase section -->
+                                <?php /*
                                 <?php if($this->ion_auth->in_group(array('admin','sm','do'))){ ?>
                                 <li class="start <?=backend_activate_menu_class('purchase')?>"> <a href="javascript:;"><i class="fa fa-tags"></i> <span class="title">Purchase</span> <span class="selected"></span> <span class="badge badge-danger pull-right"><?=$pn + $per_ntfy->ret?></span> <span class="arrow"></span> </a>
                                     <ul class="sub-menu">
@@ -229,8 +236,10 @@
                                     </ul>
                                 </li>
                                 <?php } ?>
+                                */ ?>
 
                                 <!-- Stock In section -->
+                                <?php /*
                                 <?php
                                     $pn1 = 0;
                                     if (in_array($unit_id, array(2,3,4)) && $this->ion_auth->in_group(array('sm'))) {
@@ -268,6 +277,7 @@
                                     </ul>
                                 </li>
                                 <?php } ?>
+                                */ ?>
 
                                 <!-- Report section -->
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
