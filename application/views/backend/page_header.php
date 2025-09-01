@@ -282,6 +282,17 @@
                                 </li>
                                 <?php } ?>
 
+                                <!-- New Asset Management Sub-menu -->
+                                <li class="start <?=backend_activate_menu_class('depreciation')?> <?=backend_activate_menu_class('disposal')?> <?=backend_activate_menu_class('movement')?>">
+                                    <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">Asset Management</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                                    <ul class="sub-menu">
+                                        <li> <a href="<?=base_url('depreciation');?>"> Depreciation </a> </li>
+                                        <li> <a href="<?=base_url('disposal');?>"> Disposal </a> </li>
+                                        <li> <a href="<?=base_url('movement');?>"> Movement </a> </li>
+                                    </ul>
+                                </li>
+
+
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){
                                     $low = $this->Common_model->count_low_stock();
                                 } ?>
