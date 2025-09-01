@@ -3,27 +3,27 @@
   -o-background-size: cover;
   background-size: cover;">
   <div class="container">
-    <div class="row login-container login_register column-seperation">  
-      <?php 
+    <div class="row login-container login_register column-seperation">
+      <?php
       $attributes = array('id' => 'get_verification_code_validate');
       echo form_open("forgot_password/get_verification_code", $attributes);
       ?>
-      <div class="col-md-4 col-sm-6 col-sm-offset-3 col-md-offset-4 box_reg"> 
-        <h4 class="box_title">Technical and Madrasah Education Division (BCCT)</h4>
+      <div class="col-md-4 col-sm-6 col-sm-offset-3 col-md-offset-4 box_reg">
+        <h4 class="box_title">(AMS)</h4>
         <img src="<?=base_url('awedget/assets/img/govt-logo.png');?>" class="box_img img-responsive"  width="50">
         <h4 class="box_title">Get a verification code</h4>
         <div id="infoMessage"><?php echo $message;?></div>
-        
+
         <div class="row">
           <div class="col-md-12" style="margin-top: 15px; margin-bottom: 10px;">
-            <?php 
+            <?php
             $disabled = 'disabled';
-            if(!empty($emails)){ 
+            if(!empty($emails)){
               $disabled='';
               ?>
-              <label>We will send a verification code to </label>            
+              <label>We will send a verification code to </label>
               <br>
-              <?php 
+              <?php
               foreach ($emails as $key => $value) {
                 echo '<input id="email'.$key.'" name="email" type="radio" value="'.$key.'" class="group_control" />
                 <label for="email'.$key.'" class="inline">'.$value.'</label>';
@@ -32,7 +32,7 @@
             }else{
               echo '<label>Could not find email address for you.</label>';
             }
-          //echo $verify_code; 
+          //echo $verify_code;
             ?>
 
             <label for="email" class="error" style="display: none;"></labe>

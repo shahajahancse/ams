@@ -47,7 +47,7 @@
 <body>
 	<div class="priview-body">
 		<div class="priview-header">
-			<p class="text-center">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার  <br><span style="font-size:20px;">কারিগরি মাদ্রাসা শিক্ষা বিভাগ</span><br> শিক্ষা মন্ত্রণালয়, বাংলাদেশ সচিবালয় <br> <span style="font-size:12px;">www.BCCT.gov.bd</span></p>
+			<p class="text-center">গণপ্রজাতন্ত্রী বাংলাদেশ সরকার  <br><span style="font-size:20px;">কারিগরি মাদ্রাসা শিক্ষা বিভাগ</span><br> শিক্ষা মন্ত্রণালয়, বাংলাদেশ সচিবালয় <br> <span style="font-size:12px;">www.ams.gov.bd</span></p>
 		</div>
 
 		<div class="priview-memorandum">
@@ -76,9 +76,9 @@
 				</thead>
 
 				<tbody>
-					<?php 
-					$i=0;					
-					foreach ($results as $row) { 
+					<?php
+					$i=0;
+					foreach ($results as $row) {
 						$i++;
 //Day count
 $startDate = $row->date != '0000-00-00 00:00:00' ? $row->date:'';
@@ -97,12 +97,12 @@ $duration = eng2bng($duration).' দিন';
 							<!-- <td class="text-left"><?=$row->participant_name?></td> -->
 							<!-- <td class="text-center"><?=$duration?></td> -->
 							<!-- <td class="text-left"></td> -->
-							<td>&nbsp;</td>		
+							<td>&nbsp;</td>
 						</tr>
 						<?php } ?>
 					</tbody>
-		
-				</table>			
+
+				</table>
 			</div>
 
 		</div>

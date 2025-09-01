@@ -73,11 +73,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 $active_group = 'default';
 $query_builder = TRUE;
 
-// if($_SERVER['HTTP_HOST'] === 'localhost'){
-//     $dbuser = 'root';
-//     $dbpass = '';
-//     $dbname = 'bcct';
-// }
 
 $db['default'] = array(
 	'dsn'	=> '',

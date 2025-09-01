@@ -78,7 +78,7 @@
         <div class="row login-container login_register column-seperation" style="margin: 15% auto 20px auto;">
             <?php $attributes = array('id' => 'login_validate'); echo form_open("login/index", $attributes); ?>
             <div class="col-md-4 col-sm-6 col-sm-offset-3 col-md-offset-4 box_reg">
-                <h4 class="box_title">Inventory Management System</h4>
+                <h4 class="box_title">Asset Management System</h4>
                 <div id="infoMessage"><?php echo $message;?></div>
 
                 <div class="row">

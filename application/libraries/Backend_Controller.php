@@ -14,7 +14,7 @@ class Backend_Controller extends MY_Controller{
 		$this->form_validation->set_error_delimiters('<div class="alert alert-warning"> <i class="fa fa-warning"></i> ', '</div>');
 		$this->lang->load('auth');
 		$this->data['meta_title'] = 'Page Title';
-		$this->data['domain_title'] = 'BCCT';
+		$this->data['domain_title'] = 'AMS';
 		$this->load->model('Common_model');
 		$this->userSessID = $this->session->userdata('user_id');
 		$this->unit_id = $this->session->userdata('unit_id');

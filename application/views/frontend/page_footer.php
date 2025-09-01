@@ -1,7 +1,7 @@
          <!-- </div> -->
       </div> <!-- main row -->
    </div>
-   <div class="pt-3"></div> 
+   <div class="pt-3"></div>
 
    <!-- footer -->
    <div class="footer">
@@ -41,9 +41,9 @@
 
                <div style="border-left: 1px solid #7030a0; margin-left: 20px; float: left;height: 55px;"></div>
 
-               <div class="pull-right">BCCT<br>
+               <div class="pull-right">AMS<br>
                   <ul class="list-inline" class="pull-right" style="width: 55px; float: right; text-align: center;">
-                     <li class="list-inline-item"><img src="<?=base_url();?>fwedget/assets/images/bd_logo1.png" height="30"></li>               
+                     <li class="list-inline-item"><img src="<?=base_url();?>fwedget/assets/images/bd_logo1.png" height="30"></li>
                   </ul>
                </div>
             </div>
@@ -220,7 +220,7 @@
   //           $.each(func_data,function(id,name)
   //           {
   //             i=i+1;
-  //              var opt ='<tr><td width="5%">'+convertlan(i)+'</td><td><a href="<?=base_url()?>groups-details/'+id+'" style="color:#000;">'+name+'</a></td></tr>' 
+  //              var opt ='<tr><td width="5%">'+convertlan(i)+'</td><td><a href="<?=base_url()?>groups-details/'+id+'" style="color:#000;">'+name+'</a></td></tr>'
   //              $('.sc_group_val').append(opt);
   //           });
   //        }
@@ -265,7 +265,7 @@
             $.each(func_data,function(id,name)
             {
                i=i+1;
-               var opt ='<tr><td width="5%">'+convertlan(i)+'</td><td><a href="<?=base_url()?>district-details/'+id+'" style="color:#000;">'+name+'</a></td></tr>' 
+               var opt ='<tr><td width="5%">'+convertlan(i)+'</td><td><a href="<?=base_url()?>district-details/'+id+'" style="color:#000;">'+name+'</a></td></tr>'
                $('.sc_district_val').append(opt);
             });
          }
@@ -287,7 +287,7 @@
             $.each(func_data,function(id,name)
             {
                i=i+1;
-               var opt ='<tr><td width="5%">'+ convertlan(i) +'</td><td><a href="<?=base_url()?>upazila-details/'+id+'" style="color:#000;">'+name+'</a></td></tr>' 
+               var opt ='<tr><td width="5%">'+ convertlan(i) +'</td><td><a href="<?=base_url()?>upazila-details/'+id+'" style="color:#000;">'+name+'</a></td></tr>'
                $('.sc_upzila_val').append(opt);
             });
          }
@@ -307,7 +307,7 @@
             $.each(func_data,function(id,name)
             {
                i=i+1;
-               var opt ='<tr><td width="5%">'+convertlan(i)+'</td><td><a href="<?=base_url()?>groups-details/'+id+'" style="color:#000;">'+name+'</a></td></tr>' 
+               var opt ='<tr><td width="5%">'+convertlan(i)+'</td><td><a href="<?=base_url()?>groups-details/'+id+'" style="color:#000;">'+name+'</a></td></tr>'
                $('.sc_group_val').append(opt);
             });
          }
@@ -327,7 +327,7 @@
             $.each(func_data,function(id,name)
             {
                i=i+1;
-               var opt ='<tr><td width="5%">'+ convertlan(i) +'</td><td><a href="<?=base_url()?>unit-details/'+id+'" style="color:#000;">'+name+'</a></td></tr>' 
+               var opt ='<tr><td width="5%">'+ convertlan(i) +'</td><td><a href="<?=base_url()?>unit-details/'+id+'" style="color:#000;">'+name+'</a></td></tr>'
                $('.sc_unit_val').append(opt);
             });
          }
@@ -396,7 +396,7 @@
             }
             return retStr;
          };
-      </script> 
+      </script>
 
       <script>
          $(".pagination li.page-item a").addClass("page-link");
