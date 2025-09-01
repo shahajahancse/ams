@@ -1,0 +1,10 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2018-12-21 10:00:06 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2018-12-21 10:08:43 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_dis_by_region() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1203
+ERROR - 2018-12-21 14:19:47 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_upazila_thana_by_district() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1208
+ERROR - 2018-12-21 14:19:47 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_district() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1223
+ERROR - 2018-12-21 15:36:44 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_upa_tha_by_dis() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1188
+ERROR - 2018-12-21 21:08:48 --> Severity: Warning --> Missing argument 1 for Site::get_sc_unit_data_by_scout_group_id() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/site/controllers/Site.php 577
+ERROR - 2018-12-21 21:28:12 --> Severity: Warning --> Missing argument 1 for Site::get_sc_unit_data_by_scout_group_id() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/site/controllers/Site.php 577
+ERROR - 2018-12-21 22:35:43 --> Severity: Warning --> unlink(/home/admin/web/host.mysoftserver.com/public_html/scouts/profile_img/): Is a directory /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/my_profile/controllers/My_profile.php 981

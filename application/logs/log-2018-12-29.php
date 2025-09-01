@@ -1,0 +1,11 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2018-12-29 11:41:52 --> Severity: Warning --> unlink(/home/admin/web/host.mysoftserver.com/public_html/scouts/profile_img/): Is a directory /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/my_profile/controllers/My_profile.php 1004
+ERROR - 2018-12-29 12:59:58 --> Severity: Warning --> Missing argument 1 for Site::ajax_get_scout_upazila_thana_by_district() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/site/controllers/Site.php 557
+ERROR - 2018-12-29 12:59:58 --> Severity: Warning --> Missing argument 1 for Site::ajax_get_scout_group_data_by_district() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/site/controllers/Site.php 562
+ERROR - 2018-12-29 16:32:09 --> Severity: Warning --> Missing argument 1 for Site::ajax_get_scout_dis_by_region() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/site/controllers/Site.php 542
+ERROR - 2018-12-29 16:32:50 --> Severity: Warning --> Missing argument 1 for Site::ajax_get_scout_dis_by_region() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/site/controllers/Site.php 542
+ERROR - 2018-12-29 16:40:23 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_district_by_div() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1183
+ERROR - 2018-12-29 18:12:10 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2018-12-29 18:16:14 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2018-12-29 22:46:06 --> Severity: Warning --> unlink(/home/admin/web/host.mysoftserver.com/public_html/scouts/profile_img/): Is a directory /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/my_profile/controllers/My_profile.php 1004

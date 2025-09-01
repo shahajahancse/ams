@@ -1,0 +1,20 @@
+<?php defined('BASEPATH') OR exit('No direct script access allowed'); ?>
+
+ERROR - 2019-01-02 15:22:16 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2019-01-02 15:22:58 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2019-01-02 15:28:33 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2019-01-02 15:29:31 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2019-01-02 15:36:30 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_dis_by_region() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1203
+ERROR - 2019-01-02 16:01:21 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2019-01-02 19:04:41 --> Could not find the language line "forgot_password_identity_not_found"
+ERROR - 2019-01-02 19:05:28 --> Could not find the language line "forgot_password_identity_not_found"
+ERROR - 2019-01-02 19:33:32 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2019-01-02 19:42:20 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2019-01-02 19:43:59 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2019-01-02 19:44:16 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_dis_by_region() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1203
+ERROR - 2019-01-02 19:44:37 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_scout_group_by_upazila_thana() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1228
+ERROR - 2019-01-02 19:50:06 --> Could not find the language line "forgot_password_identity_not_found"
+ERROR - 2019-01-02 19:50:25 --> Could not find the language line "forgot_password_identity_not_found"
+ERROR - 2019-01-02 20:06:30 --> Severity: Warning --> unlink(/home/admin/web/host.mysoftserver.com/public_html/scouts/profile_img/): Is a directory /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/my_profile/controllers/My_profile.php 1006
+ERROR - 2019-01-02 20:12:06 --> Severity: Warning --> Missing argument 1 for General_setting::ajax_get_district_by_div() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/general_setting/controllers/General_setting.php 1183
+ERROR - 2019-01-02 22:11:21 --> Severity: Warning --> Missing argument 1 for Site::ajax_get_scout_upazila_thana_data_by_district() /home/admin/web/host.mysoftserver.com/public_html/scouts/application/modules/site/controllers/Site.php 552
