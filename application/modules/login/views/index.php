@@ -70,7 +70,7 @@
 <body class="error-body no-top" style="background: url(<?=base_url('awedget/assets/img/inventeory.png');?>) no-repeat center center fixed; -webkit-background-size: cover; -moz-background-size: cover; -o-background-size: cover; background-size: cover;">
     <div class="col-md-12 log_top">
         <img src="<?=base_url();?>awedget/assets/img/govt-logo.png" class="img-responsive">
-        <span>Bangladesh Forest Research Institute (BFRI)</span>
+        <span> Asset Management System (AMS)</span>
 
         <img src="<?=base_url();?>awedget/assets/img/bfri_logo.png" class="img-responsive">
     </div>

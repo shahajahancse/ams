@@ -279,19 +279,6 @@
                                 <?php } ?>
                                 */ ?>
 
-                                <!-- Report section -->
-                                <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
-                                <li class="start <?=backend_activate_menu_class('reports')?>"><a
-                                        href="<?=base_url('reports/index')?>"> <i class="fa fa-th"></i><span class="title">Reports</span> </a>
-                                </li>
-                                <li class="start <?=activate_menu_method('dynamic_report')?>">
-                                    <a href="<?=base_url('reports/dynamic_report')?>"> <i class="fa fa-th"></i><span class="title">Dynamic Report</span> </a>
-                                </li>
-                                <li class="start <?=backend_activate_menu_class('cbs_integration')?>">
-                                    <a href="<?=base_url('cbs_integration')?>"> <i class="fa fa-exchange"></i><span class="title">CBS Integration</span> </a>
-                                </li>
-                                <?php } ?>
-
                                 <!-- New Asset Management Sub-menu -->
                                 <li class="start <?=backend_activate_menu_class('depreciation')?> <?=backend_activate_menu_class('disposal')?> <?=backend_activate_menu_class('movement')?>">
                                     <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">Asset Management</span> <span class="selected"></span> <span class="arrow"></span> </a>
@@ -302,6 +289,18 @@
                                     </ul>
                                 </li>
 
+                                <!-- Report section -->
+                                <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
+                                    <li class="start <?=backend_activate_menu_class('cbs_integration')?>">
+                                        <a href="<?=base_url('cbs_integration')?>"> <i class="fa fa-exchange"></i><span class="title">CBS Integration</span> </a>
+                                    </li>
+                                    <li class="start <?=backend_activate_menu_class('reports')?>"><a
+                                            href="<?=base_url('reports/index')?>"> <i class="fa fa-th"></i><span class="title">Reports</span> </a>
+                                    </li>
+                                    <!-- <li class="start <?=activate_menu_method('dynamic_report')?>">
+                                        <a href="<?=base_url('reports/dynamic_report')?>"> <i class="fa fa-th"></i><span class="title">Dynamic Report</span> </a>
+                                    </li> -->
+                                <?php } ?>
 
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){
                                     $low = $this->Common_model->count_low_stock();
