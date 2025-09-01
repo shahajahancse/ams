@@ -10,7 +10,7 @@ class Depreciation extends Backend_Controller {
 
       $this->data['module_title'] = 'Depreciation';
       $this->load->model('Common_model');
-      $this->load->model('Depreciation_model'); // Will create this model next
+      $this->load->model('depreciation/Depreciation_model'); // Will create this model next
    }
 
    public function index(){
@@ -94,7 +94,7 @@ class Depreciation extends Backend_Controller {
          $current_date = clone $start_date;
 
          $cost = $asset->cost;
-         $salvage_value = $param->salvage_value ?? 0;
+         $salvage_value = isset($param->salvage_value) ? $param->salvage_value : 0;
          $useful_life_years = $param->useful_life_years;
 
          if ($useful_life_years <= 0) {

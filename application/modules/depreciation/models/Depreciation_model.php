@@ -8,7 +8,7 @@ class Depreciation_model extends CI_Model {
     }
 
     public function get_all_depreciation_parameters() {
-        $this->db->select('adp.*, i.item_name, dm.method_name');
+        $this->db->select('i.item_name, dm.method_name, adp.useful_life_years, adp.salvage_value, adp.depreciation_start_date, adp.asset_id');
         $this->db->from('asset_depreciation_parameters adp');
         $this->db->join('items i', 'i.id = adp.asset_id', 'LEFT');
         $this->db->join('depreciation_methods dm', 'dm.id = adp.method_id', 'LEFT');
