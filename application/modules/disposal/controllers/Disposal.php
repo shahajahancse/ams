@@ -11,7 +11,7 @@ class Disposal extends Backend_Controller {
       $this->data['module_title'] = 'Asset Disposal';
       $this->load->model('Common_model');
       $this->load->model('Disposal_model'); // Will create this model next
-      $this->load->model('Depreciation_model'); // To get accumulated depreciation
+      $this->load->model('depreciation/Depreciation_model'); // To get accumulated depreciation
    }
 
    public function index(){
