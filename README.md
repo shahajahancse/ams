@@ -1,1 +1,1 @@
-# BFRI Inventory Management System # BFRI
+# AMS Asset Management System # AMS
