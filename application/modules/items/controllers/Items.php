@@ -29,6 +29,15 @@ class Items extends Backend_Controller {
       $this->form_validation->set_rules('item_name', 'item name', 'required|trim');
       $this->form_validation->set_rules('unit_id', 'select unit', 'required|trim');
       $this->form_validation->set_rules('order_level', 'order level', 'required|trim');
+      // New fields validation
+      $this->form_validation->set_rules('acquisition_date', 'acquisition date', 'trim');
+      $this->form_validation->set_rules('cost', 'cost', 'numeric|trim');
+      $this->form_validation->set_rules('supplier_id', 'supplier', 'trim');
+      $this->form_validation->set_rules('serial_number', 'serial number', 'trim');
+      $this->form_validation->set_rules('warranty_months', 'warranty months', 'integer|trim');
+      $this->form_validation->set_rules('custodian_id', 'custodian', 'trim');
+      $this->form_validation->set_rules('asset_status', 'asset status', 'trim');
+
 
       //Validate and input data
       if ($this->form_validation->run() == true){
@@ -41,7 +50,15 @@ class Items extends Backend_Controller {
             'type'          => $this->input->post('type'),
             'order_level'   => $this->input->post('order_level'),
             'status'        => $this->input->post('status'),
-            'description'   => $this->input->post('description')
+            'description'   => $this->input->post('description'),
+            // New fields
+            'acquisition_date' => $this->input->post('acquisition_date'),
+            'cost'             => $this->input->post('cost'),
+            'supplier_id'      => $this->input->post('supplier_id'),
+            'serial_number'    => $this->input->post('serial_number'),
+            'warranty_months'  => $this->input->post('warranty_months'),
+            'custodian_id'     => $this->input->post('custodian_id'),
+            'asset_status'     => $this->input->post('asset_status')
          );
 
          if($this->Common_model->save('items', $form_data)){
@@ -74,6 +91,9 @@ class Items extends Backend_Controller {
       }
       //Dropdown
       $this->data['units'] = $this->Common_model->get_units();
+      $this->data['suppliers'] = $this->db->get('suppliers')->result(); // Fetch suppliers
+      $this->data['custodians'] = $this->ion_auth->users()->result(); // Fetch users for custodians
+
 
       // Load page
       $this->data['meta_title'] = 'Add Item Form';
@@ -120,6 +140,15 @@ class Items extends Backend_Controller {
       $this->form_validation->set_rules('item_name', 'item name', 'required|trim');
       $this->form_validation->set_rules('unit_id', 'select unit', 'required|trim');
       $this->form_validation->set_rules('order_level', 'order level', 'required|trim');
+      // New fields validation
+      $this->form_validation->set_rules('acquisition_date', 'acquisition date', 'trim');
+      $this->form_validation->set_rules('cost', 'cost', 'numeric|trim');
+      $this->form_validation->set_rules('supplier_id', 'supplier', 'trim');
+      $this->form_validation->set_rules('serial_number', 'serial number', 'trim');
+      $this->form_validation->set_rules('warranty_months', 'warranty months', 'integer|trim');
+      $this->form_validation->set_rules('custodian_id', 'custodian', 'trim');
+      $this->form_validation->set_rules('asset_status', 'asset status', 'trim');
+
 
       if ($this->form_validation->run() == true){
          $form_data = array(
@@ -131,7 +160,15 @@ class Items extends Backend_Controller {
             'type'          => $this->input->post('type'),
             'order_level'   => $this->input->post('order_level'),
             'status'        => $this->input->post('status'),
-            'description'   => $this->input->post('description')
+            'description'   => $this->input->post('description'),
+            // New fields
+            'acquisition_date' => $this->input->post('acquisition_date'),
+            'cost'             => $this->input->post('cost'),
+            'supplier_id'      => $this->input->post('supplier_id'),
+            'serial_number'    => $this->input->post('serial_number'),
+            'warranty_months'  => $this->input->post('warranty_months'),
+            'custodian_id'     => $this->input->post('custodian_id'),
+            'asset_status'     => $this->input->post('asset_status')
          );
 
          if($this->Common_model->edit('items', $dataID, 'id', $form_data)){
@@ -164,6 +201,9 @@ class Items extends Backend_Controller {
       $this->data['sub_categories'] = $this->Common_model->get_sub_categories();
       $this->data['units'] = $this->Common_model->get_units();
       $this->data['info'] = $this->Items_model->get_info($dataID);
+      $this->data['suppliers'] = $this->db->get('suppliers')->result(); // Fetch suppliers
+      $this->data['custodians'] = $this->ion_auth->users()->result(); // Fetch users for custodians
+
 
       // Load page
       $this->data['meta_title'] = 'Edit Item Form';

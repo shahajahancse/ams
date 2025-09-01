@@ -98,6 +98,58 @@
                      </div>
                   </div>
 
+                  <div class="row form-row">
+                     <div class="col-md-4">
+                        <label class="form-label">Acquisition Date</label>
+                        <input name="acquisition_date" type="date" value="<?=set_value('acquisition_date', $info->acquisition_date)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Cost</label>
+                        <input name="cost" type="number" step="0.01" value="<?=set_value('cost', $info->cost)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Supplier</label>
+                        <select name="supplier_id" class="form-control input-sm">
+                           <option value="">-- Select Supplier --</option>
+                           <?php foreach ($suppliers as $supplier) { ?>
+                              <option value="<?=$supplier->id?>" <?=set_value('supplier_id', $info->supplier_id) == $supplier->id ? 'selected' : ''?>><?=$supplier->name?></option>
+                           <?php } ?>
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-4">
+                        <label class="form-label">Serial Number</label>
+                        <input name="serial_number" type="text" value="<?=set_value('serial_number', $info->serial_number)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Warranty (Months)</label>
+                        <input name="warranty_months" type="number" value="<?=set_value('warranty_months', $info->warranty_months)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Custodian</label>
+                        <select name="custodian_id" class="form-control input-sm">
+                           <option value="">-- Select Custodian --</option>
+                           <?php foreach ($custodians as $custodian) { ?>
+                              <option value="<?=$custodian->id?>" <?=set_value('custodian_id', $info->custodian_id) == $custodian->id ? 'selected' : ''?>><?=$custodian->first_name . ' ' . $custodian->last_name?></option>
+                           <?php } ?>
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-4">
+                        <label class="form-label">Asset Status</label>
+                        <select name="asset_status" class="form-control input-sm">
+                           <option value="In Use" <?=set_value('asset_status', $info->asset_status) == 'In Use' ? 'selected' : ''?>>In Use</option>
+                           <option value="Under Maintenance" <?=set_value('asset_status', $info->asset_status) == 'Under Maintenance' ? 'selected' : ''?>>Under Maintenance</option>
+                           <option value="Disposed" <?=set_value('asset_status', $info->asset_status) == 'Disposed' ? 'selected' : ''?>>Disposed</option>
+                           <option value="Retired" <?=set_value('asset_status', $info->asset_status) == 'Retired' ? 'selected' : ''?>>Retired</option>
+                        </select>
+                     </div>
+                  </div>
+
                   <div class="form-actions">
                      <div class="pull-right">
                         <button type="submit" class="btn btn-primary btn-cons"><i class="icon-ok"></i> Save</button>

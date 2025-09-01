@@ -36,6 +36,9 @@
                            <th style="width:10%">Order Level</th>
                            <th style="width:8%">Status</th>
                            <th style="width:12%" class="text-center">Action</th>
+                           <th style="width:10%" class="text-center">Depreciation</th>
+                           <th style="width:10%" class="text-center">Disposal</th>
+                           <th style="width:10%" class="text-center">Movement</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -60,6 +63,15 @@
                               <td class="v-align-middle"><?=$status?></td>
                               <td class="text-center">
                                  <a href="<?=base_url('items/edit/'.encrypt_url($row->id));?>" class="btn btn-primary btn-xs btn-mini">Edit</a>
+                              </td>
+                              <td class="text-center">
+                                 <a href="<?=base_url('depreciation/add/'.$row->id);?>" class="btn btn-info btn-xs btn-mini">Depreciation</a>
+                              </td>
+                              <td class="text-center">
+                                 <a href="<?=base_url('disposal/record/'.$row->id);?>" class="btn btn-danger btn-xs btn-mini">Disposal</a>
+                              </td>
+                              <td class="text-center">
+                                 <a href="<?=base_url('movement/record/'.$row->id);?>" class="btn btn-warning btn-xs btn-mini">Movement</a>
                               </td>
                            </tr>
                            <?php } ?>

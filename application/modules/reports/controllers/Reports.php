@@ -421,4 +421,120 @@ class Reports extends Backend_Controller {
       exit();
     }
   }
+
+   public function asset_register_report(){
+      $this->load->model('Items_model');
+      $this->load->model('Depreciation_model'); // To get accumulated depreciation
+
+      $this->data['results'] = $this->Items_model->get_items(); // This already joins with suppliers and users for custodian
+
+      // For each item, get the latest accumulated depreciation and calculate net book value
+      foreach ($this->data['results'] as $item) {
+          $item->accumulated_depreciation = 0;
+          $item->net_book_value = $item->cost; // Default to cost if no depreciation
+
+          $depreciation_schedule = $this->Depreciation_model->get_depreciation_schedule($item->id);
+          if ($depreciation_schedule) {
+              $latest_depreciation = end($depreciation_schedule);
+              $item->accumulated_depreciation = $latest_depreciation->accumulated_depreciation;
+              $item->net_book_value = $latest_depreciation->net_book_value;
+          }
+      }
+
+      $this->data['meta_title'] = 'Asset Register Report';
+      $this->data['headding'] = 'Asset Register Report';
+      $html = $this->load->view('pdf_asset_register_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
+
+   public function depreciation_schedule_report(){
+      $this->load->model('Depreciation_model');
+      $this->load->model('Items_model'); // To get asset details
+
+      $depreciation_parameters = $this->Depreciation_model->get_all_depreciation_parameters();
+      $report_data = [];
+
+      foreach ($depreciation_parameters as $param) {
+          $asset_info = $this->Items_model->get_info($param->asset_id);
+          $schedule = $this->Depreciation_model->get_depreciation_schedule($param->asset_id);
+          
+          $report_data[] = [
+              'asset_info' => $asset_info,
+              'depreciation_parameters' => $param,
+              'schedule' => $schedule
+          ];
+      }
+
+      $this->data['results'] = $report_data;
+      $this->data['meta_title'] = 'Depreciation Schedule Report';
+      $this->data['headding'] = 'Depreciation Schedule Report';
+      $html = $this->load->view('pdf_depreciation_schedule_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
+
+   public function disposal_gain_loss_report(){
+      $this->load->model('Disposal_model');
+      $this->load->model('Items_model');
+      $this->load->model('Depreciation_model');
+
+      $disposals = $this->Disposal_model->get_all_disposals();
+      $report_data = [];
+
+      foreach ($disposals as $disposal) {
+          $asset_info = $this->Items_model->get_info($disposal->asset_id);
+          $accumulated_depreciation_at_disposal = 0;
+
+          // Get accumulated depreciation up to disposal date
+          $depreciation_schedule = $this->Depreciation_model->get_depreciation_schedule($disposal->asset_id);
+          if ($depreciation_schedule) {
+              foreach ($depreciation_schedule as $sch) {
+                  if ($sch->schedule_date <= $disposal->disposal_date) {
+                      $accumulated_depreciation_at_disposal = $sch->accumulated_depreciation;
+                  } else {
+                      break;
+                  }
+              }
+          }
+
+          $net_book_value = $asset_info->cost - $accumulated_depreciation_at_disposal;
+          $gain_loss = $disposal->sale_proceeds - $net_book_value;
+
+          $report_data[] = [
+              'disposal_info' => $disposal,
+              'asset_info' => $asset_info,
+              'accumulated_depreciation_at_disposal' => $accumulated_depreciation_at_disposal,
+              'net_book_value' => $net_book_value,
+              'gain_loss' => $gain_loss
+          ];
+      }
+
+      $this->data['results'] = $report_data;
+      $this->data['meta_title'] = 'Disposal Gain/Loss Report';
+      $this->data['headding'] = 'Disposal Gain/Loss Report';
+      $html = $this->load->view('pdf_disposal_gain_loss_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
+
+   public function asset_movement_history_report(){
+      $this->load->model('Movement_model');
+
+      $this->data['results'] = $this->Movement_model->get_all_movements();
+
+      $this->data['meta_title'] = 'Asset Movement History Report';
+      $this->data['headding'] = 'Asset Movement History Report';
+      $html = $this->load->view('pdf_asset_movement_history_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
 }

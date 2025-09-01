@@ -49,13 +49,15 @@ class Items_model extends CI_Model {
 
     public function get_items(){
         $unit_id = $this->session->userdata('unit_id');
-        $this->db->select('i.*, div.name_en as division_name, c.category_name, sc.sub_cate_name, u.unit_name, s.balance');
+        $this->db->select('i.*, div.name_en as division_name, c.category_name, sc.sub_cate_name, u.unit_name, s.balance, sup.name as supplier_name, CONCAT(cust.first_name, " ", cust.last_name) as custodian_name');
         $this->db->from('items i');
         $this->db->join('units div', 'div.id=i.division_id', 'LEFT');
         $this->db->join('item_categories c', 'c.id=i.cat_id', 'LEFT');
         $this->db->join('item_sub_categories sc', 'sc.id=i.sub_cat_id', 'LEFT');
         $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
         $this->db->join('item_stocks s', 's.item_id=i.id AND s.unit_id = '.$unit_id, 'LEFT', 'LEFT');
+        $this->db->join('suppliers sup', 'sup.id=i.supplier_id', 'LEFT'); // Join with suppliers table
+        $this->db->join('users cust', 'cust.id=i.custodian_id', 'LEFT'); // Join with users table for custodian
         $this->db->order_by('i.id', 'ASC');
         $this->db->group_by('i.id');
         $query = $this->db->get()->result();
@@ -70,9 +72,11 @@ class Items_model extends CI_Model {
     }
 
     public function get_info($id) {
-        $this->db->select('*');
-        $this->db->from('items');
-        $this->db->where('id', $id);
+        $this->db->select('i.*, sup.name as supplier_name, CONCAT(cust.first_name, " ", cust.last_name) as custodian_name');
+        $this->db->from('items i');
+        $this->db->join('suppliers sup', 'sup.id=i.supplier_id', 'LEFT'); // Join with suppliers table
+        $this->db->join('users cust', 'cust.id=i.custodian_id', 'LEFT'); // Join with users table for custodian
+        $this->db->where('i.id', $id);
         $query = $this->db->get()->row();
         return $query;
     }

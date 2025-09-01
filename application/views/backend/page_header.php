@@ -277,6 +277,9 @@
                                 <li class="start <?=activate_menu_method('dynamic_report')?>">
                                     <a href="<?=base_url('reports/dynamic_report')?>"> <i class="fa fa-th"></i><span class="title">Dynamic Report</span> </a>
                                 </li>
+                                <li class="start <?=backend_activate_menu_class('cbs_integration')?>">
+                                    <a href="<?=base_url('cbs_integration')?>"> <i class="fa fa-exchange"></i><span class="title">CBS Integration</span> </a>
+                                </li>
                                 <?php } ?>
 
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){
