@@ -148,6 +148,37 @@
                            <option value="Retired" <?=set_value('asset_status', $info->asset_status) == 'Retired' ? 'selected' : ''?>>Retired</option>
                         </select>
                      </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Branch</label>
+                        <?php
+                        $more_attr = 'class="form-control input-sm" id="branch_id"';
+                        echo form_dropdown('branch_id', $branches, set_value('branch_id', $info->branch_id), $more_attr);
+                        ?>
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Department</label>
+                        <?php
+                        $more_attr = 'class="form-control input-sm" ';
+                        echo form_dropdown('department_id', $departments, set_value('department_id', $info->department_id), $more_attr);
+                        ?>
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-4">
+                        <label class="form-label">Floor</label>
+                        <?php
+                        $more_attr = 'class="form-control input-sm" id="floor_id"';
+                        echo form_dropdown('floor_id', $floors, set_value('floor_id', $info->floor_id), $more_attr);
+                        ?>
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Room</label>
+                        <?php
+                        $more_attr = 'class="form-control input-sm" id="room_id"';
+                        echo form_dropdown('room_id', $rooms, set_value('room_id', $info->room_id), $more_attr);
+                        ?>
+                     </div>
                   </div>
 
                   <div class="form-actions">
@@ -180,5 +211,65 @@
          status: {required: true}
       }
    });
+
+      $('#branch_id').change(function() {
+         var branch_id = $(this).val();
+         if (branch_id) {
+            $.ajax({
+               url: '<?=base_url('items/get_floors_by_branch/');?>' + branch_id,
+               type: 'POST',
+               dataType: 'json',
+               success: function(data) {
+                  $('#floor_id').empty();
+                  $('#floor_id').append('<option value="">-- Select Floor --</option>');
+                  $.each(data, function(key, value) {
+                     $('#floor_id').append('<option value="' + value.id + '">' + value.floor_name + '</option>');
+                  });
+                  // Set selected floor if editing
+                  var selected_floor = '<?=set_value('floor_id', $info->floor_id)?>';
+                  if (selected_floor) {
+                     $('#floor_id').val(selected_floor).trigger('change');
+                  }
+               }
+            });
+         } else {
+            $('#floor_id').empty();
+            $('#floor_id').append('<option value="">-- Select Floor --</option>');
+            $('#room_id').empty();
+            $('#room_id').append('<option value="">-- Select Room --</option>');
+         }
+      });
+
+      $('#floor_id').change(function() {
+         var floor_id = $(this).val();
+         if (floor_id) {
+            $.ajax({
+               url: '<?=base_url('items/get_rooms_by_floor/');?>' + floor_id,
+               type: 'POST',
+               dataType: 'json',
+               success: function(data) {
+                  $('#room_id').empty();
+                  $('#room_id').append('<option value="">-- Select Room --</option>');
+                  $.each(data, function(key, value) {
+                     $('#room_id').append('<option value="' + value.id + '">' + value.room_name + '</option>');
+                  });
+                  // Set selected room if editing
+                  var selected_room = '<?=set_value('room_id', $info->room_id)?>';
+                  if (selected_room) {
+                     $('#room_id').val(selected_room);
+                  }
+               }
+            });
+         } else {
+            $('#room_id').empty();
+            $('#room_id').append('<option value="">-- Select Room --</option>');
+         }
+      });
+
+      // Trigger change on branch_id and floor_id on page load if values exist
+      var initial_branch_id = '<?=set_value('branch_id', $info->branch_id)?>';
+      if (initial_branch_id) {
+         $('#branch_id').val(initial_branch_id).trigger('change');
+      }
    });
 </script>

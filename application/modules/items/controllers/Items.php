@@ -37,6 +37,10 @@ class Items extends Backend_Controller {
       $this->form_validation->set_rules('warranty_months', 'warranty months', 'integer|trim');
       $this->form_validation->set_rules('custodian_id', 'custodian', 'trim');
       $this->form_validation->set_rules('asset_status', 'asset status', 'trim');
+      $this->form_validation->set_rules('branch_id', 'branch', 'trim');
+      $this->form_validation->set_rules('department_id', 'department', 'trim');
+      $this->form_validation->set_rules('floor_id', 'floor', 'trim');
+      $this->form_validation->set_rules('room_id', 'room', 'trim');
 
 
       //Validate and input data
@@ -58,7 +62,11 @@ class Items extends Backend_Controller {
             'serial_number'    => $this->input->post('serial_number'),
             'warranty_months'  => $this->input->post('warranty_months'),
             'custodian_id'     => $this->input->post('custodian_id'),
-            'asset_status'     => $this->input->post('asset_status')
+            'asset_status'     => $this->input->post('asset_status'),
+            'branch_id'        => $this->input->post('branch_id'),
+            'department_id'    => $this->input->post('department_id'),
+            'floor_id'         => $this->input->post('floor_id'),
+            'room_id'          => $this->input->post('room_id')
          );
 
          if($this->Common_model->save('items', $form_data)){
@@ -93,6 +101,10 @@ class Items extends Backend_Controller {
       $this->data['units'] = $this->Common_model->get_units();
       $this->data['suppliers'] = $this->db->get('suppliers')->result(); // Fetch suppliers
       $this->data['custodians'] = $this->ion_auth->users()->result(); // Fetch users for custodians
+      $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
+      $this->data['departments'] = $this->Common_model->get_dropdown('department', 'department_name', 'id');
+      $this->data['floors'] = $this->Common_model->get_dropdown('asset_floors', 'floor_name', 'id');
+      $this->data['rooms'] = $this->Common_model->get_dropdown('asset_rooms', 'room_name', 'id');
 
 
       // Load page
@@ -127,6 +139,18 @@ class Items extends Backend_Controller {
       echo json_encode($sub_category);
    }
 
+   public function get_floors_by_branch($branch_id){
+      $this->db->where('unit_id', $branch_id);
+      $query = $this->db->get('asset_floors');
+      echo json_encode($query->result());
+   }
+
+   public function get_rooms_by_floor($floor_id){
+      $this->db->where('floor_id', $floor_id);
+      $query = $this->db->get('asset_rooms');
+      echo json_encode($query->result());
+   }
+
    public function edit($id){
       $dataID = (int) decrypt_url($id); //exit;
       if (!$this->Common_model->exists('items', 'id', $dataID)) {
@@ -148,6 +172,10 @@ class Items extends Backend_Controller {
       $this->form_validation->set_rules('warranty_months', 'warranty months', 'integer|trim');
       $this->form_validation->set_rules('custodian_id', 'custodian', 'trim');
       $this->form_validation->set_rules('asset_status', 'asset status', 'trim');
+      $this->form_validation->set_rules('branch_id', 'branch', 'trim');
+      $this->form_validation->set_rules('department_id', 'department', 'trim');
+      $this->form_validation->set_rules('floor_id', 'floor', 'trim');
+      $this->form_validation->set_rules('room_id', 'room', 'trim');
 
 
       if ($this->form_validation->run() == true){
@@ -168,7 +196,11 @@ class Items extends Backend_Controller {
             'serial_number'    => $this->input->post('serial_number'),
             'warranty_months'  => $this->input->post('warranty_months'),
             'custodian_id'     => $this->input->post('custodian_id'),
-            'asset_status'     => $this->input->post('asset_status')
+            'asset_status'     => $this->input->post('asset_status'),
+            'branch_id'        => $this->input->post('branch_id'),
+            'department_id'    => $this->input->post('department_id'),
+            'floor_id'         => $this->input->post('floor_id'),
+            'room_id'          => $this->input->post('room_id')
          );
 
          if($this->Common_model->edit('items', $dataID, 'id', $form_data)){
@@ -203,6 +235,10 @@ class Items extends Backend_Controller {
       $this->data['info'] = $this->Items_model->get_info($dataID);
       $this->data['suppliers'] = $this->db->get('suppliers')->result(); // Fetch suppliers
       $this->data['custodians'] = $this->ion_auth->users()->result(); // Fetch users for custodians
+      $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
+      $this->data['departments'] = $this->Common_model->get_dropdown('department', 'department_name', 'id');
+      $this->data['floors'] = $this->Common_model->get_dropdown('asset_floors', 'floor_name', 'id');
+      $this->data['rooms'] = $this->Common_model->get_dropdown('asset_rooms', 'room_name', 'id');
 
 
       // Load page

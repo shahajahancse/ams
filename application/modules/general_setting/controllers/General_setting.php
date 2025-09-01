@@ -417,12 +417,11 @@ class General_setting extends Backend_Controller {
          $this->db->update('item_categories', $form_data);
          $this->session->set_flashdata('success', 'Category update successfully.');
          redirect('general_setting/categories');
-      }else{
-         $this->data['category'] = $this->General_setting_model->get_categories($id);
-         $this->data['meta_title'] = 'Edit Category';
-         $this->data['subview'] = 'category_edit';
-         $this->load->view('backend/_layout_main', $this->data);
       }
+      $this->data['category'] = $this->General_setting_model->get_categories($id);
+      $this->data['meta_title'] = 'Edit Category';
+      $this->data['subview'] = 'category_edit';
+      $this->load->view('backend/_layout_main', $this->data);
    }
 
    public function category_delete($id){
@@ -726,8 +725,7 @@ class General_setting extends Backend_Controller {
       $this->data['meta_title'] = 'All Division';
       $this->data['subview'] = 'division';
       $this->load->view('backend/_layout_main', $this->data);
-   }
-
+   }
    public function division_add(){
       $this->form_validation->set_rules('div_name', 'Division Name', 'required|trim');
       $this->form_validation->set_rules('div_name_bn', 'Division Name Bangla', 'trim');
@@ -1073,7 +1071,7 @@ class General_setting extends Backend_Controller {
       if($this->Common_model->edit('committee_type', $id, 'id', $form_data)){
          /***********Activity Logs Start**********/
                //$insert_id = $this->db->insert_id();
-               func_activity_log(2, 'Committee type update ID :'.$insert_id); //1=C, 2=U, 3=D, 4=V, 5=G ,A = 6
+               func_activity_log(2, 'Committee type update ID :'.$id); //1=C, 2=U, 3=D, 4=V, 5=G ,A = 6
                /***********Activity Logs End**********/
                $this->session->set_flashdata('success', 'Informatioin update successfully.');
                redirect('general_setting/committee_type');
@@ -1081,7 +1079,7 @@ class General_setting extends Backend_Controller {
          }
 
       //Dropdown
-         $this->data['scouts_office'] = $this->Common_model->get_office_type();
+         $this->data['scouts_office'] = $this->Common_model->get_data_array('office_type');
          $this->data['info'] = $this->General_setting_model->get_info('committee_type', $id);
 
       // Load page
@@ -1884,7 +1882,7 @@ function proficiency_badge_group_delete($id) {
         // $this->data['badge_type'] = $this->Common_model->get_badge_type();
 
         // Load page
-    $this->data['meta_title'] = 'Create Progress Course';
+    $this->data['meta_title'] = 'Create Proficiency Badge';
     $this->data['subview'] = 'progress_course_add';
     $this->load->view('backend/_layout_main', $this->data);
  }
@@ -1919,7 +1917,7 @@ $this->data['badge_type'] = $this->Common_model->get_badge_type();
 $this->data['info'] = $this->General_setting_model->get_info('scout_progress_course',$id);
 
         // Load page
-$this->data['meta_title'] = 'Edit Progress Course';
+$this->data['meta_title'] = 'Edit Proficiency Badge';
 $this->data['subview'] = 'progress_course_edit';
 $this->load->view('backend/_layout_main', $this->data);
 }
