@@ -615,13 +615,98 @@ class Dashboard_model extends CI_Model {
         return $result;
     }
 
-    public function get_region_office_by_user($userID){
-        $this->db->select('office_id');
-        $this->db->from('users_region');
-        $this->db->where('user_id', $userID);
-        $query = $this->db->get()->row();
+    public function get_total_asset_value() {
+        // Total Asset Value (Gross)
+        $this->db->select('SUM(cost) as total_gross_value');
+        $gross_value = $this->db->get('items')->row()->total_gross_value;
 
-        return $query;
+        // Total Asset Value (Net)
+        // Get the latest accumulated depreciation for each asset
+        $this->db->select('i.cost, ads.accumulated_depreciation');
+        $this->db->from('items i');
+        $this->db->join('asset_depreciation_schedule ads', 'ads.asset_id = i.id', 'LEFT');
+        $this->db->group_by('i.id'); // Group by asset to get one entry per asset
+        $this->db->order_by('ads.schedule_date', 'DESC'); // Order to get the latest depreciation
+        $query = $this->db->get()->result();
+
+        $total_net_value = 0;
+        foreach ($query as $row) {
+            $net_value = $row->cost - ($row->accumulated_depreciation ? $row->accumulated_depreciation : 0);
+            $total_net_value += $net_value;
+        }
+
+        return [
+            'gross' => $gross_value ? $gross_value : 0,
+            'net' => $total_net_value
+        ];
     }
 
+    public function get_current_month_depreciation_expense() {
+        $this->db->select('SUM(depreciation_amount) as current_month_expense');
+        $this->db->where('YEAR(schedule_date)', date('Y'));
+        $this->db->where('MONTH(schedule_date)', date('m'));
+        $query = $this->db->get('asset_depreciation_schedule')->row();
+
+        return $query->current_month_expense ? $query->current_month_expense : 0;
+    }
+
+    public function get_assets_by_category_location() {
+        // Assets by Category
+        $this->db->select('c.category_name, COUNT(i.id) as asset_count');
+        $this->db->from('items i');
+        $this->db->join('item_categories c', 'c.id = i.category_id', 'LEFT');
+        $this->db->group_by('c.category_name');
+        $assets_by_category = $this->db->get()->result();
+
+        // Assets by Branch
+        $this->db->select('b.branch_name, COUNT(i.id) as asset_count');
+        $this->db->from('items i');
+        $this->db->join('branches b', 'b.id = i.branch_id', 'LEFT');
+        $this->db->group_by('b.branch_name');
+        $assets_by_branch = $this->db->get()->result();
+
+        // Assets by Department
+        $this->db->select('d.dept_name, COUNT(i.id) as asset_count');
+        $this->db->from('items i');
+        $this->db->join('departments d', 'd.id = i.department_id', 'LEFT');
+        $this->db->group_by('d.dept_name');
+        $assets_by_department = $this->db->get()->result();
+
+        return [
+            'by_category' => $assets_by_category,
+            'by_branch' => $assets_by_branch,
+            'by_department' => $assets_by_department
+        ];
+    }
+
+    public function get_upcoming_depreciations($days = 30) {
+        $this->db->select('i.item_name, ads.schedule_date, ads.depreciation_amount');
+        $this->db->from('asset_depreciation_schedule ads');
+        $this->db->join('items i', 'i.id = ads.asset_id', 'LEFT');
+        $this->db->where('ads.schedule_date >=', date('Y-m-d'));
+        $this->db->where('ads.schedule_date <=', date('Y-m-d', strtotime("+$days days")));
+        $this->db->order_by('ads.schedule_date', 'ASC');
+        return $this->db->get()->result();
+    }
+
+    public function get_recently_acquired_disposed_assets($days = 30) {
+        // Recently Acquired
+        $this->db->select('id, item_name, acquisition_date');
+        $this->db->where('acquisition_date >=', date('Y-m-d', strtotime("-$days days")));
+        $this->db->order_by('acquisition_date', 'DESC');
+        $recent_acquisitions = $this->db->get('items')->result();
+
+        // Recently Disposed
+        $this->db->select('ad.asset_id, i.item_name, ad.disposal_date, ad.disposal_type');
+        $this->db->from('asset_disposals ad');
+        $this->db->join('items i', 'i.id = ad.asset_id', 'LEFT');
+        $this->db->where('ad.disposal_date >=', date('Y-m-d', strtotime("-$days days")));
+        $this->db->order_by('ad.disposal_date', 'DESC');
+        $recent_disposals = $this->db->get()->result();
+
+        return [
+            'acquired' => $recent_acquisitions,
+            'disposed' => $recent_disposals
+        ];
+    }
 }

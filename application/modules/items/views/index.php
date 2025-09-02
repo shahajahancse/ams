@@ -73,7 +73,7 @@
                                  <a href="<?=base_url('disposal/record/'.$row->id);?>" class="btn btn-danger btn-xs btn-mini">Disposal</a>
                               </td>
                               <td class="text-center">
-                                 <a href="<?=base_url('movement/record/'.$row->id);?>" class="btn btn-warning btn-xs btn-mini">Movement</a>
+                                 <a href="<?=base_url('asset_movement/record/'.$row->id);?>" class="btn btn-warning btn-xs btn-mini">Movement</a>
                               </td>
                            </tr>
                            <?php } ?>

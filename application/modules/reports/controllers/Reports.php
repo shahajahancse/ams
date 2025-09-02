@@ -525,7 +525,7 @@ class Reports extends Backend_Controller {
    }
 
    public function asset_movement_history_report(){
-      $this->load->model('Movement_model');
+      $this->load->model('asset_movement/Asset_movement_model');
 
       $this->data['results'] = $this->Movement_model->get_all_movements();
 

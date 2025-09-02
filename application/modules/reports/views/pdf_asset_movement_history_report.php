@@ -4,7 +4,7 @@
     <title><?=$headding?></title>
     <style>
         body { font-family: sans-serif; }
-        table { width: 100%; border-collapse: collapse; }
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         th, td { border: 1px solid #000; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
         h2 { text-align: center; }
@@ -17,13 +17,13 @@
             <tr>
                 <th>SL</th>
                 <th>Asset Name</th>
-                <th>Movement Date</th>
-                <th>From Location</th>
-                <th>To Location</th>
-                <th>From Custodian</th>
-                <th>To Custodian</th>
+                <th>Transfer Date</th>
+                <th>From Branch</th>
+                <th>From Department</th>
+                <th>To Branch</th>
+                <th>To Department</th>
+                <th>Transferred By</th>
                 <th>Notes</th>
-                <th>Recorded By</th>
             </tr>
         </thead>
         <tbody>
@@ -32,18 +32,18 @@
                     <tr>
                         <td><?=$i++?></td>
                         <td><?=$row->item_name?></td>
-                        <td><?=$row->movement_date?></td>
-                        <td><?=$row->from_location?></td>
-                        <td><?=$row->to_location?></td>
-                        <td><?=$row->from_custodian_fname . ' ' . $row->from_custodian_lname?></td>
-                        <td><?=$row->to_custodian_fname . ' ' . $row->to_custodian_lname?></td>
+                        <td><?=$row->transfer_date?></td>
+                        <td><?=$row->from_branch_name?></td>
+                        <td><?=$row->from_department_name?></td>
+                        <td><?=$row->to_branch_name?></td>
+                        <td><?=$row->to_department_name?></td>
+                        <td><?=$row->first_name?> <?=$row->last_name?></td>
                         <td><?=$row->notes?></td>
-                        <td><?=$row->created_by_fname . ' ' . $row->created_by_lname?></td>
                     </tr>
                 <?php endforeach; ?>
             <?php else: ?>
                 <tr>
-                    <td colspan="9">No asset movements found.</td>
+                    <td colspan="9">No asset movement history found.</td>
                 </tr>
             <?php endif; ?>
         </tbody>

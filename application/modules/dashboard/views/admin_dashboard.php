@@ -343,6 +343,150 @@
     </div>
 </div>
 
+<!-- New Asset Management KPIs -->
+                    <div class="col-md-6">
+                        <div class="d_card" style="background: #e0f7fa; color: #006064;">
+                            <h4>Asset Value</h4>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>Gross Value: <?=number_format($total_asset_value['gross'], 2)?></h5>
+                                    <h5>Net Value: <?=number_format($total_asset_value['net'], 2)?></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="d_card" style="background: #e8f5e9; color: #1b5e20;">
+                            <h4>Current Month's Depreciation</h4>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <h5>Expense: <?=number_format($current_month_depreciation, 2)?></h5>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="d_card" style="background: #fff3e0; color: #e65100;">
+                            <h4>Assets by Category</h4>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php if (!empty($assets_by_category_location['by_category'])): ?>
+                                        <ul>
+                                            <?php foreach ($assets_by_category_location['by_category'] as $cat): ?>
+                                                <li><?=$cat->category_name?>: <?=$cat->asset_count?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php else: ?>
+                                        <p>No assets by category data.</p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="d_card" style="background: #f3e5f5; color: #4a148c;">
+                            <h4>Assets by Branch</h4>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php if (!empty($assets_by_category_location['by_branch'])): ?>
+                                        <ul>
+                                            <?php foreach ($assets_by_category_location['by_branch'] as $branch): ?>
+                                                <li><?=$branch->branch_name?>: <?=$branch->asset_count?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php else: ?>
+                                        <p>No assets by branch data.</p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="d_card" style="background: #e1f5fe; color: #01579b;">
+                            <h4>Assets by Department</h4>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php if (!empty($assets_by_category_location['by_department'])): ?>
+                                        <ul>
+                                            <?php foreach ($assets_by_category_location['by_department'] as $dept): ?>
+                                                <li><?=$dept->dept_name?>: <?=$dept->asset_count?></li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php else: ?>
+                                        <p>No assets by department data.</p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12">
+                        <div class="d_card" style="background: #ffebee; color: #b71c1c;">
+                            <h4>Upcoming Depreciations (Next 30 Days)</h4>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php if (!empty($upcoming_depreciations)): ?>
+                                        <ul>
+                                            <?php foreach ($upcoming_depreciations as $dep): ?>
+                                                <li><?=$dep->item_name?> (<?=number_format($dep->depreciation_amount, 2)?> on <?=$dep->schedule_date?>)</li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php else: ?>
+                                        <p>No upcoming depreciations.</p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="d_card" style="background: #e0f2f7; color: #006064;">
+                            <h4>Recently Acquired Assets (Last 30 Days)</h4>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php if (!empty($recently_acquired_disposed_assets['acquired'])): ?>
+                                        <ul>
+                                            <?php foreach ($recently_acquired_disposed_assets['acquired'] as $acq): ?>
+                                                <li><?=$acq->item_name?> (<?=$acq->acquisition_date?>)</li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php else: ?>
+                                        <p>No recently acquired assets.</p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="d_card" style="background: #fce4ec; color: #880e4f;">
+                            <h4>Recently Disposed Assets (Last 30 Days)</h4>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <?php if (!empty($recently_acquired_disposed_assets['disposed'])): ?>
+                                        <ul>
+                                            <?php foreach ($recently_acquired_disposed_assets['disposed'] as $disp): ?>
+                                                <li><?=$disp->item_name?> (<?=$disp->disposal_date?> - <?=$disp->disposal_type?>)</li>
+                                            <?php endforeach; ?>
+                                        </ul>
+                                    <?php else: ?>
+                                        <p>No recently disposed assets.</p>
+                                    <?php endif; ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 <script>
     function ajax_get_data() {
         var from_date = $('#from_date').val();
