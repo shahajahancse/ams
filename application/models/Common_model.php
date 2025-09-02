@@ -819,7 +819,7 @@ public function get_occupations(){
 
 public function get_department(){
    $data[''] = 'Select Department';
-   $this->db->select('id, department_name');
+   $this->db->select('id, dept_name as department_name');
    $this->db->from('department');
    $query = $this->db->get();
 
@@ -1304,7 +1304,7 @@ public function get_course_by_progress_section($progressType, $sectionID){
 }
 
 public function get_department_single($id){
-  return $query = $this->db->select('department_name')->where('id', $id)->get('department')->row()->department_name;
+  return $query = $this->db->select('dept_name')->where('id', $id)->get('department')->row()->dept_name;
 }
 
 public function get_region_office_single($id){
