@@ -154,7 +154,7 @@
                             <!-- BEGIN SIDEBAR MENU -->
                             <ul class="pull-left">
                                 <li class="start <?=backend_activate_menu_class('dashboard')?>">
-                                    <a href="<?=base_url('dashboard');?>"> <i class="icon-custom-home"></i> <span class="title">Dashboard</span></a>
+                                    <a href="<?=base_url('dashboard');?>"> <i class="icon-custom-home"></i> <span class="title">Asset Dashboard</span></a>
                                 </li>
 
                                 <!-- My Requisition section -->
