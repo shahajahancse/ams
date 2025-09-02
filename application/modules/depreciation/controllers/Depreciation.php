@@ -131,8 +131,80 @@ class Depreciation extends Backend_Controller {
                $current_date->modify('+1 month');
             }
          }
-         // TODO: Implement Written Down Value (WDV) / Declining Balance Method
-         // TODO: Implement Units of Production Method
+         } elseif ($param->method_name == 'Written Down Value (WDV) / Declining Balance Method') {
+            // WDV / Declining Balance Method (e.g., Double Declining Balance)
+            $double_declining_rate = (2 / $useful_life_years);
+            $remaining_book_value = $cost;
+
+            for ($i = 0; $i < ($useful_life_years * 12); $i++) {
+                $depreciation_amount = ($remaining_book_value * $double_declining_rate) / 12; // Monthly depreciation
+                
+                // Ensure depreciation does not take book value below salvage value
+                if (($remaining_book_value - $depreciation_amount) < $salvage_value) {
+                    $depreciation_amount = $remaining_book_value - $salvage_value;
+                }
+                
+                $remaining_book_value -= $depreciation_amount;
+                $accumulated_depreciation = $cost - $remaining_book_value;
+                $net_book_value = $remaining_book_value;
+
+                $schedule_data[] = [
+                    'asset_id'                 => $param->asset_id,
+                    'schedule_date'            => $current_date->format('Y-m-d'),
+                    'depreciation_amount'      => round($depreciation_amount, 2),
+                    'accumulated_depreciation' => round($accumulated_depreciation, 2),
+                    'net_book_value'           => round($net_book_value, 2)
+                ];
+                $current_date->modify('+1 month');
+
+                if ($net_book_value <= $salvage_value) {
+                    break; // Stop when salvage value is reached
+                }
+            }
+
+         } elseif ($param->method_name == 'Units of Production Method') {
+            // Units of Production Method
+            $total_units = $param->useful_life_units;
+            if ($total_units <= 0) {
+                log_message('error', 'Total units is zero or negative for Units of Production for asset ID: ' . $param->asset_id);
+                continue;
+            }
+            
+            $depreciable_cost_per_unit = $depreciable_base / $total_units;
+            
+            // For schedule generation, assume even distribution of units over useful_life_years
+            $annual_units_production = $total_units / $useful_life_years;
+            $monthly_units_production = $annual_units_production / 12;
+
+            $remaining_depreciable_base = $depreciable_base;
+
+            for ($i = 0; $i < ($useful_life_years * 12); $i++) {
+                $units_this_period = $monthly_units_production; // Simplified assumption
+                $depreciation_amount = $units_this_period * $depreciable_cost_per_unit;
+
+                // Ensure depreciation does not take book value below salvage value
+                if (($remaining_depreciable_base - $depreciation_amount) < 0) {
+                    $depreciation_amount = $remaining_depreciable_base;
+                }
+                
+                $remaining_depreciable_base -= $depreciation_amount;
+                $accumulated_depreciation = $depreciable_base - $remaining_depreciable_base;
+                $net_book_value = $cost - $accumulated_depreciation;
+
+                $schedule_data[] = [
+                    'asset_id'                 => $param->asset_id,
+                    'schedule_date'            => $current_date->format('Y-m-d'),
+                    'depreciation_amount'      => round($depreciation_amount, 2),
+                    'accumulated_depreciation' => round($accumulated_depreciation, 2),
+                    'net_book_value'           => round($net_book_value, 2)
+                ];
+                $current_date->modify('+1 month');
+
+                if ($net_book_value <= $salvage_value) {
+                    break; // Stop when salvage value is reached
+                }
+            }
+         }
 
          if (!empty($schedule_data)) {
             $this->Depreciation_model->save_depreciation_schedule($schedule_data);

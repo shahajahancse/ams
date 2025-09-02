@@ -18,7 +18,13 @@
         <?php foreach ($results as $asset_report): ?>
             <h3>Asset: <?=$asset_report['asset_info']->item_name?> (ID: <?=$asset_report['asset_info']->id?>)</h3>
             <p>Method: <?=$asset_report['depreciation_parameters']->method_name?></p>
-            <p>Useful Life: <?=$asset_report['depreciation_parameters']->useful_life_years?> Years</p>
+            <p>Useful Life: <?php
+    if ($asset_report['depreciation_parameters']->method_name == 'Units of Production Method' && !empty($asset_report['depreciation_parameters']->useful_life_units)) {
+        echo $asset_report['depreciation_parameters']->useful_life_units . ' Units';
+    } else {
+        echo $asset_report['depreciation_parameters']->useful_life_years . ' Years';
+    }
+?></p>
             <p>Salvage Value: <?=$asset_report['depreciation_parameters']->salvage_value?></p>
             <p>Start Date: <?=$asset_report['depreciation_parameters']->depreciation_start_date?></p>
 
