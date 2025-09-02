@@ -113,7 +113,7 @@ class Items extends Backend_Controller {
       $this->data['suppliers'] = $this->db->get('suppliers')->result(); // Fetch suppliers
       $this->data['custodians'] = $this->ion_auth->users()->result(); // Fetch users for custodians
       $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
-      $this->data['departments'] = $this->Common_model->get_dropdown('department', 'dept_name', 'id');
+      $this->data['departments'] = $this->Common_model->get_dropdown('departments', 'dept_name', 'id');
       $this->data['floors'] = $this->Common_model->get_dropdown('asset_floors', 'floor_name', 'id');
       $this->data['rooms'] = $this->Common_model->get_dropdown('asset_rooms', 'room_name', 'id');
 
@@ -259,7 +259,7 @@ class Items extends Backend_Controller {
       $this->data['suppliers'] = $this->db->get('suppliers')->result(); // Fetch suppliers
       $this->data['custodians'] = $this->ion_auth->users()->result(); // Fetch users for custodians
       $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
-      $this->data['departments'] = $this->Common_model->get_dropdown('department', 'department_name', 'id');
+      $this->data['departments'] = $this->Common_model->get_dropdown('departments', 'dept_name', 'id');
       $this->data['floors'] = $this->Common_model->get_dropdown('asset_floors', 'floor_name', 'id');
       $this->data['rooms'] = $this->Common_model->get_dropdown('asset_rooms', 'room_name', 'id');
 

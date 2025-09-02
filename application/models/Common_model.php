@@ -820,7 +820,7 @@ public function get_occupations(){
 public function get_department(){
    $data[''] = 'Select Department';
    $this->db->select('id, dept_name as department_name');
-   $this->db->from('department');
+   $this->db->from('departments');
    $query = $this->db->get();
 
    foreach ($query->result_array() AS $rows) {
@@ -1304,7 +1304,7 @@ public function get_course_by_progress_section($progressType, $sectionID){
 }
 
 public function get_department_single($id){
-  return $query = $this->db->select('dept_name')->where('id', $id)->get('department')->row()->dept_name;
+  return $query = $this->db->select('dept_name')->where('id', $id)->get('departments')->row()->dept_name;
 }
 
 public function get_region_office_single($id){
@@ -1564,7 +1564,7 @@ public function get_user_details() {
 
    $this->db->select('u.id, u.unit_id, u.username, u.first_name, u.nid, u.birth_id, u.phone, u.email, u.profile_img, u.is_verify, u.created_on, u.last_login, u.active, dp.dept_name, dg.desig_name');
    $this->db->from('users u');
-   $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+   $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
    $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
    $this->db->where('u.id', $id);
    $query = $this->db->get()->row();
@@ -1612,7 +1612,7 @@ public function get_requisition($limit=1000, $offset=0, $status=NULL) {
    $this->db->select('r.*, u.first_name, dp.dept_name, f.fiscal_year_name');
    $this->db->from('item_requisitions as r');
    $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
-   $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+   $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
    $this->db->join('fiscal_year f', 'f.id = r.f_year_id', 'LEFT');
    $this->db->where('r.is_save', 0);
    if($status){

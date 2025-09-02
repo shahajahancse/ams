@@ -504,7 +504,7 @@ class General_setting extends Backend_Controller {
             'dept_name'      => $this->input->post('department_name'),
             );
 
-         if($this->Common_model->save('department', $form_data)){
+         if($this->Common_model->save('departments', $form_data)){
             $this->session->set_flashdata('success', 'Department create successfully.');
             redirect('general_setting/department');
          }
@@ -526,13 +526,13 @@ class General_setting extends Backend_Controller {
             );
 
 
-         if($this->Common_model->edit('department', $id, 'id', $form_data)){
+         if($this->Common_model->edit('departments', $id, 'id', $form_data)){
             $this->session->set_flashdata('success', 'Information update successfully.');
             redirect('general_setting/department');
          }
       }
 
-      $this->data['info'] = $this->General_setting_model->get_info('department',$id);
+      $this->data['info'] = $this->General_setting_model->get_info('departments',$id);
 
       // Load page
       $this->data['meta_title'] = 'Edit Department';
@@ -725,7 +725,7 @@ class General_setting extends Backend_Controller {
       $this->data['meta_title'] = 'All Division';
       $this->data['subview'] = 'division';
       $this->load->view('backend/_layout_main', $this->data);
-   }
+   }
    public function division_add(){
       $this->form_validation->set_rules('div_name', 'Division Name', 'required|trim');
       $this->form_validation->set_rules('div_name_bn', 'Division Name Bangla', 'trim');
@@ -2124,7 +2124,7 @@ public function scout_expertness_group_add(){
         $form_data = array(
          'is_delete' => 1
          );
-        $this->data['info'] = $this->Common_model->edit('department',$id,'id',$form_data);
+        $this->data['info'] = $this->Common_model->edit('departments',$id,'id',$form_data);
         /***********Activity Logs Start**********/
         func_activity_log(3, 'department delete ID :'.$id); //1=C, 2=U, 3=D, 4=V, 5=G ,A = 6
         /***********Activity Logs End**********/

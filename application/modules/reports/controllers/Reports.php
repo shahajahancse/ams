@@ -524,14 +524,19 @@ class Reports extends Backend_Controller {
       exit();
    }
 
-   public function asset_movement_history_report(){
-      $this->load->model('asset_movement/Asset_movement_model');
+   public function cbs_journal_report(){
+      $this->load->model('Cbs_integration_model');
 
-      $this->data['results'] = $this->Movement_model->get_all_movements();
+      // Assuming a date range is needed for the report, similar to other reports
+      // For MVP, let's use a default or get from POST if a form is added later
+      $start_date = $this->input->post('from_date') ? $this->input->post('from_date') : date('Y-m-01');
+      $end_date = $this->input->post('to_date') ? $this->input->post('to_date') : date('Y-m-t');
 
-      $this->data['meta_title'] = 'Asset Movement History Report';
-      $this->data['headding'] = 'Asset Movement History Report';
-      $html = $this->load->view('pdf_asset_movement_history_report', $this->data, true);
+      $this->data['results'] = $this->Cbs_integration_model->generate_journal_entries($start_date, $end_date);
+
+      $this->data['meta_title'] = 'CBS Journal Entries Report';
+      $this->data['headding'] = 'CBS Journal Entries Report';
+      $html = $this->load->view('pdf_cbs_journal_report', $this->data, true);
       $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
       $mpdf->WriteHtml($html);
       $mpdf->output();

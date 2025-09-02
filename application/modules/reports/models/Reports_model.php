@@ -42,7 +42,7 @@ class Reports_model extends CI_Model {
     $this->db->select('r.*, u.first_name, dp.dept_name, dg.desig_name');
     $this->db->from('item_requisitions r');
     $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     if(!empty($status)){
       $this->db->where_in('r.status', $status);
@@ -82,7 +82,7 @@ class Reports_model extends CI_Model {
     $this->db->select('r.*, u.first_name, dp.dept_name, dg.desig_name');
     $this->db->from('item_purchases r');
     $this->db->join('users u', 'u.id = r.created_by', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     if(!empty($status)){
       $this->db->where_in('r.status', $status);
@@ -121,7 +121,7 @@ class Reports_model extends CI_Model {
     $this->db->select('r.*, u.first_name, dp.dept_name, dg.desig_name');
     $this->db->from('item_requisitions r');
     $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     if(!empty($status)){
       $this->db->where_in('r.status', $status);
@@ -178,7 +178,7 @@ class Reports_model extends CI_Model {
     $this->db->from('item_requisition_details rd');
     $this->db->join('item_requisitions r', 'r.id = rd.requisition_id', 'LEFT');
     $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     $this->db->where('rd.item_id', $product_id);
     if(!empty($status)){
@@ -220,7 +220,7 @@ class Reports_model extends CI_Model {
     $this->db->from('item_purchase_details rd');
     $this->db->join('item_purchases r', 'r.id = rd.purchase_id', 'LEFT');
     $this->db->join('users u', 'u.id = r.created_by', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     $this->db->where('rd.pur_item_id', $product_id);
 
@@ -268,7 +268,7 @@ class Reports_model extends CI_Model {
     $this->db->select('r.*, u.first_name, dp.dept_name, dg.desig_name');
     $this->db->from('item_requisitions r');
     $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     $this->db->where('r.is_delivered', 1);
 

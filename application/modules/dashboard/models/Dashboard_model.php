@@ -659,10 +659,10 @@ class Dashboard_model extends CI_Model {
         $assets_by_category = $this->db->get()->result();
 
         // Assets by Branch
-        $this->db->select('b.branch_name, COUNT(i.id) as asset_count');
+        $this->db->select('b.name_bn as branch_name, COUNT(i.id) as asset_count');
         $this->db->from('items i');
         $this->db->join('branches b', 'b.id = i.branch_id', 'LEFT');
-        $this->db->group_by('b.branch_name');
+        $this->db->group_by('b.name_bn');
         $assets_by_branch = $this->db->get()->result();
 
         // Assets by Department

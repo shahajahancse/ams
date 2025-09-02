@@ -53,7 +53,7 @@ class Items_model extends CI_Model {
         $this->db->from('items i');
         $this->db->join('units div', 'div.id=i.division_id', 'LEFT');
         $this->db->join('office_unit branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
-        $this->db->join('department dept', 'dept.id=i.department_id', 'LEFT'); // Join for department
+        $this->db->join('departments dept', 'dept.id=i.department_id', 'LEFT'); // Join for department
         $this->db->join('asset_floors floor', 'floor.id=i.floor_id', 'LEFT'); // Join for floor
         $this->db->join('asset_rooms room', 'room.id=i.room_id', 'LEFT'); // Join for room
         $this->db->join('item_categories c', 'c.id=i.cat_id', 'LEFT');
@@ -81,7 +81,7 @@ class Items_model extends CI_Model {
         $this->db->join('suppliers sup', 'sup.id=i.supplier_id', 'LEFT'); // Join with suppliers table
         $this->db->join('users cust', 'cust.id=i.custodian_id', 'LEFT'); // Join with users table for custodian
         $this->db->join('office_unit branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
-        $this->db->join('department dept', 'dept.id=i.department_id', 'LEFT'); // Join for department
+        $this->db->join('departments dept', 'dept.id=i.department_id', 'LEFT'); // Join for department
         $this->db->join('asset_floors floor', 'floor.id=i.floor_id', 'LEFT'); // Join for floor
         $this->db->join('asset_rooms room', 'room.id=i.room_id', 'LEFT'); // Join for room
         $this->db->where('i.id', $id);

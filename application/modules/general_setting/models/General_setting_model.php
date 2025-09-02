@@ -53,7 +53,7 @@ class General_setting_model extends CI_Model {
                      // result query
               $this->db->select('*');
                      // $this->db->where('is_delete',0);
-              $this->db->from('department');
+              $this->db->from('departments');
               $query = $this->db->get()->result();
 
               return $query;
@@ -146,7 +146,7 @@ public function get_committee_designation() {
  $this->db->select('cd.*, ot.office_type_name, d.department_name');
  $this->db->from('committee_designation cd');
  $this->db->join('office_type ot','ot.id = cd.office_id','LEFT');
- $this->db->join('department d','d.id = cd.department_id', 'LEFT');
+ $this->db->join('departments d','d.id = cd.department_id', 'LEFT');
  $this->db->where('cd.is_delete', 0);
  $query = $this->db->get()->result();
 
