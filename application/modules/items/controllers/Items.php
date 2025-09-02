@@ -11,6 +11,7 @@ class Items extends Backend_Controller {
       $this->data['module_title'] = 'Items';
       $this->load->model('Common_model');
       $this->load->model('Items_model');
+      $this->load->model('custom_fields/custom_fields_model');
    }
 
    public function index(){
@@ -93,6 +94,16 @@ class Items extends Backend_Controller {
                   $this->Common_model->save('item_stocks', $data);
                }
             }
+            // Save custom field values
+            $custom_fields_definitions = $this->custom_fields_model->get_custom_fields();
+            foreach ($custom_fields_definitions as $field) {
+                $field_name = 'custom_field_' . $field->id;
+                $field_value = $this->input->post($field_name);
+                if ($field_value !== null) { // Only save if the field was submitted
+                    $this->custom_fields_model->save_asset_custom_field_value($insert_id, $field->id, $field_value);
+                }
+            }
+
             $this->session->set_flashdata('success', 'Item created successfully.');
             redirect('items');
          }
@@ -106,6 +117,7 @@ class Items extends Backend_Controller {
       $this->data['floors'] = $this->Common_model->get_dropdown('asset_floors', 'floor_name', 'id');
       $this->data['rooms'] = $this->Common_model->get_dropdown('asset_rooms', 'room_name', 'id');
 
+      $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
 
       // Load page
       $this->data['meta_title'] = 'Add Item Form';
@@ -223,6 +235,17 @@ class Items extends Backend_Controller {
                   $this->db->where('unit_id', $v->id)->where('item_id', $dataID)->update('item_stocks', $data);
                }
             }
+            // Save custom field values
+            $custom_fields_definitions = $this->custom_fields_model->get_custom_fields();
+            foreach ($custom_fields_definitions as $field) {
+                $field_name = 'custom_field_' . $field->id;
+                $field_value = $this->input->post($field_name);
+                // Only save if the field was submitted or if it's an existing field that needs to be cleared
+                if ($field_value !== null || $this->custom_fields_model->get_asset_custom_field_value($dataID, $field->id)) {
+                    $this->custom_fields_model->save_asset_custom_field_value($dataID, $field->id, $field_value);
+                }
+            }
+
             $this->session->set_flashdata('success', 'Informatioin update successfully.');
             redirect('items');
          }
@@ -240,6 +263,8 @@ class Items extends Backend_Controller {
       $this->data['floors'] = $this->Common_model->get_dropdown('asset_floors', 'floor_name', 'id');
       $this->data['rooms'] = $this->Common_model->get_dropdown('asset_rooms', 'room_name', 'id');
 
+      $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
+      $this->data['asset_custom_field_values'] = $this->custom_fields_model->get_asset_custom_field_values($dataID);
 
       // Load page
       $this->data['meta_title'] = 'Edit Item Form';

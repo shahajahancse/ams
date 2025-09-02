@@ -181,6 +181,55 @@
                      </div>
                   </div>
 
+                  <div class="row form-row">
+                     <div class="col-md-12">
+                        <h4 class="semi-bold">Custom Fields</h4>
+                     </div>
+                  </div>
+                  <?php foreach ($custom_fields as $field): ?>
+                  <div class="row form-row">
+                     <div class="col-md-6">
+                        <label class="form-label"><?=$field->field_name?> <?=($field->is_required == 1) ? '<span class="required">*</span>' : ''?></label>
+                        <?php
+                        $field_name = 'custom_field_' . $field->id;
+                        $field_value = '';
+                        foreach ($asset_custom_field_values as $asset_field_value) {
+                            if ($asset_field_value->custom_field_id == $field->id) {
+                                $field_value = $asset_field_value->field_value;
+                                break;
+                            }
+                        }
+                        $field_value = set_value($field_name, $field_value); // For validation errors and existing values
+
+                        switch ($field->field_type) {
+                            case 'text':
+                                echo '<input name="'.$field_name.'" type="text" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                break;
+                            case 'number':
+                                echo '<input name="'.$field_name.'" type="number" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                break;
+                            case 'date':
+                                echo '<input name="'.$field_name.'" type="date" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                break;
+                            case 'dropdown':
+                                echo '<select name="'.$field_name.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                echo '<option value="">-- Select --</option>';
+                                $options = explode(',', $field->options);
+                                foreach ($options as $option) {
+                                    $option = trim($option);
+                                    echo '<option value="'.$option.'" '.set_select($field_name, $option, ($field_value == $option)).'>'.$option.'</option>';
+                                }
+                                echo '</select>';
+                                break;
+                            case 'textarea':
+                                echo '<textarea name="'.$field_name.'" class="form-control input-sm" rows="3" '. (($field->is_required == 1) ? 'required' : '') .'>'.$field_value.'</textarea>';
+                                break;
+                        }
+                        ?>
+                     </div>
+                  </div>
+                  <?php endforeach; ?>
+
                   <div class="form-actions">
                      <div class="pull-right">
                         <button type="submit" class="btn btn-primary btn-cons"><i class="icon-ok"></i> Save</button>

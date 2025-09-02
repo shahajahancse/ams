@@ -339,6 +339,7 @@
                                         <li> <a href="<?=base_url('general_setting/division_type');?>"> Division Type </a>
                                         <!-- <li> <a href="<?=base_url('general_setting/group');?>"> Group</a> -->
                                         </li>
+                                        <li> <a href="<?=base_url('custom_fields');?>"> Custom Fields</a></li>
                                     </ul>
                                 </li>
                                 <?php } ?>
