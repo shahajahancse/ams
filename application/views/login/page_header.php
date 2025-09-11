@@ -3,7 +3,7 @@
 <head>
   <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
   <meta charset="utf-8" />
-  <title><?=$meta_title;?> | BCCT </title>
+  <title><?=$meta_title;?> | AMS </title>
   <link rel="icon" type="image/ico" href="<?=base_url();?>awedget/assets/img/favicon.ico"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <meta content="Mysoftheaven (BD) Ltd." name="author" />

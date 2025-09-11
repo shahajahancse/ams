@@ -615,13 +615,91 @@ class Dashboard_model extends CI_Model {
         return $result;
     }
 
-    public function get_region_office_by_user($userID){
-        $this->db->select('office_id');
-        $this->db->from('users_region');
-        $this->db->where('user_id', $userID);
-        $query = $this->db->get()->row();
+    public function get_total_asset_value() {
+        // Total Asset Value (Gross)
+        $this->db->select('SUM(cost) as total_gross_value');
+        $gross_value = $this->db->get('items')->row()->total_gross_value;
 
-        return $query;
+        // Total Asset Value (Net)
+        $this->db->select('i.id, i.cost, i.book_value');
+        $this->db->from('items i');
+        $query = $this->db->get()->result();
+
+        $total_net_value = 0;
+        foreach ($query as $row) {
+            $total_net_value += $row->book_value;
+        }
+
+        return [
+            'gross' => $gross_value ? $gross_value : 0,
+            'net' => $total_net_value
+        ];
     }
 
+    public function get_current_month_depreciation_expense() {
+        $this->db->select('SUM(amount) as current_month_expense');
+        $this->db->where('YEAR(depreciation_date)', date('Y'));
+        $this->db->where('MONTH(depreciation_date)', date('m'));
+        $query = $this->db->get('depreciation_log')->row();
+
+        return $query->current_month_expense ? $query->current_month_expense : 0;
+    }
+
+    public function get_assets_by_category_location() {
+        // Assets by Category
+        $this->db->select('c.category_name, COUNT(i.id) as asset_count');
+        $this->db->from('items i');
+        $this->db->join('item_categories c', 'c.id = i.category_id', 'LEFT');
+        $this->db->group_by('c.category_name');
+        $assets_by_category = $this->db->get()->result();
+
+        // Assets by Branch
+        $this->db->select('b.unit_name as branch_name, COUNT(i.id) as asset_count');
+        $this->db->from('items i');
+        $this->db->join('office_unit b', 'b.id = i.branch_id', 'LEFT');
+        $this->db->group_by('b.unit_name');
+        $assets_by_branch = $this->db->get()->result();
+
+        // Assets by Department
+        $this->db->select('d.dept_name, COUNT(i.id) as asset_count');
+        $this->db->from('items i');
+        $this->db->join('departments d', 'd.id = i.department_id', 'LEFT');
+        $this->db->group_by('d.dept_name');
+        $assets_by_department = $this->db->get()->result();
+
+        return [
+            'by_category' => $assets_by_category,
+            'by_branch' => $assets_by_branch,
+            'by_department' => $assets_by_department
+        ];
+    }
+
+    public function get_upcoming_depreciations() {
+        $this->db->select('id, item_name, acquisition_date, cost, book_value, salvage_value, useful_life, depreciation_method');
+        $this->db->where('book_value > salvage_value');
+        $this->db->where('asset_status !=', 'Disposed');
+        $this->db->where('asset_status !=', 'Retired');
+        $this->db->order_by('acquisition_date', 'ASC');
+        return $this->db->get('items')->result();
+    }
+
+    public function get_recently_acquired_disposed_assets($days = 30) {
+        // Recently Acquired
+        $this->db->select('id, item_name, acquisition_date');
+        $this->db->where('acquisition_date >=', date('Y-m-d', strtotime("-$days days")));
+        $this->db->order_by('acquisition_date', 'DESC');
+        $recent_acquisitions = $this->db->get('items')->result();
+
+        // Recently Disposed
+        $this->db->select('id, item_name, disposal_date, disposal_type');
+        $this->db->where('disposal_date >=', date('Y-m-d', strtotime("-$days days")));
+        $this->db->where('asset_status', 'Disposed');
+        $this->db->order_by('disposal_date', 'DESC');
+        $recent_disposals = $this->db->get('items')->result();
+
+        return [
+            'acquired' => $recent_acquisitions,
+            'disposed' => $recent_disposals
+        ];
+    }
 }

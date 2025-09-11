@@ -208,8 +208,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
    });
 
    /*
-   * Insert a 'details' column to the table
-   */
+   * Insert a 'details' column to the table - COMMENTED OUT BY GEMINI
    var nCloneTh = document.createElement( 'th' );
    var nCloneTd = document.createElement( 'td' );
    nCloneTd.innerHTML = '<i class="fa fa-plus-circle"></i>';
@@ -223,9 +222,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
    	this.insertBefore(  nCloneTd.cloneNode( true ), this.childNodes[0] );
    } );
 
-   /*
    * Initialse DataTables, with no sorting on the 'details' column
-   */
    var oTable = $('#example2').dataTable( {
    	"sDom": "<'row'<'col-md-6'l><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
    	"aaSorting": [],
@@ -234,6 +231,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
    		"sInfo": "Showing <b>_START_ to _END_</b> of _TOTAL_ entries"
    	},
    });
+   */
    var oTable3 = $('#example3').dataTable( {
    	"sDom": "<'row'<'col-md-6'l <'toolbar'>><'col-md-6'f>r>t<'row'<'col-md-12'p i>>",
    	"oTableTools": {
@@ -271,7 +269,7 @@ $.extend( $.fn.dataTableExt.oPagination, {
    * Note that the indicator for showing which row is open is not controlled by DataTables,
    * rather it is done here
    */
-   $('#example2 tbody td i').live('click', function () {
+   $('#example2 tbody td i').on('click', function () {
    	var nTr = $(this).parents('tr')[0];
    	if ( oTable.fnIsOpen(nTr) )
    	{

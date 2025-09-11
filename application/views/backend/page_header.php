@@ -154,14 +154,17 @@
                             <!-- BEGIN SIDEBAR MENU -->
                             <ul class="pull-left">
                                 <li class="start <?=backend_activate_menu_class('dashboard')?>">
-                                    <a href="<?=base_url('dashboard');?>"> <i class="icon-custom-home"></i> <span class="title">Dashboard</span></a>
+                                    <a href="<?=base_url('dashboard');?>"> <i class="icon-custom-home"></i> <span class="title">Asset Dashboard</span></a>
                                 </li>
 
                                 <!-- My Requisition section -->
+                                <?php /*
                                 <li class="start <?=backend_activate_menu_class('my_requisition')?>">
                                     <a href="<?=base_url('my_requisition');?>"> <i class="fa fa-tag"></i> <span class="title">My Requisition</span> <span class="badge badge-danger pull-right"><?=$user_ntfy?></span></a>
                                 </li>
+                                */ ?>
 
+                                <?php /*
                                 <?php
                                     if ($this->ion_auth->in_group(array('sm'))) {
                                        $nt = $req_ntfy->sm + $req_ntfy->apv;
@@ -188,6 +191,7 @@
                                     </ul>
                                 </li>
                                 <?php } ?>
+                                */ ?>
 
                                 <!-- Purchase section -->
                                 <?php
@@ -204,13 +208,16 @@
                                 ?>
 
                                 <!-- Direct Purchase section -->
+                                <?php /*
                                 <?php if($this->ion_auth->in_group(array('admin','sm','do'))){ ?>
                                 <li class="start <?=backend_activate_menu_class('direct_purchase')?>">
                                     <a href="<?=base_url('direct_purchase');?>"> <i class="fa fa-tag"></i> <span class="title"> Direct Purchase</span></a>
                                 </li>
                                 <?php } ?>
+                                */ ?>
 
                                 <!-- Purchase section -->
+                                <?php /*
                                 <?php if($this->ion_auth->in_group(array('admin','sm','do'))){ ?>
                                 <li class="start <?=backend_activate_menu_class('purchase')?>"> <a href="javascript:;"><i class="fa fa-tags"></i> <span class="title">Purchase</span> <span class="selected"></span> <span class="badge badge-danger pull-right"><?=$pn + $per_ntfy->ret?></span> <span class="arrow"></span> </a>
                                     <ul class="sub-menu">
@@ -229,8 +236,10 @@
                                     </ul>
                                 </li>
                                 <?php } ?>
+                                */ ?>
 
                                 <!-- Stock In section -->
+                                <?php /*
                                 <?php
                                     $pn1 = 0;
                                     if (in_array($unit_id, array(2,3,4)) && $this->ion_auth->in_group(array('sm'))) {
@@ -268,15 +277,42 @@
                                     </ul>
                                 </li>
                                 <?php } ?>
+                                */ ?>
+
+                                <!-- New Asset Management Sub-menu -->
+                                <li class="start <?=backend_activate_menu_class('depreciation')?> <?=backend_activate_menu_class('disposal')?> <?=backend_activate_menu_class('movement')?>">
+                                    <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">Asset Management</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                                    <ul class="sub-menu">
+                                        <li> <a href="<?=base_url('depreciation');?>"> Depreciation </a> </li>
+                                        <li> <a href="<?=base_url('disposal');?>"> Disposal </a> </li>
+                                        <li> <a href="<?=base_url('movement');?>"> Movement </a> </li>
+                                        <li> <a href="<?=base_url('qrimages');?>"> Generate Asset Tags </a> </li>
+                                        <li> <a href="<?=base_url('excel_import');?>"> Import Assets </a> </li>
+                                        <li> <a href="<?=base_url('assets/export');?>"> Export Assets </a> </li>
+                                    </ul>
+                                </li>
 
                                 <!-- Report section -->
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
-                                <li class="start <?=backend_activate_menu_class('reports')?>"><a
-                                        href="<?=base_url('reports/index')?>"> <i class="fa fa-th"></i><span class="title">Reports</span> </a>
-                                </li>
-                                <li class="start <?=activate_menu_method('dynamic_report')?>">
-                                    <a href="<?=base_url('reports/dynamic_report')?>"> <i class="fa fa-th"></i><span class="title">Dynamic Report</span> </a>
-                                </li>
+                                    <li class="start <?=backend_activate_menu_class('cbs_integration')?>">
+                                        <a href="javascript:;"> <i class="fa fa-bank"></i><span class="title">CBS Integration</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                                        <ul class="sub-menu">
+                                            <li> <a href="<?=base_url('cbs_integration/gl_account_mapping');?>"> GL Account Mapping </a> </li>
+                                            <li> <a href="<?=base_url('cbs_integration/reconciliation_report');?>"> Reconciliation Report </a> </li>
+                                        </ul>
+                                    </li>
+                                    <li class="start <?=backend_activate_menu_class('reports')?>"> <a href="javascript:;"> <i class="fa fa-th"></i><span class="title">Reports</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                                        <ul class="sub-menu">
+                                            <li> <a href="<?=base_url('reports/asset_register_report');?>"> Asset Register Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/depreciation_schedule_report');?>"> Depreciation Schedule Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/disposal_gain_loss_report');?>"> Disposal Gain/Loss Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/asset_movement_history_report');?>"> Asset Movement History Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/custom_asset_report');?>"> Custom Asset Report </a> </li>
+                                        </ul>
+                                    </li>
+                                    <!-- <li class="start <?=activate_menu_method('dynamic_report')?>">
+                                        <a href="<?=base_url('reports/dynamic_report')?>"> <i class="fa fa-th"></i><span class="title">Dynamic Report</span> </a>
+                                    </li> -->
                                 <?php } ?>
 
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){
@@ -313,6 +349,7 @@
                                         <li> <a href="<?=base_url('general_setting/division_type');?>"> Division Type </a>
                                         <!-- <li> <a href="<?=base_url('general_setting/group');?>"> Group</a> -->
                                         </li>
+                                        <li> <a href="<?=base_url('custom_fields');?>"> Custom Fields</a></li>
                                     </ul>
                                 </li>
                                 <?php } ?>

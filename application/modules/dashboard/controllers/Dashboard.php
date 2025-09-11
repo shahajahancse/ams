@@ -33,6 +33,14 @@ class Dashboard extends Backend_Controller {
 		$this->data['total_approvep'] = $p->apv + $p->apv1;
 		$this->data['total_rejectedp'] = $p->rej;
 
+		// New Asset KPIs
+		$this->data['total_asset_value'] = $this->Dashboard_model->get_total_asset_value();
+		$this->data['current_month_depreciation'] = $this->Dashboard_model->get_current_month_depreciation_expense();
+		$this->data['assets_by_category_location'] = $this->Dashboard_model->get_assets_by_category_location();
+		$this->data['upcoming_depreciations'] = $this->Dashboard_model->get_upcoming_depreciations();
+		$this->data['recently_acquired_disposed_assets'] = $this->Dashboard_model->get_recently_acquired_disposed_assets();
+
+
 		// Load Page
 		$this->data['user'] = $this->userData['user_info'];
 		$this->data['meta_title'] = 'Dashboard';

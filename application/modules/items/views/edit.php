@@ -98,9 +98,160 @@
                      </div>
                   </div>
 
+                  <div class="row form-row">
+                     <div class="col-md-4">
+                        <label class="form-label">Acquisition Date</label>
+                        <input name="acquisition_date" type="date" value="<?=set_value('acquisition_date', $info->acquisition_date)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Cost</label>
+                        <input name="cost" type="number" step="0.01" value="<?=set_value('cost', $info->cost)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Supplier</label>
+                        <select name="supplier_id" class="form-control input-sm">
+                           <option value="">-- Select Supplier --</option>
+                           <?php foreach ($suppliers as $supplier) { ?>
+                              <option value="<?=$supplier->id?>" <?=set_value('supplier_id', $info->supplier_id) == $supplier->id ? 'selected' : ''?>><?=$supplier->name?></option>
+                           <?php } ?>
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-4">
+                        <label class="form-label">Serial Number</label>
+                        <input name="serial_number" type="text" value="<?=set_value('serial_number', $info->serial_number)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Warranty (Months)</label>
+                        <input name="warranty_months" type="number" value="<?=set_value('warranty_months', $info->warranty_months)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Custodian</label>
+                        <select name="custodian_id" class="form-control input-sm">
+                           <option value="">-- Select Custodian --</option>
+                           <?php foreach ($custodians as $custodian) { ?>
+                              <option value="<?=$custodian->id?>" <?=set_value('custodian_id', $info->custodian_id) == $custodian->id ? 'selected' : ''?>><?=$custodian->first_name . ' ' . $custodian->last_name?></option>
+                           <?php } ?>
+                        </select>
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-4">
+                        <label class="form-label">Depreciation Method</label>
+                        <select name="depreciation_method" class="form-control input-sm">
+                           <option value="straight-line" <?=($info->depreciation_method == 'straight-line') ? 'selected' : ''?>>Straight-Line</option>
+                           <option value="wdv" <?=($info->depreciation_method == 'wdv') ? 'selected' : ''?>>Written Down Value</option>
+                        </select>
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Useful Life (Years)</label>
+                        <input name="useful_life" type="number" value="<?=set_value('useful_life', $info->useful_life)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Salvage Value</label>
+                        <input name="salvage_value" type="number" step="0.01" value="<?=set_value('salvage_value', $info->salvage_value)?>" class="form-control input-sm">
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-4">
+                        <label class="form-label">Asset Status</label>
+                        <select name="asset_status" class="form-control input-sm">
+                           <option value="In Use" <?=set_value('asset_status', $info->asset_status) == 'In Use' ? 'selected' : ''?>>In Use</option>
+                           <option value="Under Maintenance" <?=set_value('asset_status', $info->asset_status) == 'Under Maintenance' ? 'selected' : ''?>>Under Maintenance</option>
+                           <option value="Disposed" <?=set_value('asset_status', $info->asset_status) == 'Disposed' ? 'selected' : ''?>>Disposed</option>
+                           <option value="Retired" <?=set_value('asset_status', $info->asset_status) == 'Retired' ? 'selected' : ''?>>Retired</option>
+                        </select>
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Branch</label>
+                        <?php
+                        $more_attr = 'class="form-control input-sm" id="branch_id"';
+                        echo form_dropdown('branch_id', $branches, set_value('branch_id', $info->branch_id), $more_attr);
+                        ?>
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Department</label>
+                        <?php
+                        $more_attr = 'class="form-control input-sm" ';
+                        echo form_dropdown('department_id', $departments, set_value('department_id', $info->department_id), $more_attr);
+                        ?>
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-4">
+                        <label class="form-label">Floor</label>
+                        <?php
+                        $more_attr = 'class="form-control input-sm" id="floor_id"';
+                        echo form_dropdown('floor_id', $floors, set_value('floor_id', $info->floor_id), $more_attr);
+                        ?>
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Room</label>
+                        <?php
+                        $more_attr = 'class="form-control input-sm" id="room_id"';
+                        echo form_dropdown('room_id', $rooms, set_value('room_id', $info->room_id), $more_attr);
+                        ?>
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-12">
+                        <h4 class="semi-bold">Custom Fields</h4>
+                     </div>
+                  </div>
+                  <?php foreach ($custom_fields as $field): ?>
+                  <div class="row form-row">
+                     <div class="col-md-6">
+                        <label class="form-label"><?=$field->field_name?> <?=($field->is_required == 1) ? '<span class="required">*</span>' : ''?></label>
+                        <?php
+                        $field_name = 'custom_field_' . $field->id;
+                        $field_value = '';
+                        foreach ($asset_custom_field_values as $asset_field_value) {
+                            if ($asset_field_value->custom_field_id == $field->id) {
+                                $field_value = $asset_field_value->field_value;
+                                break;
+                            }
+                        }
+                        $field_value = set_value($field_name, $field_value); // For validation errors and existing values
+
+                        switch ($field->field_type) {
+                            case 'text':
+                                echo '<input name="'.$field_name.'" type="text" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                break;
+                            case 'number':
+                                echo '<input name="'.$field_name.'" type="number" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                break;
+                            case 'date':
+                                echo '<input name="'.$field_name.'" type="date" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                break;
+                            case 'dropdown':
+                                echo '<select name="'.$field_name.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                echo '<option value="">-- Select --</option>';
+                                $options = explode(',', $field->options);
+                                foreach ($options as $option) {
+                                    $option = trim($option);
+                                    echo '<option value="'.$option.'" '.set_select($field_name, $option, ($field_value == $option)).'>'.$option.'</option>';
+                                }
+                                echo '</select>';
+                                break;
+                            case 'textarea':
+                                echo '<textarea name="'.$field_name.'" class="form-control input-sm" rows="3" '. (($field->is_required == 1) ? 'required' : '') .'>'.$field_value.'</textarea>';
+                                break;
+                        }
+                        ?>
+                     </div>
+                  </div>
+                  <?php endforeach; ?>
+
                   <div class="form-actions">
                      <div class="pull-right">
                         <button type="submit" class="btn btn-primary btn-cons"><i class="icon-ok"></i> Save</button>
+                        <a href="<?=base_url('items/generate_qr_code/' . encrypt_url($info->id))?>" class="btn btn-info btn-cons" target="_blank"><i class="fa fa-qrcode"></i> Generate QR Code</a>
                      </div>
                   </div>
 
@@ -128,5 +279,65 @@
          status: {required: true}
       }
    });
+
+      $('#branch_id').change(function() {
+         var branch_id = $(this).val();
+         if (branch_id) {
+            $.ajax({
+               url: '<?=base_url('items/get_floors_by_branch/');?>' + branch_id,
+               type: 'POST',
+               dataType: 'json',
+               success: function(data) {
+                  $('#floor_id').empty();
+                  $('#floor_id').append('<option value="">-- Select Floor --</option>');
+                  $.each(data, function(key, value) {
+                     $('#floor_id').append('<option value="' + value.id + '">' + value.floor_name + '</option>');
+                  });
+                  // Set selected floor if editing
+                  var selected_floor = '<?=set_value('floor_id', $info->floor_id)?>';
+                  if (selected_floor) {
+                     $('#floor_id').val(selected_floor).trigger('change');
+                  }
+               }
+            });
+         } else {
+            $('#floor_id').empty();
+            $('#floor_id').append('<option value="">-- Select Floor --</option>');
+            $('#room_id').empty();
+            $('#room_id').append('<option value="">-- Select Room --</option>');
+         }
+      });
+
+      $('#floor_id').change(function() {
+         var floor_id = $(this).val();
+         if (floor_id) {
+            $.ajax({
+               url: '<?=base_url('items/get_rooms_by_floor/');?>' + floor_id,
+               type: 'POST',
+               dataType: 'json',
+               success: function(data) {
+                  $('#room_id').empty();
+                  $('#room_id').append('<option value="">-- Select Room --</option>');
+                  $.each(data, function(key, value) {
+                     $('#room_id').append('<option value="' + value.id + '">' + value.room_name + '</option>');
+                  });
+                  // Set selected room if editing
+                  var selected_room = '<?=set_value('room_id', $info->room_id)?>';
+                  if (selected_room) {
+                     $('#room_id').val(selected_room);
+                  }
+               }
+            });
+         } else {
+            $('#room_id').empty();
+            $('#room_id').append('<option value="">-- Select Room --</option>');
+         }
+      });
+
+      // Trigger change on branch_id and floor_id on page load if values exist
+      var initial_branch_id = '<?=set_value('branch_id', $info->branch_id)?>';
+      if (initial_branch_id) {
+         $('#branch_id').val(initial_branch_id).trigger('change');
+      }
    });
 </script>

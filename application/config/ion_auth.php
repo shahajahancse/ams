@@ -82,7 +82,7 @@ $config['salt_prefix']    = version_compare(PHP_VERSION, '5.3.7', '<') ? '$2a$' 
  | The controller should check this function and act
  | appropriately. If this variable set to 0, there is no maximum.
  */
-$config['site_title']                 = "BCCT Inventory";       // Site Title, example.com
+$config['site_title']                 = "AMS";       // Site Title, example.com
 $config['admin_email']                = "noreply@mysoftheaven.com"; 	// Admin Email, admin@example.com
 
 $config['admin_group']                = 'admin';            // id= 1, Default administrators
@@ -104,7 +104,7 @@ $config['forgot_password_expiration'] = 0;                   // The number of mi
 $config['recheck_timer']              = 0;                   /* The number of seconds after which the session is checked again against database to see if the user still exists and is active.
 							           Leave 0 if you don't want session recheck. if you really think you need to recheck the session against database, we would
 								   recommend a higher value, as this would affect performance */
-								
+
 
 /*
  | -------------------------------------------------------------------------
@@ -134,7 +134,7 @@ $config['email_config'] = array(
 	'smtp_pass' => 'noreply@0077',
 	'charset' 	=> 'utf-8',
 	'wordwrap' 	=> TRUE,
-	'newline' 	=> "\r\n" 
+	'newline' 	=> "\r\n"
 );
 
 
@@ -146,7 +146,7 @@ $config['email_config'] = array(
 // $config['mailtype'] = 'html';
 // $config['charset'] = 'utf-8';
 // $config['wordwrap'] = TRUE;
-// $config['newline'] = "\r\n"; //use double quotes 
+// $config['newline'] = "\r\n"; //use double quotes
 
 
 

@@ -421,4 +421,135 @@ class Reports extends Backend_Controller {
       exit();
     }
   }
+
+   public function asset_register_report(){
+      $this->data['results'] = $this->Reports_model->get_asset_register_data();
+
+      $this->data['meta_title'] = 'Asset Register Report';
+      $this->data['headding'] = 'Asset Register Report';
+      $html = $this->load->view('pdf_asset_register_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
+
+   public function depreciation_schedule_report(){
+      $this->load->add_package_path(APPPATH.'modules/depreciation/');
+      $this->load->model('Depreciation_model');
+      $this->load->add_package_path(APPPATH.'modules/items/');
+      $this->load->model('Items_model'); // To get asset details
+
+      $depreciation_parameters = $this->Depreciation_model->get_all_depreciation_parameters();
+      $report_data = [];
+
+      foreach ($depreciation_parameters as $param) {
+          $asset_info = $this->Items_model->get_info($param->id); // Use $param->id as asset_id
+          $schedule = $this->Depreciation_model->get_depreciation_schedule($param->id); // Use $param->id as asset_id
+          
+          $report_data[] = [
+              'asset_info' => $asset_info,
+              'depreciation_parameters' => $param,
+              'schedule' => $schedule
+          ];
+      }
+
+      $this->data['results'] = $report_data;
+      $this->data['meta_title'] = 'Depreciation Schedule Report';
+      $this->data['headding'] = 'Depreciation Schedule Report';
+      $html = $this->load->view('pdf_depreciation_schedule_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
+
+   public function disposal_gain_loss_report(){
+      $this->load->add_package_path(APPPATH.'modules/disposal/');
+      $this->load->model('Disposal_model');
+      $this->load->add_package_path(APPPATH.'modules/depreciation/');
+      $this->load->model('Depreciation_model'); // To get accumulated depreciation
+
+      $disposals = $this->Disposal_model->get_all_disposals();
+      $report_data = [];
+
+      foreach ($disposals as $disposal) {
+          $accumulated_depreciation_at_disposal = $this->Depreciation_model->get_accumulated_depreciation_up_to_date($disposal->id, $disposal->disposal_date);
+          $net_book_value = $disposal->cost - $accumulated_depreciation_at_disposal;
+          $gain_loss = $disposal->sale_proceeds - $net_book_value;
+
+          $report_data[] = [
+              'disposal_info' => $disposal,
+              'accumulated_depreciation_at_disposal' => $accumulated_depreciation_at_disposal,
+              'net_book_value' => $net_book_value,
+              'gain_loss' => $gain_loss
+          ];
+      }
+
+      $this->data['results'] = $report_data;
+      $this->data['meta_title'] = 'Disposal Gain/Loss Report';
+      $this->data['headding'] = 'Disposal Gain/Loss Report';
+      $html = $this->load->view('pdf_disposal_gain_loss_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
+
+   public function cbs_journal_report(){
+      $this->load->model('Cbs_integration_model');
+
+      // Assuming a date range is needed for the report, similar to other reports
+      // For MVP, let's use a default or get from POST if a form is added later
+      $start_date = $this->input->post('from_date') ? $this->input->post('from_date') : date('Y-m-01');
+      $end_date = $this->input->post('to_date') ? $this->input->post('to_date') : date('Y-m-t');
+
+      $this->data['results'] = $this->Cbs_integration_model->generate_journal_entries($start_date, $end_date);
+
+      $this->data['meta_title'] = 'CBS Journal Entries Report';
+      $this->data['headding'] = 'CBS Journal Entries Report';
+      $html = $this->load->view('pdf_cbs_journal_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
+
+   public function asset_movement_history_report(){
+      $this->load->model('Reports_model'); // Ensure Reports_model is loaded
+      $this->data['results'] = $this->Reports_model->get_all_movements();
+
+      $this->data['meta_title'] = 'Asset Movement History Report';
+      $this->data['headding'] = 'Asset Movement History Report';
+      $html = $this->load->view('pdf_asset_movement_history_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
+
+   public function custom_asset_report(){
+      $this->data['meta_title'] = 'Custom Asset Report';
+      $this->data['subview'] = 'custom_asset_report';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function generate_custom_asset_report(){
+      $selected_columns = $this->input->post('columns');
+      if (empty($selected_columns)) {
+          $this->session->set_flashdata('error', 'Please select at least one column.');
+          redirect('reports/custom_asset_report');
+      }
+
+      $this->data['results'] = $this->Reports_model->get_custom_asset_report_data($selected_columns);
+      $this->data['selected_columns'] = $selected_columns;
+
+      $this->data['meta_title'] = 'Custom Asset Report';
+      $this->data['headding'] = 'Custom Asset Report';
+      $html = $this->load->view('pdf_custom_asset_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
 }

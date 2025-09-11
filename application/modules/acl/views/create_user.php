@@ -50,7 +50,7 @@
                         </div>
 
                         <div class="row form-row">
-                            <?php $departments = $this->db->get('department')->result(); ?>
+                            <?php $departments = $this->db->get('departments')->result(); ?>
                             <div class="col-md-6">
                                 <label class="form-label">Department <span style="color:red">*</span></label>
                                 <?php echo form_error('dept_id'); ?>

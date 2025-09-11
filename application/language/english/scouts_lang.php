@@ -9,7 +9,7 @@
 $lang['site_footer_home'] =  'Home';
 $lang['site_footer_home_about_us'] =  'About Us';
 // $lang['site_footer_home_contact'] =  'Contact Us';
-$lang['site_footer_user_manual'] =  'User Guide'; 
+$lang['site_footer_user_manual'] =  'User Guide';
 $lang['site_footer_user_manual_manual'] =  'User Guide';
 $lang['site_footer_user_manual_ask'] =  'Your Question';
 $lang['site_footer_social_communication'] =  'Social Communication';
@@ -102,9 +102,9 @@ $lang['site_complain_address'] =  'Address';
 $lang['site_complain_feedback_details'] =  'Feedback Details';
 
 
-$lang['site_meta_title'] = 'BCCT';
+$lang['site_meta_title'] = 'AMS';
 
-$lang['site_title'] = 'Digitized Work Schedule fo the Secretary, BCCT';
+$lang['site_title'] = 'Digitized Work Schedule fo the Secretary, AMS';
 
 $lang['site_service_list'] =  'Service List';
 $lang['site_service_traking'] =  'Service Traking';
@@ -204,8 +204,8 @@ $lang['site_user_manual_service'] =  'User Manual (Scut Service Portal) Version 
 $lang['site_user_manual_login'] =  'User Manual (Registration and Login) Version-1';
 
 //===========================news====================================
- $lang['site_news'] =  'Scout News';	
- $lang['site_news_no'] =  'No';	
+ $lang['site_news'] =  'Scout News';
+ $lang['site_news_no'] =  'No';
  $lang['site_news_heading'] =  'News Heading';
  $lang['site_news_date'] =  'Date';
  $lang['site_news_detailss'] =  'Details';
@@ -213,14 +213,14 @@ $lang['site_user_manual_login'] =  'User Manual (Registration and Login) Version
 
 //===========================news details====================================
 
- $lang['site_news_details_title'] =  'News Title';	
+ $lang['site_news_details_title'] =  'News Title';
  $lang['site_news_details_date'] =  'Published Date';
  $lang['site_news_details'] =  'News Details';
 
 
 //===========================Events====================================
 
- $lang['site_events_no'] =  'No';	
+ $lang['site_events_no'] =  'No';
  $lang['site_events_title'] =  'Event Title';
  $lang['site_events_venue'] =  'Venue';
  $lang['site_events_type'] =  'Event Type';
@@ -231,7 +231,7 @@ $lang['site_user_manual_login'] =  'User Manual (Registration and Login) Version
 
  //===========================Events details====================================
 
- $lang['site_event_details_title'] =  'Event Title';	
+ $lang['site_event_details_title'] =  'Event Title';
  $lang['site_event_details_venue'] =  'Event Venue';
  $lang['site_event_details_type'] =  'Event Type';
  $lang['site_event_details_date'] =  'From Date';

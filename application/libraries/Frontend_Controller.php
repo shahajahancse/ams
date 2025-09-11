@@ -1,4 +1,4 @@
-<?php 
+<?php
 class Frontend_Controller extends MY_Controller
 {
 	function __construct ()
@@ -11,17 +11,17 @@ class Frontend_Controller extends MY_Controller
 		// 	$this->lang->load('scouts', $this->session->userdata('site_lang'));
 		// } else {
 		// 	$this->session->set_userdata('site_lang', 'bangla');
-			// $this->lang->load('scouts', 'bangla'); 
+			// $this->lang->load('scouts', 'bangla');
 		// }
-		$this->lang->load('scouts', 'english'); 
+		$this->lang->load('scouts', 'english');
 
-		$this->form_validation->set_error_delimiters('<div class="alert alert-warning"> <i class="fa fa-warning"></i> ', '</div>');   
+		$this->form_validation->set_error_delimiters('<div class="alert alert-warning"> <i class="fa fa-warning"></i> ', '</div>');
 		$this->load->model('Site_model');
 		$this->load->model('Common_model');
-		
-		$this->data['meta_title'] = 'Inventory Management System';
-		$this->data['meta_keywords'] = 'inventory';
-		$this->data['meta_description'] = 'Inventory Management System';
+
+		$this->data['meta_title'] = 'Asset Management System';
+		$this->data['meta_keywords'] = 'AMS';
+		$this->data['meta_description'] = 'Asset Management System';
 
 		$this->data['contact_email'] = '';
 		$this->data['contact_phone'] = '';

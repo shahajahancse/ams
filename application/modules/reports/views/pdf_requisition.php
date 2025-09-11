@@ -61,7 +61,7 @@
       <div class="priview-body">
         <div class="priview-header">
           <p class="text-center">
-            <span style="font-size:20px;font-weight: bold;">BCCT Inventory Management System</span>
+            <span style="font-size:20px;font-weight: bold;">AMS Asset Management System</span>
             <br> <span style="font-size: 14px;">Address </span>
             <!-- <br><span style="font-size:12px;">www.scouts.gov.bd</span> -->
           </p>
@@ -83,27 +83,27 @@
         <thead class="headding">
          <tr>
           <th class="text-center" width="20">SL</th>
-          <th class="text-left" width="80">Datetime</th>     
+          <th class="text-left" width="80">Datetime</th>
           <th class="text-left" width="150">Requisition Title</th>
           <th class="text-center" width="100">Name</th>
-          <th class="text-left" width="100">Designation</th>     
-          <th class="text-left" width="150">Department</th>            
+          <th class="text-left" width="100">Designation</th>
+          <th class="text-left" width="150">Department</th>
         </tr>
       </thead>
 
       <tbody>
-       <?php 
+       <?php
        $i=0;
                //$total_group=$total_member=$grandTotalGroup=$grandTotalMember=0;
 
-       foreach ($results['summary'] as $key => $row) { 
+       foreach ($results['summary'] as $key => $row) {
         $i++;
                   //$total += $row->quantity;
         ?>
         <tr>
          <td class="text-center"><?=$i?>.</td>
-         <td class="text-left"><?=$row->created?></td>                 
-         <td class="text-left"><?=$row->title?></td>                 
+         <td class="text-left"><?=$row->created?></td>
+         <td class="text-left"><?=$row->title?></td>
          <td class="text-left"><?=$row->first_name?></td>
          <td class="text-left"><?=$row->dept_name?></td>
          <td class="text-left"><?=$row->desig_name?></td>
@@ -134,7 +134,7 @@
       </tr>
       <?php } ?>
     </tbody>
-  </table>      
+  </table>
 </div>
 
 </div>

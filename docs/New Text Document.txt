@@ -1,1 +1,3 @@
 Read the @docs/AMS.pdf file and develop the project from scratch, and use the same file architecture and design patterns as the @bfri/ project.
+
+@docs/ams.pdf read the file and update the software with existing technology and layout/templete

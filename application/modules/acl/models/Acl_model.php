@@ -22,7 +22,7 @@ class Acl_model extends CI_Model {
         $this->db->select('u.id, u.username, u.first_name, u.phone, u.email, u.created_on, u.last_login, u.active, dp.dept_name, dg.desig_name, un.name_en');
         $this->db->from('users u');
         $this->db->join('units un', 'un.id = u.unit_id', 'LEFT');
-        $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+        $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
         $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
         $this->db->limit($limit);
         $this->db->offset($offset);
@@ -54,7 +54,7 @@ class Acl_model extends CI_Model {
     public function get_department(){
         $data[''] = 'Select Department';
         $this->db->select('id, dept_name');
-        $this->db->from('department');
+        $this->db->from('departments');
         $this->db->order_by('id', 'ASC');
         $query = $this->db->get();
 

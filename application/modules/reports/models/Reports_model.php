@@ -42,7 +42,7 @@ class Reports_model extends CI_Model {
     $this->db->select('r.*, u.first_name, dp.dept_name, dg.desig_name');
     $this->db->from('item_requisitions r');
     $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     if(!empty($status)){
       $this->db->where_in('r.status', $status);
@@ -82,7 +82,7 @@ class Reports_model extends CI_Model {
     $this->db->select('r.*, u.first_name, dp.dept_name, dg.desig_name');
     $this->db->from('item_purchases r');
     $this->db->join('users u', 'u.id = r.created_by', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     if(!empty($status)){
       $this->db->where_in('r.status', $status);
@@ -121,7 +121,7 @@ class Reports_model extends CI_Model {
     $this->db->select('r.*, u.first_name, dp.dept_name, dg.desig_name');
     $this->db->from('item_requisitions r');
     $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     if(!empty($status)){
       $this->db->where_in('r.status', $status);
@@ -178,7 +178,7 @@ class Reports_model extends CI_Model {
     $this->db->from('item_requisition_details rd');
     $this->db->join('item_requisitions r', 'r.id = rd.requisition_id', 'LEFT');
     $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     $this->db->where('rd.item_id', $product_id);
     if(!empty($status)){
@@ -220,7 +220,7 @@ class Reports_model extends CI_Model {
     $this->db->from('item_purchase_details rd');
     $this->db->join('item_purchases r', 'r.id = rd.purchase_id', 'LEFT');
     $this->db->join('users u', 'u.id = r.created_by', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     $this->db->where('rd.pur_item_id', $product_id);
 
@@ -268,7 +268,7 @@ class Reports_model extends CI_Model {
     $this->db->select('r.*, u.first_name, dp.dept_name, dg.desig_name');
     $this->db->from('item_requisitions r');
     $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
-    $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+    $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
     $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
     $this->db->where('r.is_delivered', 1);
 
@@ -789,4 +789,25 @@ public function get_scout_group_committee($region_id=NULL, $sc_district_id=NULL,
          return $result;
        }
 
-     }
+    public function get_custom_asset_report_data($selected_columns) {
+        $this->db->select(implode(', ', $selected_columns));
+        return $this->db->get('items')->result_array();
+    }
+    public function get_all_movements() {
+        $this->db->select('am.*, i.item_name, u.first_name as moved_by_user');
+        $this->db->from('asset_movements am'); // Assuming 'asset_movements' table
+        $this->db->join('items i', 'i.id = am.asset_id', 'left'); // Assuming 'items' table for asset details
+        $this->db->join('users u', 'u.id = am.user_id', 'left'); // Assuming 'users' table for user details
+        $this->db->order_by('am.movement_date', 'DESC');
+        return $this->db->get()->result();
+    }
+
+    public function get_asset_register_data() {
+        $this->db->select('i.*, c.category_name, u.unit_name');
+        $this->db->from('items i');
+        $this->db->join('item_categories c', 'c.id = i.category_id', 'left');
+        $this->db->join('item_unit u', 'u.id = i.unit_id', 'left');
+        $this->db->order_by('i.item_name', 'ASC');
+        return $this->db->get()->result();
+    }
+}

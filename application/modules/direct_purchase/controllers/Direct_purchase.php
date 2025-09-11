@@ -112,7 +112,7 @@ class Direct_purchase extends Backend_Controller {
                   $aa = array(
                      'unit_id'      => $user->unit_id,
                      'item_id'      => $_POST['item_id'][$i],
-                     'cat_id'       => $it->cat_id,
+                     'category_id'       => $it->category_id,
                      'sub_cat_id'   => $it->sub_cat_id,
                      'stock_in'   => $items->stock_in + $_POST['qty_request'][$i],
                      'stock_out'  => 0,
@@ -127,7 +127,7 @@ class Direct_purchase extends Backend_Controller {
                $dd = array(
                   'unit_id'      => $user->unit_id,
                   'item_id'      => $_POST['item_id'][$i],
-                  'cat_id'       => $items->cat_id ? $items->cat_id : $it->cat_id,
+                  'category_id'       => $items->category_id ? $items->category_id : $it->category_id,
                   'sub_cat_id'   => $items->sub_cat_id ? $items->sub_cat_id : $it->sub_cat_id,
                   'qty'          => $_POST['qty_request'][$i],
                   'status'       => 5,  // 5 for direct purchase
@@ -164,7 +164,7 @@ class Direct_purchase extends Backend_Controller {
       $this->db->from('item_purchase_details ri');
       $this->db->join('items i', 'i.id = ri.pur_item_id');
       $this->db->join('item_unit iu', 'iu.id = i.unit_id');
-      $this->db->join('item_categories c', 'c.id = i.cat_id');
+      $this->db->join('item_categories c', 'c.id = i.category_id');
       $this->db->join('item_sub_categories sc', 'sc.id = i.sub_cat_id');
       $this->db->where('purchase_id', $id);
       $this->data['purchase_item_data'] = $this->db->get()->result();
@@ -197,7 +197,7 @@ class Direct_purchase extends Backend_Controller {
       }
 
       $this->db->where('id', $id);
-      if($this->db->update('item_purchases' , $form_data)){
+      if($this->db->update('item_purchases', $form_data)){
          for ($i=0; $i<sizeof($_POST['hide_id']); $i++) {
             $form_data2 = array(
                'pur_approve'       => $_POST['pur_approve'][$i]
@@ -237,7 +237,7 @@ class Direct_purchase extends Backend_Controller {
             $dd = array(
                'unit_id'      => $user['unit_id'],
                'item_id'      => $items->item_id,
-               'cat_id'       => $items->cat_id,
+               'category_id'       => $items->category_id,
                'sub_cat_id'   => $items->sub_cat_id,
                'qty'          => $p->pur_approve,
                'status'       => 2,
@@ -260,7 +260,7 @@ class Direct_purchase extends Backend_Controller {
       $this->db->from('item_purchase_details ri');
       $this->db->join('items i', 'i.id = ri.pur_item_id');
       $this->db->join('item_unit iu', 'iu.id = i.unit_id');
-      $this->db->join('item_categories c', 'c.id = i.cat_id');
+      $this->db->join('item_categories c', 'c.id = i.category_id');
       $this->db->join('item_sub_categories sc', 'sc.id = i.sub_cat_id');
       $this->db->where('purchase_id', $id);
       $this->data['items'] = $this->db->get()->result();
@@ -271,5 +271,5 @@ class Direct_purchase extends Backend_Controller {
       $mpdf->WriteHtml($html);
       $mpdf->output();
    }
-   // item purchase approve process end
+   // item purchase create end
 }

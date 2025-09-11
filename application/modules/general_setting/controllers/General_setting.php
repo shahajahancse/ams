@@ -33,7 +33,7 @@ class General_setting extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
    public function item_locker_add(){
-      $this->form_validation->set_rules('cat_id', 'Category', 'required|trim');
+      $this->form_validation->set_rules('category_id', 'Category', 'required|trim');
       $this->form_validation->set_rules('sub_cat', 'Sub Category', 'required|trim');
       $this->form_validation->set_rules('item_id', 'Item Name', 'required|trim');
       $this->form_validation->set_rules('room_no', 'Room No', 'required|trim');
@@ -43,7 +43,7 @@ class General_setting extends Backend_Controller {
          $form_data = array(
             'unit_id'      => $unit_id,
             'item_id'      => $this->input->post('item_id'),
-            'cat_id'       => $this->input->post('cat_id'),
+            'category_id'       => $this->input->post('category_id'),
             'sub_cat_id'   => $this->input->post('sub_cat'),
             'room_no'      => $this->input->post('room_no'),
             'locker_no'    => $this->input->post('locker_no'),
@@ -51,7 +51,7 @@ class General_setting extends Backend_Controller {
          );
 
          if($this->Common_model->save('item_locker_location', $form_data)){
-            $this->session->set_flashdata('success', 'Branch create successfully.');
+            $this->session->set_flashdata('success', 'Item Locker create successfully.');
             redirect('general_setting/item_locker');
          }
       }
@@ -62,7 +62,7 @@ class General_setting extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
    public function item_locker_edit($id){
-      $this->form_validation->set_rules('cat_id', 'Category', 'required|trim');
+      $this->form_validation->set_rules('category_id', 'Category', 'required|trim');
       $this->form_validation->set_rules('sub_cat', 'Sub Category', 'required|trim');
       $this->form_validation->set_rules('item_id', 'Item Name', 'required|trim');
       $this->form_validation->set_rules('room_no', 'Room No', 'required|trim');
@@ -71,7 +71,7 @@ class General_setting extends Backend_Controller {
       if ($this->form_validation->run() == true){
          $form_data = array(
             'item_id'      => $this->input->post('item_id'),
-            'cat_id'       => $this->input->post('cat_id'),
+            'category_id'       => $this->input->post('category_id'),
             'sub_cat_id'   => $this->input->post('sub_cat'),
             'room_no'      => $this->input->post('room_no'),
             'locker_no'    => $this->input->post('locker_no'),
@@ -323,13 +323,13 @@ class General_setting extends Backend_Controller {
    }
 
    public function sub_category_add(){
-      $this->form_validation->set_rules('cate_id', 'select category', 'required|trim');
+      $this->form_validation->set_rules('category_id', 'select category', 'required|trim');
       $this->form_validation->set_rules('sub_cate_name', 'sub category Name', 'required|trim');
 
       if ($this->form_validation->run() == true){
 
          $form_data = array(
-            'cate_id'             => $this->input->post('cate_id'),
+            'category_id'             => $this->input->post('category_id'),
             'sub_cate_name'      => $this->input->post('sub_cate_name')
          );
 
@@ -348,12 +348,12 @@ class General_setting extends Backend_Controller {
    }
    public function sub_category_edit($id){
 
-      $this->form_validation->set_rules('cate_id', 'select category', 'required|trim');
+      $this->form_validation->set_rules('category_id', 'select category', 'required|trim');
       $this->form_validation->set_rules('sub_cate_name', 'sub category Name', 'required|trim');
 
       if ($this->form_validation->run() == true){
          $form_data = array(
-            'cate_id'             => $this->input->post('cate_id'),
+            'category_id'             => $this->input->post('category_id'),
             'sub_cate_name'      => $this->input->post('sub_cate_name')
          );
          $this->db->where('id', $id);
@@ -417,12 +417,11 @@ class General_setting extends Backend_Controller {
          $this->db->update('item_categories', $form_data);
          $this->session->set_flashdata('success', 'Category update successfully.');
          redirect('general_setting/categories');
-      }else{
-         $this->data['category'] = $this->General_setting_model->get_categories($id);
-         $this->data['meta_title'] = 'Edit Category';
-         $this->data['subview'] = 'category_edit';
-         $this->load->view('backend/_layout_main', $this->data);
       }
+      $this->data['category'] = $this->General_setting_model->get_categories($id);
+      $this->data['meta_title'] = 'Edit Category';
+      $this->data['subview'] = 'category_edit';
+      $this->load->view('backend/_layout_main', $this->data);
    }
 
    public function category_delete($id){
@@ -505,7 +504,7 @@ class General_setting extends Backend_Controller {
             'dept_name'      => $this->input->post('department_name'),
             );
 
-         if($this->Common_model->save('department', $form_data)){
+         if($this->Common_model->save('departments', $form_data)){
             $this->session->set_flashdata('success', 'Department create successfully.');
             redirect('general_setting/department');
          }
@@ -527,13 +526,13 @@ class General_setting extends Backend_Controller {
             );
 
 
-         if($this->Common_model->edit('department', $id, 'id', $form_data)){
+         if($this->Common_model->edit('departments', $id, 'id', $form_data)){
             $this->session->set_flashdata('success', 'Information update successfully.');
             redirect('general_setting/department');
          }
       }
 
-      $this->data['info'] = $this->General_setting_model->get_info('department',$id);
+      $this->data['info'] = $this->General_setting_model->get_info('departments',$id);
 
       // Load page
       $this->data['meta_title'] = 'Edit Department';
@@ -727,7 +726,6 @@ class General_setting extends Backend_Controller {
       $this->data['subview'] = 'division';
       $this->load->view('backend/_layout_main', $this->data);
    }
-
    public function division_add(){
       $this->form_validation->set_rules('div_name', 'Division Name', 'required|trim');
       $this->form_validation->set_rules('div_name_bn', 'Division Name Bangla', 'trim');
@@ -1073,7 +1071,7 @@ class General_setting extends Backend_Controller {
       if($this->Common_model->edit('committee_type', $id, 'id', $form_data)){
          /***********Activity Logs Start**********/
                //$insert_id = $this->db->insert_id();
-               func_activity_log(2, 'Committee type update ID :'.$insert_id); //1=C, 2=U, 3=D, 4=V, 5=G ,A = 6
+               func_activity_log(2, 'Committee type update ID :'.$id); //1=C, 2=U, 3=D, 4=V, 5=G ,A = 6
                /***********Activity Logs End**********/
                $this->session->set_flashdata('success', 'Informatioin update successfully.');
                redirect('general_setting/committee_type');
@@ -1081,7 +1079,7 @@ class General_setting extends Backend_Controller {
          }
 
       //Dropdown
-         $this->data['scouts_office'] = $this->Common_model->get_office_type();
+         $this->data['scouts_office'] = $this->Common_model->get_data_array('office_type');
          $this->data['info'] = $this->General_setting_model->get_info('committee_type', $id);
 
       // Load page
@@ -1884,7 +1882,7 @@ function proficiency_badge_group_delete($id) {
         // $this->data['badge_type'] = $this->Common_model->get_badge_type();
 
         // Load page
-    $this->data['meta_title'] = 'Create Progress Course';
+    $this->data['meta_title'] = 'Create Proficiency Badge';
     $this->data['subview'] = 'progress_course_add';
     $this->load->view('backend/_layout_main', $this->data);
  }
@@ -1919,7 +1917,7 @@ $this->data['badge_type'] = $this->Common_model->get_badge_type();
 $this->data['info'] = $this->General_setting_model->get_info('scout_progress_course',$id);
 
         // Load page
-$this->data['meta_title'] = 'Edit Progress Course';
+$this->data['meta_title'] = 'Edit Proficiency Badge';
 $this->data['subview'] = 'progress_course_edit';
 $this->load->view('backend/_layout_main', $this->data);
 }
@@ -2126,7 +2124,7 @@ public function scout_expertness_group_add(){
         $form_data = array(
          'is_delete' => 1
          );
-        $this->data['info'] = $this->Common_model->edit('department',$id,'id',$form_data);
+        $this->data['info'] = $this->Common_model->edit('departments',$id,'id',$form_data);
         /***********Activity Logs Start**********/
         func_activity_log(3, 'department delete ID :'.$id); //1=C, 2=U, 3=D, 4=V, 5=G ,A = 6
         /***********Activity Logs End**********/

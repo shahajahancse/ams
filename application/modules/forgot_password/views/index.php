@@ -3,17 +3,17 @@
   -o-background-size: cover;
   background-size: cover;">
   <div class="container">
-    <div class="row login-container login_register column-seperation">  
-      <?php 
+    <div class="row login-container login_register column-seperation">
+      <?php
       $attributes = array('id' => 'login_validate');
-      echo form_open("forgot-password", $attributes); 
+      echo form_open("forgot-password", $attributes);
       ?>
-      <div class="col-md-4 col-sm-6 col-sm-offset-3 col-md-offset-4 box_reg"> 
-        <h4 class="box_title">Inventeory (BCCT)</h4>
+      <div class="col-md-4 col-sm-6 col-sm-offset-3 col-md-offset-4 box_reg">
+        <h4 class="box_title">(AMS)</h4>
         <img src="<?=base_url('awedget/assets/img/govt-logo.png');?>" class="box_img img-responsive"  width="50">
         <h4 class="box_title">Forgot Password</h4>
         <div id="infoMessage"><?php echo $message;?></div>
-        
+
         <div class="row">
           <div class="col-md-12" style="margin-top: 15px; margin-bottom: 10px;">
             <label>Put your email or username</label>

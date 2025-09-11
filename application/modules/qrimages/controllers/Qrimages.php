@@ -27,6 +27,7 @@ class Qrimages extends Backend_Controller {
 				$data['img_url']=$qr_image;	
 			}
 		}
-		$this->load->view('qrcode',$data);
+		$this->data['subview'] = 'qrimages/qrcode';
+		$this->load->view('backend/_layout_main', $this->data);
 	}
 }

@@ -5,7 +5,7 @@ class Excel_import extends Backend_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		$this->load->model('excel_import_model');
+		$this->load->model('excel_import/excel_import_model');
 		$this->load->library('excel');
 
 		if(!$this->ion_auth->logged_in()){
@@ -17,7 +17,8 @@ class Excel_import extends Backend_Controller
 
 	function index()
 	{
-		$this->load->view('excel_import');
+		$this->data['subview'] = 'excel_import/excel_import';
+		$this->load->view('backend/_layout_main', $this->data);
 	}
 
 	// Import upazila name english

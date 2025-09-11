@@ -136,6 +136,14 @@
                      <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_rejected_excel" class="btn btn-info btn-cons"> Rejected User Excel </button>
                      <button type="submit" onclick="return validFunc()" value="user_delivered_excel" class="btn btn-info btn-cons" name="btnsubmit" > Delivered User Excel </button>
                   </fieldset>
+                  <!-- Asset Management Reports -->
+                  <fieldset class="col-md-12">
+                     <legend>Asset Management Reports</legend>
+                     <button type="submit" name="btnsubmit" value="asset_register_report" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Asset Register Report </button>
+                     <button type="submit" name="btnsubmit" value="depreciation_schedule_report" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Depreciation Schedule Report </button>
+                     <button type="submit" name="btnsubmit" value="disposal_gain_loss_report" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Disposal Gain/Loss Report </button>
+                     <button type="submit" name="btnsubmit" value="asset_movement_history_report" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Asset Movement History Report </button>
+                  </fieldset>
                   <div class="clearfix"></div>
                   <?php form_close(); ?>
                </div> <!-- /grid-body -->

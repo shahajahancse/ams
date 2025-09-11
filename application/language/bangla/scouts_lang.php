@@ -103,9 +103,9 @@ $lang['site_complain_feedback_details'] =  'প্রতিক্রিয়া
 
 
 
-$lang['site_meta_title'] = 'BCCT';
+$lang['site_meta_title'] = 'AMS';
 
-$lang['site_title'] = 'BCCT';
+$lang['site_title'] = 'AMS';
 
 $lang['site_service_list'] =  'সার্ভিস সমূহ';
 $lang['site_service_traking'] =  'সার্ভিস ট্রেকিং';
@@ -208,8 +208,8 @@ $lang['site_user_manual_login'] =  'ইউজার ম্যানুয়াল 
 
 
 //===========================news====================================
- $lang['site_news'] =  'স্কাউট সংবাদ';	
- $lang['site_news_no'] =  'নং';	
+ $lang['site_news'] =  'স্কাউট সংবাদ';
+ $lang['site_news_no'] =  'নং';
  $lang['site_news_heading'] =  'সংবাদ শিরোনাম';
  $lang['site_news_date'] =  'তারিখ';
  $lang['site_news_detailss'] =  'বিস্তারিত';
@@ -217,14 +217,14 @@ $lang['site_user_manual_login'] =  'ইউজার ম্যানুয়াল 
 
 //===========================news details====================================
 
- $lang['site_news_details_title'] =  'নিউজ শিরোনাম';	
+ $lang['site_news_details_title'] =  'নিউজ শিরোনাম';
  $lang['site_news_details_date'] =  'প্রকাশের তারিখ';
  $lang['site_news_details'] =  'সংবাদ বিবরণ';
 
 
 //===========================Events====================================
 
- $lang['site_events_no'] =  'নং';	
+ $lang['site_events_no'] =  'নং';
  $lang['site_events_title'] =  'ইভেন্ট শিরোনাম';
  $lang['site_events_venue'] =  'স্থান';
  $lang['site_events_type'] =  'ইভেন্টের ধরণ';
@@ -236,7 +236,7 @@ $lang['site_user_manual_login'] =  'ইউজার ম্যানুয়াল 
 
   //===========================Events details====================================
 
- $lang['site_event_details_title'] =  'ইভেন্ট শিরোনাম';	
+ $lang['site_event_details_title'] =  'ইভেন্ট শিরোনাম';
  $lang['site_event_details_venue'] =  'ইভেন্ট ভেন্যু';
  $lang['site_event_details_type'] =  'ইভেন্টের ধরণ';
  $lang['site_event_details_date'] =  'তারিখ হইতে';

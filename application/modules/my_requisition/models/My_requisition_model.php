@@ -35,7 +35,7 @@ class My_requisition_model extends CI_Model {
       $this->db->select('r.*, u.first_name, dp.dept_name, dg.desig_name, f.fiscal_year_name');
       $this->db->from('item_requisitions r');
       $this->db->join('users u', 'u.id = r.user_id', 'LEFT');
-      $this->db->join('department dp', 'dp.id = u.dept_id', 'LEFT');
+      $this->db->join('departments dp', 'dp.id = u.dept_id', 'LEFT');
       $this->db->join('designation dg', 'dg.id = u.desig_id', 'LEFT');
       $this->db->join('fiscal_year f', 'f.id = r.f_year_id', 'LEFT');
       $this->db->where('r.id', $id);

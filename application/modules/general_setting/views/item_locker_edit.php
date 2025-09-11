@@ -31,11 +31,11 @@
                 <div class="col-md-4">
                   <?php $cats = $this->db->get('item_categories')->result();?>
                   <label class="form-label">Category <span style="color:red">*</span></label>
-                  <?php echo form_error('cat_id'); ?>
-                  <select name="cat_id" onchange="SubCat(this.value)" class="form-control input-sm">
+                  <?php echo form_error('category_id'); ?>
+                  <select name="category_id" onchange="SubCat(this.value)" class="form-control input-sm">
                     <option value="">select one</option>
                     <?php foreach ($cats as $key => $cr) { ?>
-                      <option <?= $info->cat_id == $cr->id? 'selected':'' ?> value="<?= $cr->id ?>"><?= $cr->category_name ?></option>
+                      <option <?= $info->category_id == $cr->id? 'selected':'' ?> value="<?= $cr->id ?>"><?= $cr->category_name ?></option>
                     <?php } ?>
                   </select>
                 </div>

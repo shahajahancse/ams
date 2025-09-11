@@ -1253,7 +1253,7 @@ class SVG
 			$col = $this->mpdf_ref->ConvertColor($critere_style['color']);
 			if ($col) {
 				if ($col{0} == 5) {
-					$critere_style['fill-opacity'] = ord($col{4} / 100);
+					$critere_style['fill-opacity'] = ord($col[4] / 100);
 				} // RGBa
 				if ($col{0} == 6) {
 					$critere_style['fill-opacity'] = ord($col{5} / 100);
@@ -1265,7 +1265,7 @@ class SVG
 			$col = $this->mpdf_ref->ConvertColor($critere_style['fill']);
 			if ($col) {
 				if ($col{0} == 5) {
-					$critere_style['fill-opacity'] = ord($col{4} / 100);
+					$critere_style['fill-opacity'] = ord($col[4] / 100);
 				} // RGBa
 				if ($col{0} == 6) {
 					$critere_style['fill-opacity'] = ord($col{5} / 100);
@@ -1295,7 +1295,7 @@ class SVG
 			$col = $this->mpdf_ref->ConvertColor($critere_style['color']);
 			if ($col) {
 				if ($col{0} == 5) {
-					$critere_style['stroke-opacity'] = ord($col{4} / 100);
+					$critere_style['stroke-opacity'] = ord($col[4] / 100);
 				} // RGBa
 				if ($col{0} == 6) {
 					$critere_style['stroke-opacity'] = ord($col{5} / 100);
@@ -1311,7 +1311,7 @@ class SVG
 				// mPDF 5.0.051
 				// mPDF 5.3.74
 				if ($col{0} == 5) {
-					$critere_style['stroke-opacity'] = ord($col{4} / 100);
+					$critere_style['stroke-opacity'] = ord($col[4] / 100);
 				} // RGBa
 				if ($col{0} == 6) {
 					$critere_style['stroke-opacity'] = ord($col{5} / 100);
@@ -3009,13 +3009,13 @@ class SVG
 						$col = $svg_class->mpdf_ref->ConvertColor('#000000');
 					} // In case "transparent" or "inherit" returned
 					if ($col{0} == 3 || $col{0} == 5) { // RGB
-						$color_final = sprintf('%.3F %.3F %.3F', ord($col{1}) / 255, ord($col{2}) / 255, ord($col{3}) / 255);
+						$color_final = sprintf('%.3F %.3F %.3F', ord($col[1]) / 255, ord($col{2}) / 255, ord($col{3}) / 255);
 						$svg_class->svg_gradient[$last_gradid]['colorspace'] = 'RGB';
-					} else if ($col{0} == 4 || $col{0} == 6) { // CMYK
-						$color_final = sprintf('%.3F %.3F %.3F %.3F', ord($col{1}) / 100, ord($col{2}) / 100, ord($col{3}) / 100, ord($col{4}) / 100);
+					} else if ($col[0] == 4 || $col[0] == 6) { // CMYK
+						$color_final = sprintf('%.3F %.3F %.3F %.3F', ord($col[1]) / 100, ord($col[2]) / 100, ord($col[3]) / 100, ord($col[4]) / 100);
 						$svg_class->svg_gradient[$last_gradid]['colorspace'] = 'CMYK';
-					} else if ($col{0} == 1) { // Grayscale
-						$color_final = sprintf('%.3F', ord($col{1}) / 255);
+					} else if ($col[0] == 1) { // Grayscale
+						$color_final = sprintf('%.3F', ord($col[1]) / 255);
 						$svg_class->svg_gradient[$last_gradid]['colorspace'] = 'Gray';
 					}
 
@@ -3024,8 +3024,8 @@ class SVG
 						$stop_opacity = $m[1];
 					} else if (isset($attribs['stop-opacity'])) {
 						$stop_opacity = $attribs['stop-opacity'];
-					} else if ($col{0} == 5) { // RGBa
-						$stop_opacity = ord($col{4} / 100);
+					} else if ($col[0] == 5) { // RGBa
+						$stop_opacity = ord($col[4] / 100);
 					} else if ($col{0} == 6) { // CMYKa
 						$stop_opacity = ord($col{5} / 100);
 					}

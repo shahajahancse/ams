@@ -9,11 +9,11 @@ class Site extends Frontend_Controller {
 		parent::__construct();
       $this->userSessID = $this->session->userdata('user_id');
       $this->img_path = realpath(APPPATH . '../uploads/identity_docs');
-      // print_r($this->session->all_userdata());   
+      // print_r($this->session->all_userdata());
       // print_r($this->lang);
-      // $this->load->model('dashboard/Dashboard_model'); 
-      // $this->load->model('offices/Offices_model'); 
-   } 
+      // $this->load->model('dashboard/Dashboard_model');
+      // $this->load->model('offices/Offices_model');
+   }
 
    public function index(){
       $this->data['meta_title'] = 'Home';
@@ -33,9 +33,9 @@ class Site extends Frontend_Controller {
       if (!$this->ion_auth->logged_in()){
          redirect('/');
       }
-      
+
       // print_r($user);
-      // print_r($this->session->all_userdata()); 
+      // print_r($this->session->all_userdata());
 
       //Validation
       $this->form_validation->set_rules('title', 'title','required|trim|max_length[255]');
@@ -60,7 +60,7 @@ class Site extends Frontend_Controller {
             );
 
          // print_r($form_data); exit;
-         if($this->Common_model->save('appointment', $form_data)){           
+         if($this->Common_model->save('appointment', $form_data)){
             $this->session->set_flashdata('success', 'Create schedule successfully.');
             redirect("my-appointment");
          }
@@ -73,7 +73,7 @@ class Site extends Frontend_Controller {
       $this->data['meta_title'] = 'Create Appointment';
       $this->data['subview'] = 'create_appointment';
       $this->load->view('frontend/_layout_main', $this->data);
-   }  
+   }
 
    public function my_appointment(){
       if (!$this->ion_auth->logged_in()){
@@ -91,11 +91,11 @@ class Site extends Frontend_Controller {
 
    public function appointment_details($id){
       if (!$this->ion_auth->logged_in()){
-         redirect('/');         
+         redirect('/');
       }
 
       $dataID = (int) decrypt_url($id); //exit;
-      if (!$this->Common_model->exists('appointment', 'id', $dataID)) { 
+      if (!$this->Common_model->exists('appointment', 'id', $dataID)) {
          show_404('appointment - delete - exitsts', TRUE);
       }
 
@@ -112,7 +112,7 @@ class Site extends Frontend_Controller {
       if (!$this->ion_auth->logged_in()){
          redirect('/');
       }
-      
+
       // Result
       $this->data['info'] = $this->ion_auth->user()->row();
 
@@ -122,12 +122,7 @@ class Site extends Frontend_Controller {
       $this->load->view('frontend/_layout_main', $this->data);
    }
 
-   public function registration(){     
-      //echo strlen('Congratulations! You have successfully registered with the BCCT Digital Schedule System. Please check mail for account activation. '); 
-      //echo $name = ucwords('a mosrafa');
-      //$mailBody = "Dear ".$name.", \r\n\r\n Welcome to BCCT \r\n Thanks your for registration with us. \r\n\r\n If you want to get appointment please login to your account. \r\n\r\n\r\n\r\n Thank You!"; 
-      // Send Mail
-      //$this->send_mail($mailBody); 
+   public function registration(){
 
       if ($this->ion_auth->logged_in()){
          redirect('dashboard');
@@ -206,11 +201,11 @@ class Site extends Frontend_Controller {
       if ($this->form_validation->run() == true && $this->ion_auth->register($identity, $password, $email, $additional_data)){
          // Send Message
          $mobile = '+88'.$this->input->post('phone');
-         $message = 'Congratulations! You have successfully registered with the BCCT Digital Schedule System. Please check your mail for BCCT account activation link.';
+         $message = 'Congratulations! You have successfully registered with the AMS Digital Schedule System. Please check your mail for AMS account activation link.';
          // $this->send_sms($mobile, $message);
 
          // Send Mail
-         //$this->send_mail(); 
+         //$this->send_mail();
 
          // check to see if we are creating the user
          // redirect them back to the admin page
@@ -237,7 +232,7 @@ class Site extends Frontend_Controller {
          //    'value' => $this->form_validation->set_value('identity'),
          //    'style' => 'text-transform: lowercase;',
          //    'required' => 'required',
-         //    );  
+         //    );
 
          $this->data['identity'] = array(
             'name'   => 'email',
@@ -298,7 +293,7 @@ class Site extends Frontend_Controller {
       }catch(Exception $ex){
          $output = "-100";
       }
-      return $output; 
+      return $output;
    }
 
    public function send_mail($mailBody){
@@ -318,15 +313,15 @@ class Site extends Frontend_Controller {
       $config['charset']      = 'utf-8';
       $config['newline']      = "\r\n";
       $config['mailtype']     = 'text'; // or html
-      $config['validation']   = TRUE; // bool whether to validate email or not      
+      $config['validation']   = TRUE; // bool whether to validate email or not
 
       $this->email->initialize($config);
 
       $this->email->from('mostafa@mysoftheaven.com', 'Digital Schedule');
-      $this->email->to('mostafa.csit@gmail.com'); 
+      $this->email->to('mostafa.csit@gmail.com');
 
       $this->email->subject('Account Verification - Digiatal Schedule');
-      $this->email->message($mailBody);  
+      $this->email->message($mailBody);
 
       // Send Mail
       $this->email->send();
@@ -382,14 +377,14 @@ class Site extends Frontend_Controller {
                'class' => 'form-control',
                'placeholder' => 'Email address',
                'value' => $this->form_validation->set_value('identity'),
-               );          
+               );
             $this->data['password'] = array('name' => 'password',
                'type' => 'password',
                'id'   => 'password-field',
                'class' => 'form-control',
                'placeholder' => 'Password',
                );
-            
+
             //view
             $this->data['meta_title'] = 'Login';
             $this->data['subview'] = 'login';
@@ -459,16 +454,16 @@ class Site extends Frontend_Controller {
 
       //    // echo $this->email->print_debugger();
       //    redirect('contact-us');
-      // }      
+      // }
 
-      public function success(){   
-         $this->data['meta_title'] = 'Feedback Form';        
+      public function success(){
+         $this->data['meta_title'] = 'Feedback Form';
          $this->data['subview'] = 'success';
          $this->load->view('frontend/_layout_main', $this->data);
-      } 
+      }
 
       public function not_found(){
-         $this->data['meta_title'] = 'Not found';        
+         $this->data['meta_title'] = 'Not found';
          $this->data['subview'] = 'not_found';
          $this->load->view('not_found', $this->data);
       }
@@ -493,17 +488,17 @@ class Site extends Frontend_Controller {
          } else {
             return TRUE;
          }
-      } 
+      }
 
       public function file_check($str){
          $this->load->helper('file');
          $allowed_mime_type_arr = array('image/jpeg','image/png','image/x-png');
          $mime = get_mime_by_extension($_FILES['userfile']['name']);
-         $file_size = 524288; 
+         $file_size = 524288;
          $size_kb = '512 KB';
 
          if(isset($_FILES['userfile']['name']) && $_FILES['userfile']['name']!=""){
-            if(!in_array($mime, $allowed_mime_type_arr)){                
+            if(!in_array($mime, $allowed_mime_type_arr)){
                $this->form_validation->set_message('file_check', 'Please select only jpg, jpeg, png file.');
                return false;
             }elseif($_FILES["userfile"]["size"] > $file_size){
