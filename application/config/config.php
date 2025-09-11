@@ -1,6 +1,6 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
-include_once APPPATH.'/third_party/mpdf/mpdf.php';
+include_once APPPATH.'third_party/mpdf/mpdf.php';
 
 $config['modules_locations'] = array(
     APPPATH.'modules/' => '../modules/',
