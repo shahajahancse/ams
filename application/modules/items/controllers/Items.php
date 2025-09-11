@@ -12,6 +12,7 @@ class Items extends Backend_Controller {
       $this->load->model('Common_model');
       $this->load->model('Items_model');
       $this->load->model('custom_fields/custom_fields_model');
+      $this->load->model('cbs_integration/Cbs_integration_model', 'cbs_model');
    }
 
    public function index(){
@@ -43,6 +44,10 @@ class Items extends Backend_Controller {
       $this->form_validation->set_rules('floor_id', 'floor', 'trim');
       $this->form_validation->set_rules('room_id', 'room', 'trim');
 
+      $this->form_validation->set_rules('depreciation_method', 'depreciation method', 'trim');
+      $this->form_validation->set_rules('useful_life', 'useful life', 'integer|trim');
+      $this->form_validation->set_rules('salvage_value', 'salvage value', 'numeric|trim');
+
 
       //Validate and input data
       if ($this->form_validation->run() == true){
@@ -59,6 +64,7 @@ class Items extends Backend_Controller {
             // New fields
             'acquisition_date' => $this->input->post('acquisition_date'),
             'cost'             => $this->input->post('cost'),
+            'book_value'       => $this->input->post('cost'),
             'supplier_id'      => $this->input->post('supplier_id'),
             'serial_number'    => $this->input->post('serial_number'),
             'warranty_months'  => $this->input->post('warranty_months'),
@@ -67,11 +73,15 @@ class Items extends Backend_Controller {
             'branch_id'        => $this->input->post('branch_id'),
             'department_id'    => $this->input->post('department_id'),
             'floor_id'         => $this->input->post('floor_id'),
-            'room_id'          => $this->input->post('room_id')
+            'room_id'          => $this->input->post('room_id'),
+            'depreciation_method' => $this->input->post('depreciation_method'),
+            'useful_life' => $this->input->post('useful_life'),
+            'salvage_value' => $this->input->post('salvage_value')
          );
 
          if($this->Common_model->save('items', $form_data)){
             $insert_id = $this->db->insert_id();
+            $this->cbs_model->generate_capitalization_journal_entry($insert_id);
             if ($this->ion_auth->in_group(array('do', 'sm'))) {
                $data = array(
                   'unit_id'        => $this->session->userdata('unit_id'),
@@ -188,6 +198,9 @@ class Items extends Backend_Controller {
       $this->form_validation->set_rules('department_id', 'department', 'trim');
       $this->form_validation->set_rules('floor_id', 'floor', 'trim');
       $this->form_validation->set_rules('room_id', 'room', 'trim');
+      $this->form_validation->set_rules('depreciation_method', 'depreciation method', 'trim');
+      $this->form_validation->set_rules('useful_life', 'useful life', 'integer|trim');
+      $this->form_validation->set_rules('salvage_value', 'salvage value', 'numeric|trim');
 
 
       if ($this->form_validation->run() == true){
@@ -204,6 +217,7 @@ class Items extends Backend_Controller {
             // New fields
             'acquisition_date' => $this->input->post('acquisition_date'),
             'cost'             => $this->input->post('cost'),
+            'book_value'       => $this->input->post('cost'),
             'supplier_id'      => $this->input->post('supplier_id'),
             'serial_number'    => $this->input->post('serial_number'),
             'warranty_months'  => $this->input->post('warranty_months'),
@@ -212,7 +226,10 @@ class Items extends Backend_Controller {
             'branch_id'        => $this->input->post('branch_id'),
             'department_id'    => $this->input->post('department_id'),
             'floor_id'         => $this->input->post('floor_id'),
-            'room_id'          => $this->input->post('room_id')
+            'room_id'          => $this->input->post('room_id'),
+            'depreciation_method' => $this->input->post('depreciation_method'),
+            'useful_life' => $this->input->post('useful_life'),
+            'salvage_value' => $this->input->post('salvage_value')
          );
 
          if($this->Common_model->edit('items', $dataID, 'id', $form_data)){
@@ -445,9 +462,6 @@ class Items extends Backend_Controller {
       }
 
       // Insert stock details
-      if (empty($qty)) {
-         continue;
-      }
       $data = array(
          'unit_id' => $unit_id,
          'item_id' => $id,
@@ -611,9 +625,10 @@ class Items extends Backend_Controller {
         // Set headers
         $headers = [
             'ID', 'Item Name', 'Description', 'Division ID', 'Category ID', 'Sub Category ID',
-            'Unit ID', 'Type', 'Order Level', 'Status', 'Acquisition Date', 'Cost',
+            'Unit ID', 'Type', 'Order Level', 'Status', 'Acquisition Date', 'Cost', 'Book Value',
             'Supplier ID', 'Serial Number', 'Warranty Months', 'Custodian ID',
-            'Asset Status', 'Branch ID', 'Department ID', 'Floor ID', 'Room ID'
+            'Asset Status', 'Branch ID', 'Department ID', 'Floor ID', 'Room ID',
+            'Depreciation Method', 'Useful Life', 'Salvage Value', 'Disposal Date', 'Disposal Type', 'Sale Proceeds'
         ];
         $col = 0;
         foreach ($headers as $header) {
@@ -646,6 +661,12 @@ class Items extends Backend_Controller {
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->department_id);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->floor_id);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->room_id);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->depreciation_method);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->useful_life);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->salvage_value);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->disposal_date);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->disposal_type);
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->sale_proceeds);
             $row++;
         }
 

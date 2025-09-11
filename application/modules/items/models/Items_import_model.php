@@ -10,95 +10,63 @@ class Items_import_model extends CI_Model {
     }
 
     public function import_assets($file_path) {
-        $file_extension = pathinfo($file_path, PATHINFO_EXTENSION);
+        try {
+            $objPHPExcel = PHPExcel_IOFactory::load($file_path);
+            $sheet = $objPHPExcel->getActiveSheet();
+            $highestRow = $sheet->getHighestRow();
+            $highestColumn = $sheet->getHighestColumn();
 
-        if ($file_extension == 'csv') {
-            $reader = new PHPExcel_Reader_CSV();
-        } else {
-            $reader = PHPExcel_IOFactory::createReaderForFile($file_path);
-        }
+            $this->db->trans_start(); // Start transaction
 
-        $reader->setReadDataOnly(TRUE);
-        $objPHPExcel = $reader->load($file_path);
-        $worksheet = $objPHPExcel->getActiveSheet();
-        $highestRow = $worksheet->getHighestRow();
-        $highestColumn = $worksheet->getHighestColumn();
+            for ($row = 2; $row <= $highestRow; $row++) { // Assuming header is in row 1
+                $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
+                
+                // Map columns based on the bulk_export headers
+                // 'ID', 'Item Name', 'Description', 'Division ID', 'Category ID', 'Sub Category ID',
+                // 'Unit ID', 'Type', 'Order Level', 'Status', 'Acquisition Date', 'Cost',
+                // 'Supplier ID', 'Serial Number', 'Warranty Months', 'Custodian ID',
+                // 'Asset Status', 'Branch ID', 'Department ID', 'Floor ID', 'Room ID',
+                // 'depreciation_method', 'useful_life', 'salvage_value'
 
-        $imported_count = 0;
-        $updated_count = 0;
-        $errors = [];
-
-        // Assuming the first row is the header
-        $header = $worksheet->rangeToArray('A1:' . $highestColumn . '1', NULL, TRUE, FALSE)[0];
-        $header = array_map('trim', $header);
-        $header = array_map('strtolower', $header);
-        $header = array_map(function($h) { return str_replace(' ', '_', $h); }, $header);
-
-
-        for ($row = 2; $row <= $highestRow; $row++) {
-            $rowData = $worksheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE)[0];
-            $item_data = array_combine($header, $rowData);
-
-            // Map spreadsheet columns to database columns
-            $db_data = [
-                'item_name'         => $item_data['item_name'] ?? null,
-                'description'       => $item_data['item_specification'] ?? null, // Assuming 'item_specification' in file
-                'division_id'       => $item_data['division_id'] ?? null,
-                'cat_id'            => $item_data['category_id'] ?? null, // Assuming 'category_id' in file
-                'sub_cat_id'        => $item_data['sub_category_id'] ?? null, // Assuming 'sub_category_id' in file
-                'unit_id'           => $item_data['unit_id'] ?? null,
-                'type'              => $item_data['type'] ?? null,
-                'order_level'       => $item_data['order_level'] ?? null,
-                'status'            => $item_data['status'] ?? null,
-                'acquisition_date'  => !empty($item_data['acquisition_date']) ? date('Y-m-d', strtotime($item_data['acquisition_date'])) : null,
-                'cost'              => $item_data['cost'] ?? null,
-                'supplier_id'       => $item_data['supplier_id'] ?? null,
-                'serial_number'     => $item_data['serial_number'] ?? null,
-                'warranty_months'   => $item_data['warranty_months'] ?? null,
-                'custodian_id'      => $item_data['custodian_id'] ?? null,
-                'asset_status'      => $item_data['asset_status'] ?? null,
-                'branch_id'         => $item_data['branch_id'] ?? null,
-                'department_id'     => $item_data['department_id'] ?? null,
-                'floor_id'          => $item_data['floor_id'] ?? null,
-                'room_id'           => $item_data['room_id'] ?? null,
-            ];
-
-            // Remove null values to avoid overwriting with null if column is missing
-            $db_data = array_filter($db_data, function($value) { return $value !== null; });
-
-            // Basic validation (you might want more robust validation)
-            if (empty($db_data['item_name'])) {
-                $errors[] = "Row {" . $row . ": Item Name is required.";
-                continue;
+                $item_data = array(
+                    'item_name' => $rowData[0][1], 
+                    'description' => $rowData[0][2], 
+                    'division_id' => $rowData[0][3], 
+                    'cat_id' => $rowData[0][4], 
+                    'sub_cat_id' => $rowData[0][5], 
+                    'unit_id' => $rowData[0][6], 
+                    'type' => $rowData[0][7], 
+                    'order_level' => $rowData[0][8], 
+                    'status' => $rowData[0][9], 
+                    'acquisition_date' => date('Y-m-d', PHPExcel_Shared_Date::ExcelToPHP($rowData[0][10])), 
+                    'cost' => $rowData[0][11], 
+                    'book_value' => $rowData[0][11], // Initial book value is cost
+                    'supplier_id' => $rowData[0][12], 
+                    'serial_number' => $rowData[0][13], 
+                    'warranty_months' => $rowData[0][14], 
+                    'custodian_id' => $rowData[0][15], 
+                    'asset_status' => $rowData[0][16], 
+                    'branch_id' => $rowData[0][17], 
+                    'department_id' => $rowData[0][18], 
+                    'floor_id' => $rowData[0][19], 
+                    'room_id' => $rowData[0][20], 
+                    'depreciation_method' => $rowData[0][21], 
+                    'useful_life' => $rowData[0][22], 
+                    'salvage_value' => $rowData[0][23]
+                );
+                $this->db->insert('items', $item_data);
             }
 
-            // Check if asset already exists (e.g., by serial_number or a unique identifier)
-            $existing_item = null;
-            if (!empty($db_data['serial_number'])) {
-                $existing_item = $this->db->get_where('items', ['serial_number' => $db_data['serial_number']])->row();
-            } elseif (!empty($db_data['item_name'])) { // Fallback if no serial, but less reliable
-                $existing_item = $this->db->get_where('items', ['item_name' => $db_data['item_name']])->row();
-            }
+            $this->db->trans_complete(); // Complete transaction
 
-
-            if ($existing_item) {
-                // Update existing item
-                $this->db->where('id', $existing_item->id);
-                $this->db->update('items', $db_data);
-                $updated_count++;
+            if ($this->db->trans_status() === FALSE) {
+                return array('status' => 'error', 'message' => 'Database transaction failed.');
             } else {
-                // Insert new item
-                $this->db->insert('items', $db_data);
-                $imported_count++;
+                return array('status' => 'success', 'message' => 'Assets imported successfully.');
             }
-        }
 
-        unlink($file_path); // Delete the uploaded file
-
-        if (!empty($errors)) {
-            return ['status' => 'error', 'message' => 'Import completed with errors: ' . implode(', ', $errors)];
-        } else {
-            return ['status' => 'success', 'message' => "Import successful. " . $imported_count . " new assets imported, " . $updated_count . " assets updated."];
+        } catch (Exception $e) {
+            return array('status' => 'error', 'message' => 'Error loading file: ' . $e->getMessage());
         }
     }
 }

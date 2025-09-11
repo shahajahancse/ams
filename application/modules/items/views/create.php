@@ -153,6 +153,24 @@
 
                   <div class="row form-row">
                      <div class="col-md-4">
+                        <label class="form-label">Depreciation Method</label>
+                        <select name="depreciation_method" class="form-control input-sm">
+                           <option value="straight-line">Straight-Line</option>
+                           <option value="wdv">Written Down Value</option>
+                        </select>
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Useful Life (Years)</label>
+                        <input name="useful_life" type="number" value="<?=set_value('useful_life', 5)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Salvage Value</label>
+                        <input name="salvage_value" type="number" step="0.01" value="<?=set_value('salvage_value', 0)?>" class="form-control input-sm">
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-4">
                         <label class="form-label">Asset Status</label>
                         <select name="asset_status" class="form-control input-sm">
                            <option value="In Use">In Use</option>

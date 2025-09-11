@@ -2,7 +2,7 @@
    <div class="content">
       <ul class="breadcrumb" style="margin-bottom: 20px;">
          <li> <a href="<?=base_url('dashboard')?>" class="active"> Dashboard </a> </li>
-         <li> <a href="<?=base_url('disposal')?>" class="active"> <?=$module_title; ?> </a></li>
+         <li> <a href="<?=base_url('cbs_integration')?>" class="active"> <?=$module_title; ?> </a></li>
          <li><?=$meta_title; ?> </li>
       </ul>
 
@@ -17,21 +17,19 @@
                   <table class="table table-hover dataTable table-condensed">
                      <thead>
                         <tr>
-                           <th>Asset ID</th>
-                           <th>Asset Name</th>
-                           <th>Disposal Date</th>
-                           <th>Disposal Type</th>
-                           <th>Sale Proceeds</th>
+                           <th>GL Account</th>
+                           <th>Total Debit</th>
+                           <th>Total Credit</th>
+                           <th>Balance</th>
                         </tr>
                      </thead>
                      <tbody>
-                        <?php foreach ($disposed_assets as $asset): ?>
+                        <?php foreach ($report_data as $row): ?>
                         <tr>
-                           <td><?=$asset->id?></td>
-                           <td><?=$asset->item_name?></td>
-                           <td><?=$asset->disposal_date?></td>
-                           <td><?=$asset->disposal_type?></td>
-                           <td><?=$asset->sale_proceeds?></td>
+                           <td><?=$row['gl_account']?></td>
+                           <td><?=$row['total_debit']?></td>
+                           <td><?=$row['total_credit']?></td>
+                           <td><?=$row['total_debit'] - $row['total_credit']?></td>
                         </tr>
                         <?php endforeach; ?>
                      </tbody>

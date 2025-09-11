@@ -41,6 +41,7 @@
                            <th style="width:10%" class="text-center">Depreciation</th>
                            <th style="width:10%" class="text-center">Disposal</th>
                            <th style="width:10%" class="text-center">Movement</th>
+                           <th style="width:10%" class="text-center">QR Code</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -74,6 +75,9 @@
                               </td>
                               <td class="text-center">
                                  <a href="<?=base_url('asset_movement/record/'.$row->id);?>" class="btn btn-warning btn-xs btn-mini">Movement</a>
+                              </td>
+                              <td class="text-center">
+                                 <a href="<?=base_url('items/generate_qr_code/'.encrypt_url($row->id));?>" class="btn btn-default btn-xs btn-mini" target="_blank">Generate QR</a>
                               </td>
                            </tr>
                            <?php } ?>

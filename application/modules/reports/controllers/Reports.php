@@ -423,23 +423,7 @@ class Reports extends Backend_Controller {
   }
 
    public function asset_register_report(){
-      $this->load->model('Items_model');
-      $this->load->model('Depreciation_model'); // To get accumulated depreciation
-
-      $this->data['results'] = $this->Items_model->get_items(); // This already joins with suppliers and users for custodian
-
-      // For each item, get the latest accumulated depreciation and calculate net book value
-      foreach ($this->data['results'] as $item) {
-          $item->accumulated_depreciation = 0;
-          $item->net_book_value = $item->cost; // Default to cost if no depreciation
-
-          $depreciation_schedule = $this->Depreciation_model->get_depreciation_schedule($item->id);
-          if ($depreciation_schedule) {
-              $latest_depreciation = end($depreciation_schedule);
-              $item->accumulated_depreciation = $latest_depreciation->accumulated_depreciation;
-              $item->net_book_value = $latest_depreciation->net_book_value;
-          }
-      }
+      $this->data['results'] = $this->Reports_model->get_asset_register_data();
 
       $this->data['meta_title'] = 'Asset Register Report';
       $this->data['headding'] = 'Asset Register Report';
@@ -451,15 +435,17 @@ class Reports extends Backend_Controller {
    }
 
    public function depreciation_schedule_report(){
+      $this->load->add_package_path(APPPATH.'modules/depreciation/');
       $this->load->model('Depreciation_model');
+      $this->load->add_package_path(APPPATH.'modules/items/');
       $this->load->model('Items_model'); // To get asset details
 
       $depreciation_parameters = $this->Depreciation_model->get_all_depreciation_parameters();
       $report_data = [];
 
       foreach ($depreciation_parameters as $param) {
-          $asset_info = $this->Items_model->get_info($param->asset_id);
-          $schedule = $this->Depreciation_model->get_depreciation_schedule($param->asset_id);
+          $asset_info = $this->Items_model->get_info($param->id); // Use $param->id as asset_id
+          $schedule = $this->Depreciation_model->get_depreciation_schedule($param->id); // Use $param->id as asset_id
           
           $report_data[] = [
               'asset_info' => $asset_info,
@@ -479,35 +465,21 @@ class Reports extends Backend_Controller {
    }
 
    public function disposal_gain_loss_report(){
+      $this->load->add_package_path(APPPATH.'modules/disposal/');
       $this->load->model('Disposal_model');
-      $this->load->model('Items_model');
-      $this->load->model('Depreciation_model');
+      $this->load->add_package_path(APPPATH.'modules/depreciation/');
+      $this->load->model('Depreciation_model'); // To get accumulated depreciation
 
       $disposals = $this->Disposal_model->get_all_disposals();
       $report_data = [];
 
       foreach ($disposals as $disposal) {
-          $asset_info = $this->Items_model->get_info($disposal->asset_id);
-          $accumulated_depreciation_at_disposal = 0;
-
-          // Get accumulated depreciation up to disposal date
-          $depreciation_schedule = $this->Depreciation_model->get_depreciation_schedule($disposal->asset_id);
-          if ($depreciation_schedule) {
-              foreach ($depreciation_schedule as $sch) {
-                  if ($sch->schedule_date <= $disposal->disposal_date) {
-                      $accumulated_depreciation_at_disposal = $sch->accumulated_depreciation;
-                  } else {
-                      break;
-                  }
-              }
-          }
-
-          $net_book_value = $asset_info->cost - $accumulated_depreciation_at_disposal;
+          $accumulated_depreciation_at_disposal = $this->Depreciation_model->get_accumulated_depreciation_up_to_date($disposal->id, $disposal->disposal_date);
+          $net_book_value = $disposal->cost - $accumulated_depreciation_at_disposal;
           $gain_loss = $disposal->sale_proceeds - $net_book_value;
 
           $report_data[] = [
               'disposal_info' => $disposal,
-              'asset_info' => $asset_info,
               'accumulated_depreciation_at_disposal' => $accumulated_depreciation_at_disposal,
               'net_book_value' => $net_book_value,
               'gain_loss' => $gain_loss
@@ -537,6 +509,44 @@ class Reports extends Backend_Controller {
       $this->data['meta_title'] = 'CBS Journal Entries Report';
       $this->data['headding'] = 'CBS Journal Entries Report';
       $html = $this->load->view('pdf_cbs_journal_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
+
+   public function asset_movement_history_report(){
+      $this->load->model('Reports_model'); // Ensure Reports_model is loaded
+      $this->data['results'] = $this->Reports_model->get_all_movements();
+
+      $this->data['meta_title'] = 'Asset Movement History Report';
+      $this->data['headding'] = 'Asset Movement History Report';
+      $html = $this->load->view('pdf_asset_movement_history_report', $this->data, true);
+      $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
+      $mpdf->WriteHtml($html);
+      $mpdf->output();
+      exit();
+   }
+
+   public function custom_asset_report(){
+      $this->data['meta_title'] = 'Custom Asset Report';
+      $this->data['subview'] = 'custom_asset_report';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function generate_custom_asset_report(){
+      $selected_columns = $this->input->post('columns');
+      if (empty($selected_columns)) {
+          $this->session->set_flashdata('error', 'Please select at least one column.');
+          redirect('reports/custom_asset_report');
+      }
+
+      $this->data['results'] = $this->Reports_model->get_custom_asset_report_data($selected_columns);
+      $this->data['selected_columns'] = $selected_columns;
+
+      $this->data['meta_title'] = 'Custom Asset Report';
+      $this->data['headding'] = 'Custom Asset Report';
+      $html = $this->load->view('pdf_custom_asset_report', $this->data, true);
       $mpdf = new mPDF('', 'A4', 10, '', 10, 10, 10, 5);
       $mpdf->WriteHtml($html);
       $mpdf->output();

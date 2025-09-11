@@ -56,7 +56,7 @@ class Items_model extends CI_Model {
         $this->db->join('departments dept', 'dept.id=i.department_id', 'LEFT'); // Join for department
         $this->db->join('asset_floors floor', 'floor.id=i.floor_id', 'LEFT'); // Join for floor
         $this->db->join('asset_rooms room', 'room.id=i.room_id', 'LEFT'); // Join for room
-        $this->db->join('item_categories c', 'c.id=i.cat_id', 'LEFT');
+        $this->db->join('item_categories c', 'c.id=i.category_id', 'LEFT');
         $this->db->join('item_sub_categories sc', 'sc.id=i.sub_cat_id', 'LEFT');
         $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
         $this->db->join('item_stocks s', 's.item_id=i.id AND s.unit_id = '.$unit_id, 'LEFT', 'LEFT');

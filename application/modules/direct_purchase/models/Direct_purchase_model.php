@@ -56,7 +56,7 @@ class Direct_purchase_model extends CI_Model {
       $this->db->from('purchase_item pi');
       $this->db->join('items i', 'i.id = pi.pur_item_id', 'LEFT');
       $this->db->join('item_unit iu', 'iu.id = i.unit_id', 'LEFT');
-      $this->db->join('categories c', 'c.id = i.cat_id', 'LEFT');
+      $this->db->join('categories c', 'c.id = i.category_id', 'LEFT');
       $this->db->where('pi.purchase_id', $id);
       $query = $this->db->get()->result();
 

@@ -295,10 +295,20 @@
                                 <!-- Report section -->
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
                                     <li class="start <?=backend_activate_menu_class('cbs_integration')?>">
-                                        <a href="<?=base_url('cbs_integration')?>"> <i class="fa fa-exchange"></i><span class="title">CBS Integration</span> </a>
+                                        <a href="javascript:;"> <i class="fa fa-bank"></i><span class="title">CBS Integration</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                                        <ul class="sub-menu">
+                                            <li> <a href="<?=base_url('cbs_integration/gl_account_mapping');?>"> GL Account Mapping </a> </li>
+                                            <li> <a href="<?=base_url('cbs_integration/reconciliation_report');?>"> Reconciliation Report </a> </li>
+                                        </ul>
                                     </li>
-                                    <li class="start <?=backend_activate_menu_class('reports')?>"><a
-                                            href="<?=base_url('reports/index')?>"> <i class="fa fa-th"></i><span class="title">Reports</span> </a>
+                                    <li class="start <?=backend_activate_menu_class('reports')?>"> <a href="javascript:;"> <i class="fa fa-th"></i><span class="title">Reports</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                                        <ul class="sub-menu">
+                                            <li> <a href="<?=base_url('reports/asset_register_report');?>"> Asset Register Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/depreciation_schedule_report');?>"> Depreciation Schedule Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/disposal_gain_loss_report');?>"> Disposal Gain/Loss Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/asset_movement_history_report');?>"> Asset Movement History Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/custom_asset_report');?>"> Custom Asset Report </a> </li>
+                                        </ul>
                                     </li>
                                     <!-- <li class="start <?=activate_menu_method('dynamic_report')?>">
                                         <a href="<?=base_url('reports/dynamic_report')?>"> <i class="fa fa-th"></i><span class="title">Dynamic Report</span> </a>

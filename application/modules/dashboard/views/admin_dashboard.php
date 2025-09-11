@@ -426,17 +426,17 @@
 
                     <div class="col-md-12">
                         <div class="d_card" style="background: #ffebee; color: #b71c1c;">
-                            <h4>Upcoming Depreciations (Next 30 Days)</h4>
+                            <h4>Assets to be Depreciated</h4>
                             <div class="row">
                                 <div class="col-md-12">
                                     <?php if (!empty($upcoming_depreciations)): ?>
                                         <ul>
                                             <?php foreach ($upcoming_depreciations as $dep): ?>
-                                                <li><?=$dep->item_name?> (<?=number_format($dep->depreciation_amount, 2)?> on <?=$dep->schedule_date?>)</li>
+                                                <li><?=$dep->item_name?> (Book Value: <?=number_format($dep->book_value, 2)?>, Useful Life: <?=$dep->useful_life?> years)</li>
                                             <?php endforeach; ?>
                                         </ul>
                                     <?php else: ?>
-                                        <p>No upcoming depreciations.</p>
+                                        <p>No assets to be depreciated.</p>
                                     <?php endif; ?>
                                 </div>
                             </div>

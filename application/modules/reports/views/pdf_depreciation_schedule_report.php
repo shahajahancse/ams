@@ -1,62 +1,60 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title><?=$headding?></title>
+    <title><?=$meta_title?></title>
     <style>
         body { font-family: sans-serif; }
         table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
         th, td { border: 1px solid #000; padding: 8px; text-align: left; }
         th { background-color: #f2f2f2; }
-        h2 { text-align: center; }
-        h3 { margin-top: 20px; }
+        .header { text-align: center; margin-bottom: 20px; }
+        .asset-details { margin-bottom: 10px; }
     </style>
 </head>
 <body>
-    <h2><?=$headding?></h2>
+    <div class="header">
+        <h2><?=$headding?></h2>
+    </div>
 
-    <?php if ($results): ?>
-        <?php foreach ($results as $asset_report): ?>
-            <h3>Asset: <?=$asset_report['asset_info']->item_name?> (ID: <?=$asset_report['asset_info']->id?>)</h3>
-            <p>Method: <?=$asset_report['depreciation_parameters']->method_name?></p>
-            <p>Useful Life: <?php
-    if ($asset_report['depreciation_parameters']->method_name == 'Units of Production Method' && !empty($asset_report['depreciation_parameters']->useful_life_units)) {
-        echo $asset_report['depreciation_parameters']->useful_life_units . ' Units';
-    } else {
-        echo $asset_report['depreciation_parameters']->useful_life_years . ' Years';
-    }
-?></p>
-            <p>Salvage Value: <?=$asset_report['depreciation_parameters']->salvage_value?></p>
-            <p>Start Date: <?=$asset_report['depreciation_parameters']->depreciation_start_date?></p>
+    <?php if (!empty($results)): ?>
+        <?php foreach ($results as $report_item): ?>
+            <div class="asset-details">
+                <h3>Asset: <?=$report_item['asset_info']->item_name?> (ID: <?=$report_item['asset_info']->id?>)</h3>
+                <p>Cost: <?=number_format($report_item['asset_info']->cost, 2)?></p>
+                <p>Salvage Value: <?=number_format($report_item['asset_info']->salvage_value, 2)?></p>
+                <p>Useful Life: <?=$report_item['asset_info']->useful_life?> years</p>
+                <p>Depreciation Method: <?=$report_item['asset_info']->depreciation_method?></p>
+                <p>Acquisition Date: <?=$report_item['asset_info']->acquisition_date?></p>
+            </div>
 
-            <table>
-                <thead>
-                    <tr>
-                        <th>Date</th>
-                        <th>Depreciation Amount</th>
-                        <th>Accumulated Depreciation</th>
-                        <th>Net Book Value</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <?php if ($asset_report['schedule']): ?>
-                        <?php foreach ($asset_report['schedule'] as $entry): ?>
+            <?php if (!empty($report_item['schedule'])): ?>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Month</th>
+                            <th>Depreciation Amount</th>
+                            <th>Accumulated Depreciation</th>
+                            <th>Net Book Value</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php foreach ($report_item['schedule'] as $schedule_entry): ?>
                             <tr>
-                                <td><?=$entry->schedule_date?></td>
-                                <td><?=$entry->depreciation_amount?></td>
-                                <td><?=$entry->accumulated_depreciation?></td>
-                                <td><?=$entry->net_book_value?></td>
+                                <td><?=$schedule_entry['month']?></td>
+                                <td><?=number_format($schedule_entry['depreciation_amount'], 2)?></td>
+                                <td><?=number_format($schedule_entry['accumulated_depreciation'], 2)?></td>
+                                <td><?=number_format($schedule_entry['net_book_value'], 2)?></td>
                             </tr>
                         <?php endforeach; ?>
-                    <?php else: ?>
-                        <tr>
-                            <td colspan="4">No depreciation schedule found for this asset.</td>
-                        </tr>
-                    <?php endif; ?>
-                </tbody>
-            </table>
+                    </tbody>
+                </table>
+            <?php else: ?>
+                <p>No depreciation schedule available for this asset.</p>
+            <?php endif; ?>
+            <hr>
         <?php endforeach; ?>
     <?php else: ?>
-        <p>No assets with depreciation parameters found.</p>
+        <p>No assets found for depreciation schedule report.</p>
     <?php endif; ?>
 </body>
 </html>

@@ -33,7 +33,7 @@ class General_setting extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
    public function item_locker_add(){
-      $this->form_validation->set_rules('cat_id', 'Category', 'required|trim');
+      $this->form_validation->set_rules('category_id', 'Category', 'required|trim');
       $this->form_validation->set_rules('sub_cat', 'Sub Category', 'required|trim');
       $this->form_validation->set_rules('item_id', 'Item Name', 'required|trim');
       $this->form_validation->set_rules('room_no', 'Room No', 'required|trim');
@@ -43,7 +43,7 @@ class General_setting extends Backend_Controller {
          $form_data = array(
             'unit_id'      => $unit_id,
             'item_id'      => $this->input->post('item_id'),
-            'cat_id'       => $this->input->post('cat_id'),
+            'category_id'       => $this->input->post('category_id'),
             'sub_cat_id'   => $this->input->post('sub_cat'),
             'room_no'      => $this->input->post('room_no'),
             'locker_no'    => $this->input->post('locker_no'),
@@ -51,7 +51,7 @@ class General_setting extends Backend_Controller {
          );
 
          if($this->Common_model->save('item_locker_location', $form_data)){
-            $this->session->set_flashdata('success', 'Branch create successfully.');
+            $this->session->set_flashdata('success', 'Item Locker create successfully.');
             redirect('general_setting/item_locker');
          }
       }
@@ -62,7 +62,7 @@ class General_setting extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
    public function item_locker_edit($id){
-      $this->form_validation->set_rules('cat_id', 'Category', 'required|trim');
+      $this->form_validation->set_rules('category_id', 'Category', 'required|trim');
       $this->form_validation->set_rules('sub_cat', 'Sub Category', 'required|trim');
       $this->form_validation->set_rules('item_id', 'Item Name', 'required|trim');
       $this->form_validation->set_rules('room_no', 'Room No', 'required|trim');
@@ -71,7 +71,7 @@ class General_setting extends Backend_Controller {
       if ($this->form_validation->run() == true){
          $form_data = array(
             'item_id'      => $this->input->post('item_id'),
-            'cat_id'       => $this->input->post('cat_id'),
+            'category_id'       => $this->input->post('category_id'),
             'sub_cat_id'   => $this->input->post('sub_cat'),
             'room_no'      => $this->input->post('room_no'),
             'locker_no'    => $this->input->post('locker_no'),
@@ -323,13 +323,13 @@ class General_setting extends Backend_Controller {
    }
 
    public function sub_category_add(){
-      $this->form_validation->set_rules('cate_id', 'select category', 'required|trim');
+      $this->form_validation->set_rules('category_id', 'select category', 'required|trim');
       $this->form_validation->set_rules('sub_cate_name', 'sub category Name', 'required|trim');
 
       if ($this->form_validation->run() == true){
 
          $form_data = array(
-            'cate_id'             => $this->input->post('cate_id'),
+            'category_id'             => $this->input->post('category_id'),
             'sub_cate_name'      => $this->input->post('sub_cate_name')
          );
 
@@ -348,12 +348,12 @@ class General_setting extends Backend_Controller {
    }
    public function sub_category_edit($id){
 
-      $this->form_validation->set_rules('cate_id', 'select category', 'required|trim');
+      $this->form_validation->set_rules('category_id', 'select category', 'required|trim');
       $this->form_validation->set_rules('sub_cate_name', 'sub category Name', 'required|trim');
 
       if ($this->form_validation->run() == true){
          $form_data = array(
-            'cate_id'             => $this->input->post('cate_id'),
+            'category_id'             => $this->input->post('category_id'),
             'sub_cate_name'      => $this->input->post('sub_cate_name')
          );
          $this->db->where('id', $id);

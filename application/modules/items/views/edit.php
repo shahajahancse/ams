@@ -140,6 +140,24 @@
 
                   <div class="row form-row">
                      <div class="col-md-4">
+                        <label class="form-label">Depreciation Method</label>
+                        <select name="depreciation_method" class="form-control input-sm">
+                           <option value="straight-line" <?=($info->depreciation_method == 'straight-line') ? 'selected' : ''?>>Straight-Line</option>
+                           <option value="wdv" <?=($info->depreciation_method == 'wdv') ? 'selected' : ''?>>Written Down Value</option>
+                        </select>
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Useful Life (Years)</label>
+                        <input name="useful_life" type="number" value="<?=set_value('useful_life', $info->useful_life)?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Salvage Value</label>
+                        <input name="salvage_value" type="number" step="0.01" value="<?=set_value('salvage_value', $info->salvage_value)?>" class="form-control input-sm">
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-4">
                         <label class="form-label">Asset Status</label>
                         <select name="asset_status" class="form-control input-sm">
                            <option value="In Use" <?=set_value('asset_status', $info->asset_status) == 'In Use' ? 'selected' : ''?>>In Use</option>
