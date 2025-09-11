@@ -5,7 +5,7 @@
     <meta charset="utf-8" />
     <meta http-equiv="content-type" content="text/html;charset=UTF-8" />
     <link rel="icon" type="image/ico" href="<?=base_url('awedget/assets/img/favicon.ico');?>" />
-    <title><?=$meta_title?> | BFRI </title>
+    <title><?=$meta_title?> | AMS </title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <link href="<?=base_url();?>awedget/assets/plugins/pace/pace-theme-flash.css" rel="stylesheet" type="text/css"
         media="screen" />
@@ -156,43 +156,6 @@
                                 <li class="start <?=backend_activate_menu_class('dashboard')?>">
                                     <a href="<?=base_url('dashboard');?>"> <i class="icon-custom-home"></i> <span class="title">Asset Dashboard</span></a>
                                 </li>
-
-                                <!-- My Requisition section -->
-                                <?php /*
-                                <li class="start <?=backend_activate_menu_class('my_requisition')?>">
-                                    <a href="<?=base_url('my_requisition');?>"> <i class="fa fa-tag"></i> <span class="title">My Requisition</span> <span class="badge badge-danger pull-right"><?=$user_ntfy?></span></a>
-                                </li>
-                                */ ?>
-
-                                <?php /*
-                                <?php
-                                    if ($this->ion_auth->in_group(array('sm'))) {
-                                       $nt = $req_ntfy->sm + $req_ntfy->apv;
-                                    } elseif ($this->ion_auth->in_group(array('do'))) {
-                                       $nt = $req_ntfy->do;
-                                    } else {
-                                       $nt = 0;
-                                    }
-                                ?>
-
-                                <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
-                                <li class="start <?=backend_activate_menu_class('requisition')?>"> <a href="javascript:;"><i class="fa fa-tags"></i> <span class="title">Requisition</span> <span class="selected"></span> <span class="badge badge-danger pull-right"><?=$nt?></span> <span class="arrow"></span> </a>
-                                    <ul class="sub-menu">
-                                        <?php if ($this->ion_auth->in_group(array('sm'))) { ?>
-                                        <li> <a href="<?=base_url('requisition/request_list');?>">Pending  List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$req_ntfy->sm?></span></a></li>
-                                        <li> <a href="<?=base_url('requisition/approve_list');?>">Approved List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$req_ntfy->apv?></span></a> </li>
-                                        <?php } else { ?>
-                                        <li> <a href="<?=base_url('requisition/request_list');?>">Pending  List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$nt?></span></a></li>
-                                        <li> <a href="<?=base_url('requisition/approve_list');?>">Approved List </a> </li>
-                                        <?php } ?>
-
-                                        <li> <a href="<?=base_url('requisition/rejected_list');?>">Rejected List </a> </li>
-                                        <li> <a href="<?=base_url('requisition/delivered_list');?>">Delivered List </a> </li>
-                                    </ul>
-                                </li>
-                                <?php } ?>
-                                */ ?>
-
                                 <!-- Purchase section -->
                                 <?php
                                     if ($this->ion_auth->in_group(array('sm'))) {
@@ -207,112 +170,37 @@
                                     $unit_id = $this->session->userdata('unit_id');
                                 ?>
 
-                                <!-- Direct Purchase section -->
-                                <?php /*
-                                <?php if($this->ion_auth->in_group(array('admin','sm','do'))){ ?>
-                                <li class="start <?=backend_activate_menu_class('direct_purchase')?>">
-                                    <a href="<?=base_url('direct_purchase');?>"> <i class="fa fa-tag"></i> <span class="title"> Direct Purchase</span></a>
-                                </li>
-                                <?php } ?>
-                                */ ?>
-
-                                <!-- Purchase section -->
-                                <?php /*
-                                <?php if($this->ion_auth->in_group(array('admin','sm','do'))){ ?>
-                                <li class="start <?=backend_activate_menu_class('purchase')?>"> <a href="javascript:;"><i class="fa fa-tags"></i> <span class="title">Purchase</span> <span class="selected"></span> <span class="badge badge-danger pull-right"><?=$pn + $per_ntfy->ret?></span> <span class="arrow"></span> </a>
-                                    <ul class="sub-menu">
-                                        <li> <a href="<?=base_url('purchase');?>"> Purchase List </a> </li>
-
-                                        <?php if($this->ion_auth->in_group(array('sm'))){ ?>
-                                        <li> <a href="<?=base_url('purchase/purchase_pending');?>">Pending List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$per_ntfy->sm + $per_ntfy->sm2;?></span></a> </li>
-                                        <li> <a href="<?=base_url('purchase/purchase_approved');?>">Approved List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$per_ntfy->sm1;?></span></a> </li>
-                                        <?php } else { ?>
-                                        <li> <a href="<?=base_url('purchase/purchase_pending');?>">Pending List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$pn?></span></a> </li>
-                                        <li> <a href="<?=base_url('purchase/purchase_approved');?>">Approved List </a> </li>
-                                        <?php } ?>
-                                        <li> <a href="<?=base_url('purchase/purchase_rejected');?>">Rejected List </a> </li>
-                                        <li> <a href="<?=base_url('purchase/purchase_received');?>">Received List </a> </li>
-                                        <li> <a href="<?=base_url('purchase/return_list');?>">Return List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$per_ntfy->ret;?></span> </a> </li>
-                                    </ul>
-                                </li>
-                                <?php } ?>
-                                */ ?>
-
-                                <!-- Stock In section -->
-                                <?php /*
-                                <?php
-                                    $pn1 = 0;
-                                    if (in_array($unit_id, array(2,3,4)) && $this->ion_auth->in_group(array('sm'))) {
-                                        $pn = $stk_ntfy->div_sm;
-                                        $pn1 = $stk_ntfy->ds;
-                                    } elseif (in_array($unit_id, array(2,3,4)) && $this->ion_auth->in_group(array('do'))) {
-                                        $pn = $stk_ntfy->div_do;
-                                        $pn1 = $stk_ntfy->ds;
-                                    } elseif ($this->ion_auth->in_group(array('sm'))) {
-                                        $pn = $stk_ntfy->sm + $stk_ntfy->sm1 + $stk_ntfy->sm2;
-                                     } elseif ($this->ion_auth->in_group(array('do'))) {
-                                        $pn = $stk_ntfy->do + $stk_ntfy->do1;
-                                     } else if ($this->ion_auth->in_group(array('admin'))) {
-                                       $pn = $stk_ntfy->dg;
-                                    } else {
-                                       $pn = 0;
-                                    }
-                                ?>
-                                <?php if($this->ion_auth->in_group(array('admin','sm','do'))){ ?>
-                                <li class="start <?=backend_activate_menu_class('stock_in')?>"> <a href="javascript:;"><i class="fa fa-tags"></i> <span class="title">Stock In</span> <span class="selected"></span> <span class="badge badge-danger pull-right"><?=$pn + $pn1?></span> <span class="arrow"></span> </a>
-                                    <ul class="sub-menu">
-                                        <?php if(!in_array($unit_id, array(1,2,3,4))){ ?>
-                                            <li> <a href="<?=base_url('stock_in');?>"> Stock In List </a> </li>
-                                        <?php } ?>
-
-                                        <?php if(!in_array($unit_id, array(1,2,3,4)) && $this->ion_auth->in_group(array('sm'))){ ?>
-                                        <li> <a href="<?=base_url('stock_in/purchase_pending');?>">Pending List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$stk_ntfy->sm + $stk_ntfy->sm2;?></span></a> </li>
-                                        <li> <a href="<?=base_url('stock_in/purchase_approved');?>">Approved List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$stk_ntfy->sm1;?></span></a> </li>
-                                        <?php } else { ?>
-                                        <li> <a href="<?=base_url('stock_in/purchase_pending');?>">Pending List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$pn?></span></a> </li>
-                                        <li> <a href="<?=base_url('stock_in/purchase_approved');?>">Approved List <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$stk_ntfy->ds;?></span></a> </li>
-                                        <?php } ?>
-                                        <li> <a href="<?=base_url('stock_in/purchase_rejected');?>">Rejected List </a> </li>
-                                        <li> <a href="<?=base_url('stock_in/purchase_received');?>">Received List </a> </li>
-                                    </ul>
-                                </li>
-                                <?php } ?>
-                                */ ?>
-
                                 <!-- New Asset Management Sub-menu -->
                                 <li class="start <?=backend_activate_menu_class('depreciation')?> <?=backend_activate_menu_class('disposal')?> <?=backend_activate_menu_class('movement')?>">
                                     <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">Asset Management</span> <span class="selected"></span> <span class="arrow"></span> </a>
                                     <ul class="sub-menu">
-                                        <li> <a href="<?=base_url('depreciation');?>"> Depreciation </a> </li>
-                                        <li> <a href="<?=base_url('disposal');?>"> Disposal </a> </li>
-                                        <li> <a href="<?=base_url('movement');?>"> Movement </a> </li>
-                                        <li> <a href="<?=base_url('qrimages');?>"> Generate Asset Tags </a> </li>
-                                        <li> <a href="<?=base_url('excel_import');?>"> Import Assets </a> </li>
-                                        <li> <a href="<?=base_url('assets/export');?>"> Export Assets </a> </li>
+                                        <li> <a href="<?=base_url('depreciation');?>"><i class="fa fa-info"></i> Depreciation </a> </li>
+                                        <li> <a href="<?=base_url('disposal');?>"><i class="fa fa-plus-square-o"></i> Disposal </a> </li>
+                                        <li> <a href="<?=base_url('movement');?>"> <i class="fa fa-plus-square"></i> Movement </a> </li>
+                                        <li> <a href="<?=base_url('qrimages');?>"><i class="fa fa-tags"></i> Generate Asset Tags </a> </li>
+                                        <li> <a href="<?=base_url('excel_import');?>"> <i class="fa fa-arrow-down"></i> Import Assets </a> </li>
+                                        <li> <a href="<?=base_url('assets/export');?>"> <i class="fa fa-arrow-up"></i> Export Assets </a> </li>
                                     </ul>
                                 </li>
 
                                 <!-- Report section -->
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
                                     <li class="start <?=backend_activate_menu_class('cbs_integration')?>">
-                                        <a href="javascript:;"> <i class="fa fa-bank"></i><span class="title">CBS Integration</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                                        <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">CBS Integration</span> <span class="selected"></span> <span class="arrow"></span> </a>
                                         <ul class="sub-menu">
-                                            <li> <a href="<?=base_url('cbs_integration/gl_account_mapping');?>"> GL Account Mapping </a> </li>
-                                            <li> <a href="<?=base_url('cbs_integration/reconciliation_report');?>"> Reconciliation Report </a> </li>
+                                            <li> <a href="<?=base_url('cbs_integration/gl_account_mapping');?>"> <i class="fa fa-globe"></i> GL Account Mapping </a> </li>
+                                            <li> <a href="<?=base_url('cbs_integration/reconciliation_report');?>"> <i class="fa fa-file-text"></i> Reconciliation Report </a> </li>
                                         </ul>
                                     </li>
                                     <li class="start <?=backend_activate_menu_class('reports')?>"> <a href="javascript:;"> <i class="fa fa-th"></i><span class="title">Reports</span> <span class="selected"></span> <span class="arrow"></span> </a>
                                         <ul class="sub-menu">
-                                            <li> <a href="<?=base_url('reports/asset_register_report');?>"> Asset Register Report </a> </li>
-                                            <li> <a href="<?=base_url('reports/depreciation_schedule_report');?>"> Depreciation Schedule Report </a> </li>
-                                            <li> <a href="<?=base_url('reports/disposal_gain_loss_report');?>"> Disposal Gain/Loss Report </a> </li>
-                                            <li> <a href="<?=base_url('reports/asset_movement_history_report');?>"> Asset Movement History Report </a> </li>
-                                            <li> <a href="<?=base_url('reports/custom_asset_report');?>"> Custom Asset Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/asset_register_report');?>"><i class="fa fa-file-text"></i> Asset Register Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/depreciation_schedule_report');?>"><i class="fa fa-file-text"></i> Depreciation Schedule Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/disposal_gain_loss_report');?>"> <i class="fa fa-file-text"></i> Disposal Gain/Loss Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/asset_movement_history_report');?>"> <i class="fa fa-file-text"></i> Asset Movement History Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/custom_asset_report');?>"> <i class="fa fa-file-text"></i> Custom Asset Report </a> </li>
                                         </ul>
                                     </li>
-                                    <!-- <li class="start <?=activate_menu_method('dynamic_report')?>">
-                                        <a href="<?=base_url('reports/dynamic_report')?>"> <i class="fa fa-th"></i><span class="title">Dynamic Report</span> </a>
-                                    </li> -->
                                 <?php } ?>
 
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){
@@ -323,9 +211,9 @@
                                 <li class="start <?=backend_activate_menu_class('items')?>">
                                     <a href="javascript:;"> <i class="fa fa-tags"></i><span class="title">Item Setup </span> <span class="selected"></span> <span class="badge badge-danger pull-right"><?=$low?></span> <span class="arrow"></span> </a>
                                     <ul class="sub-menu">
-                                        <li> <a href="<?=base_url('items');?>"> Item List </a> </li>
-                                        <li> <a href="<?=base_url('items/stock');?>"> Stock List </a> </li>
-                                        <li> <a href="<?=base_url('items/low_stock');?>"> Low Stock <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$low?></span></a> </li>
+                                        <li> <a href="<?=base_url('items');?>"><i class="fa fa-list"></i> Item List </a> </li>
+                                        <li> <a href="<?=base_url('items/stock');?>"><i class="fa fa-list"></i> Stock List </a> </li>
+                                        <li> <a href="<?=base_url('items/low_stock');?>"><i class="fa fa-list"></i> Low Stock <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$low?></span></a> </li>
                                     </ul>
                                 </li>
                                 <?php } ?>
@@ -337,12 +225,12 @@
                                             Setting</span> <span class="selected"></span> <span class="arrow"></span>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li> <a href="<?=base_url('general_setting/item_locker');?>">Item Locker</a></li>
-                                        <li> <a href="<?=base_url('general_setting/locker_setup');?>">Locker Setup</a></li>
-                                        <li> <a href="<?=base_url('general_setting/room_setup');?>">Room Setup</a></li>
-                                        <li> <a href="<?=base_url('general_setting/sub_categories');?>">Sub Categories</a></li>
-                                        <li> <a href="<?=base_url('general_setting/categories');?>"> Categories</a></li>
-                                        <li> <a href="<?=base_url('general_setting/item_unit');?>"> Item Unit</a></li>
+                                        <li> <a href="<?=base_url('general_setting/item_locker');?>"><i class="fa fa-file"></i>Item Locker</a></li>
+                                        <li> <a href="<?=base_url('general_setting/locker_setup');?>"><i class="fa fa-lock"></i> Locker Setup</a></li>
+                                        <li> <a href="<?=base_url('general_setting/room_setup');?>"> <i class="fa fa-home"></i> Room Setup</a></li>
+                                        <li> <a href="<?=base_url('general_setting/sub_categories');?>"> <i class="fa fa-list"></i> Sub Categories</a></li>
+                                        <li> <a href="<?=base_url('general_setting/categories');?>"> <i class="fa fa-bars"></i> Categories</a></li>
+                                        <li> <a href="<?=base_url('general_setting/item_unit');?>"><i class="fa fa-th-list"></i> Item Unit</a></li>
                                         <li> <a href="<?=base_url('general_setting/department');?>"> Department</a></li>
                                         <li> <a href="<?=base_url('general_setting/designation');?>"> Designation</a>
                                         <li> <a href="<?=base_url('general_setting/units');?>"> Division </a>
