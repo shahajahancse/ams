@@ -12,7 +12,7 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('depreciation')?>" class="btn btn-blueviolet btn-xs btn-mini"> Depreciation List</a>
+                     <a href="<?=base_url('depreciation')?>" class="btn btn-info btn-xs btn-mini"> Depreciation List</a>
                   </div>
                </div>
                <div class="grid-body" style="padding: 26px 29px;">
@@ -27,7 +27,7 @@
                   <div class="row form-row">
                      <div class="col-md-6">
                         <label class="form-label">Asset Name</label>
-                        <input type="hidden" name="asset_id" value="<?=set_value('asset_id', $asset_info->id)?>">
+                        <input type="hidden" name="asset_name" value="<?=set_value('item_name', $asset_name)?>">
                         <input type="text" class="form-control input-sm" value="<?=set_value('asset_name', $asset_info->item_name)?>" readonly>
                      </div>
                      <div class="col-md-6">

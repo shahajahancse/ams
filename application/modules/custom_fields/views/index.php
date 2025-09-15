@@ -12,7 +12,7 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('custom_fields/create')?>" class="btn btn-blueviolet btn-xs btn-mini"> Add Custom Field</a>
+                     <a href="<?=base_url('custom_fields/create')?>" class="btn btn-info btn-xs btn-mini"> Add Custom Field</a>
                   </div>
                </div>
                <div class="grid-body ">

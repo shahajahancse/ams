@@ -22,7 +22,7 @@
                   <?php endif; ?>
 
                   <div class="row" style="float: right;">
-                     <a href="<?=base_url('reports/doc_scouts_regional')?>" class="btn btn-blueviolet btn-xs btn-mini" >DOC Download</a>
+                     <a href="<?=base_url('reports/doc_scouts_regional')?>" class="btn btn-info btn-xs btn-mini" >DOC Download</a>
 
                      <a href="<?=base_url('reports/pdf_scouts_regional')?>" class="btn btn-primary btn-xs btn-mini" >PDF Download</a>
 

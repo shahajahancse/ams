@@ -12,7 +12,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('general_setting/designation_add')?>" class="btn btn-blueviolet btn-xs btn-mini"> Add Designation </a>
+              <a href="<?=base_url('general_setting/designation_add')?>" class="btn btn-info btn-xs btn-mini"> Add New </a>
             </div>            
           </div>
 
@@ -20,18 +20,24 @@
             <div id="infoMessage"><?php //echo $message;?></div>            
             <?php if($this->session->flashdata('success')):?>
                 <div class="alert alert-success">
-                    <a class="close" data-dismiss="alert">&times;</a>
+                    <a class="close" data-dismiss="alert"></a>
                     <?php echo $this->session->flashdata('success');?>
                 </div>
             <?php endif; ?>
+            <?php if($this->session->flashdata('error')):?>
+                <div class="alert alert-error">
+                    <a class="close" data-dismiss="alert"></a>
+                    <?php echo $this->session->flashdata('error');?>
+                </div>
+            <?php endif; ?>
             
-            <table class="table table-hover table-bordered  table-flip-scroll cf" id="">
+            <table class="table table-hover table-bordered  table-flip-scroll cf" id="usersTable">
               <thead>
                 <tr>
-                  <th style="width:2%"> SL </th>
-                  <th style="width:60%">Designation Name</th>
-                  <!-- <th style="width:18%">Status</th> -->
-                  <th style="width:20%">Action</th>
+                  <th> SL </th>
+                  <th>Designation Name</th>
+                  <th>Status</th>
+                  <th>Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -43,7 +49,17 @@
                 <tr>
                   <td class="v-align-middle"><?=$sl.'.'?></td>
                   <td class="v-align-middle"><?=$row->desig_name?></td>
-                  <td><?php echo anchor(base_url()."general_setting/designation_edit/".$row->id, 'Edit', 'class="btn btn-mini btn-primary"') ;?>&nbsp;<a class="btn btn-mini btn-primary" href="<?=base_url()?>general_setting/designation_delete/<?=$row->id?>" onclick="return confirm('Are you sure you want to delete this Department?');">Delete</a></td>
+                  <td class="v-align-middle">
+                    <?php if($row->status==1): ?>
+                    <span class="badge badge-success">Active</span>
+                    <?php else: ?>
+                    <span class="badge badge-danger">Inactive</span>
+                    <?php endif; ?>
+                  </td>
+                  <td>
+                    <a href="<?=base_url()?>general_setting/designation_edit/<?=$row->id ?>" class="btn btn-mini btn-primary"><i class="fa fa-pencil"></i> </a>
+                    <a class="btn btn-mini btn-danger" href="<?=base_url()?>general_setting/designation_delete/<?=$row->id?>" onclick="return confirm('Are you sure you want to delete this Department?');"><i class="fa fa-trash-o"></i> </a>
+                  </td>
 
                 <?php endforeach;?>                      
               </tbody>

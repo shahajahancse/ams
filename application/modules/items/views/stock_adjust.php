@@ -12,7 +12,7 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('items/stock')?>" class="btn btn-blueviolet btn-xs btn-mini">Stock List</a>
+                     <a href="<?=base_url('items/stock')?>" class="btn btn-info btn-xs btn-mini">Stock List</a>
                   </div>
                </div>
 

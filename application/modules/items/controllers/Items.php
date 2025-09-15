@@ -135,27 +135,24 @@ class Items extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
 
-   public function get_sub_category_by_category($id){
-      $dataID = $id;
-      $this->db->where('cate_id', $dataID);
+   public function get_sub_category_by_category(){
+      $this->db->where('cate_id', $_POST['id']);
       $query = $this->db->get('item_sub_categories');
       $sub_category = $query->result();
       echo json_encode($sub_category);
    }
 
-   public function get_item_by_sub_category($id){
-      $dataID = $id;
-      $this->db->where('sub_cat_id', $dataID);
+   public function get_item_by_sub_category(){
+      $this->db->where('sub_cat_id', $_POST['id']);
       $query = $this->db->get('items');
       $sub_category = $query->result();
       echo json_encode($sub_category);
    }
 
-   public function get_locker_by_room_id($id){
+   public function get_locker_by_room_id(){
       $unit_id = $this->session->userdata('unit_id');
-      $dataID = $id;
       $this->db->where('unit_id', $unit_id);
-      $this->db->where('room_id', $dataID);
+      $this->db->where('room_id', $_POST['id']);
       $query = $this->db->get('item_lockers');
       $sub_category = $query->result();
       echo json_encode($sub_category);

@@ -17,7 +17,7 @@
      <div class="grid-title">
       <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
       <div class="pull-right">                
-       <!-- <a href="<?=base_url('appointment')?>" class="btn btn-blueviolet btn-xs btn-mini"> Appointment List</a>   -->
+       <!-- <a href="<?=base_url('appointment')?>" class="btn btn-info btn-xs btn-mini"> Appointment List</a>   -->
      </div>
    </div>
    <div class="grid-body">                  

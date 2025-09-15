@@ -12,7 +12,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('general_setting/unit_add')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create </a>
+              <a href="<?=base_url('general_setting/unit_add')?>" class="btn btn-info btn-xs btn-mini"> Create </a>
             </div>
           </div>
 
@@ -24,16 +24,22 @@
                     <?php echo $this->session->flashdata('success');?>
                 </div>
             <?php endif; ?>
+            <?php if($this->session->flashdata('error')):?>
+                <div class="alert alert-error">
+                    <a class="close" data-dismiss="alert">&times;</a>
+                    <?php echo $this->session->flashdata('error');?>
+                </div>
+            <?php endif; ?>
 
-            <table class="table table-hover table-bordered  table-flip-scroll cf" id="">
+            <table class="table table-hover table-bordered  table-flip-scroll cf" id="usersTable">
               <thead>
                 <tr>
-                  <th style="width:2%"> SL </th>
-                  <th style="">Name bangla</th>
-                  <th style="">Name English</th>
-                  <th>Division Type</th>
-                  <th style="">Address</th>
-                  <th style="">Action</th>
+                  <th style="vertical-align:middle;text-align:left" width="25px"> SL </th>
+                  <th style="vertical-align:middle;text-align:center">Name(BN)</th>
+                  <th style="vertical-align:middle;text-align:center">Name(EN)</th>
+                  <th style="vertical-align:middle;text-align:center">Type</th>
+                  <th style="vertical-align:middle;text-align:center">Address</th>
+                  <th style="vertical-align:middle;text-align:center">Action</th>
                 </tr>
               </thead>
               <tbody>
@@ -42,18 +48,21 @@
                     if ($row->type == 1) {
                       $row->type = 'Director Office';
                     } elseif ($row->type == 2) {
-                      $row->type = 'provider Office';
+                      $row->type = 'Provider Office';
                     } elseif ($row->type == 3) {
-                      $row->type = 'general Office';
+                      $row->type = 'General Office';
                     }
                   ?>
                   <tr>
-                    <td class="v-align-middle"><?=$sl.'.'?></td>
-                    <td class="v-align-middle"><?=$row->name_bn?></td>
-                    <td class="v-align-middle"><?=$row->name_en?></td>
-                    <td class="v-align-middle"><?=$row->type?></td>
-                    <td class="v-align-middle"><?=$row->address_bn?></td>
-                    <td><?php echo anchor(base_url()."general_setting/unit_edit/".$row->id, 'Edit', 'class="btn btn-mini btn-primary"') ;?></td>
+                    <td style="vertical-align:middle; text-align:center"><?=$sl.'.'?></td>
+                    <td style="vertical-align:middle; text-align:center"><?=$row->name_bn?></td>
+                    <td style="vertical-align:middle; text-align:center"><?=$row->name_en?></td>
+                    <td style="vertical-align:middle; text-align:center"><?=$row->type?></td>
+                    <td style="vertical-align:middle; text-align:center"><?=$row->address_bn?></td>
+                    <td style="vertical-align:middle; text-align:center" width="100px">
+                      <a href="<?=base_url('general_setting/unit_edit/'.$row->id)?>" class="btn btn-mini btn-primary"><i class="fa fa-edit"></i></a>
+                      <a href="<?=base_url('general_setting/unit_delete/'.$row->id)?>" class="btn btn-mini btn-danger"><i class="fa fa-trash-o"></i></a>
+                    </td>
                   </tr>
                 <?php endforeach;?>
               </tbody>

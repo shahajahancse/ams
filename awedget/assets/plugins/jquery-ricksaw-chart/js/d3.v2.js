@@ -3390,7 +3390,7 @@
     black: "#000000",
     blanchedalmond: "#ffebcd",
     blue: "#0000ff",
-    blueviolet: "#8a2be2",
+    info: "#8a2be2",
     brown: "#a52a2a",
     burlywood: "#deb887",
     cadetblue: "#5f9ea0",

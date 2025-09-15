@@ -12,7 +12,7 @@
              <div class="grid-title">
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
               <div class="pull-right">
-                <a href="<?=base_url('general_setting/locker_setup')?>" class="btn btn-blueviolet btn-xs btn-mini">List</a>
+                <a href="<?=base_url('general_setting/locker_setup')?>" class="btn btn-info btn-xs btn-mini">List</a>
               </div>
              </div>
              <div class="grid-body">
@@ -55,10 +55,16 @@
                 <div class="col-md-6">
                   <label class="form-label">Status <span style="color:red">*</span></label>
                   <?php echo form_error('status'); ?>
-                  <select name="status" class="form-control input-sm">
-                    <option <?= $info->status==1? 'selected':'' ?> value="1">Active</option>
-                    <option <?= $info->status==2? 'selected':'' ?> value="2">Inactive</option>
-                  </select>
+                  <div class="form-group">
+                    <label class="radio-inline">
+                      <input type="radio" name="status" value="1" <?= $info->status==1? 'checked':'' ?>>
+                      Active
+                    </label>
+                    <label class="radio-inline">
+                      <input type="radio" name="status" value="2" <?= $info->status==2? 'checked':'' ?>>
+                      Inactive
+                    </label>
+                  </div>
                 </div>
               </div>
 

@@ -12,9 +12,9 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('items/create')?>" class="btn btn-blueviolet btn-xs btn-mini"> Add Item</a>
-                     <a href="<?=base_url('items/bulk_import')?>" class="btn btn-blueviolet btn-xs btn-mini"> Bulk Import</a>
-                     <a href="<?=base_url('items/bulk_export')?>" class="btn btn-blueviolet btn-xs btn-mini"> Bulk Export</a>
+                     <a href="<?=base_url('items/create')?>" class="btn btn-info btn-xs btn-mini"> Add Item</a>
+                     <a href="<?=base_url('items/bulk_import')?>" class="btn btn-info btn-xs btn-mini"> Bulk Import</a>
+                     <a href="<?=base_url('items/bulk_export')?>" class="btn btn-info btn-xs btn-mini"> Bulk Export</a>
                   </div>
                </div>
 
@@ -23,6 +23,11 @@
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">
                         <?php echo $this->session->flashdata('success');?>
+                     </div>
+                  <?php endif; ?>
+                  <?php if($this->session->flashdata('error')):?>
+                     <div class="alert alert-error">
+                        <?php echo $this->session->flashdata('error');?>
                      </div>
                   <?php endif; ?>
 

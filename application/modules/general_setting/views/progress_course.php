@@ -12,7 +12,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('general_setting/progress_course_add')?>" class="btn btn-blueviolet btn-primary btn-xs btn-mini"> Add Progress Course</a>  
+              <a href="<?=base_url('general_setting/progress_course_add')?>" class="btn btn-info btn-primary btn-xs btn-mini"> Add Progress Course</a>  
             </div>            
           </div>
 

@@ -66,7 +66,7 @@
 		</div>
 		<div class="col-md-1 marTopSearch">
 			<div class="pull-right ">
-				<button type="submit" class="btn btn-blueviolet btn-mini"><i class="icon-ok"></i> Search</button>
+				<button type="submit" class="btn btn-info btn-mini"><i class="icon-ok"></i> Search</button>
 			</div>
 		</div>
 	</div>
@@ -128,7 +128,7 @@
 		</div>
 		<div class="col-md-1 marTopSearch">
 			<div class="pull-right ">
-				<button type="submit" class="btn btn-blueviolet btn-mini"><i class="icon-ok"></i> Search</button>
+				<button type="submit" class="btn btn-info btn-mini"><i class="icon-ok"></i> Search</button>
 			</div>
 		</div>
 	</div>
@@ -181,7 +181,7 @@
 		</div>
 		<div class="col-md-1 marTopSearch">
 			<div class="pull-right ">
-				<button type="submit" class="btn btn-blueviolet btn-mini"><i class="icon-ok"></i> Search</button>
+				<button type="submit" class="btn btn-info btn-mini"><i class="icon-ok"></i> Search</button>
 			</div>
 		</div>
 	</div>
@@ -226,7 +226,7 @@
 		</div>
 		<div class="col-md-1 marTopSearch">
 			<div class="pull-right ">
-				<button type="submit" class="btn btn-blueviolet btn-mini"><i class="icon-ok"></i> Search</button>
+				<button type="submit" class="btn btn-info btn-mini"><i class="icon-ok"></i> Search</button>
 			</div>
 		</div>
 	</div>
@@ -258,7 +258,7 @@
 		</div>
 		<div class="col-md-1">
 			<div class="pull-right ">
-				<button type="submit" class="btn btn-blueviolet btn-mini"><i class="icon-ok"></i> Search</button>
+				<button type="submit" class="btn btn-info btn-mini"><i class="icon-ok"></i> Search</button>
 			</div>
 		</div>
 	</div>

@@ -11,9 +11,9 @@
         <div class="grid simple ">
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
-            <?php if ($this->ion_auth->in_group(array('badmin'))) {  ?>
+            <?php if ($this->ion_auth->in_group(array('admin'))) {  ?>
               <div class="pull-right">
-                <a href="<?=base_url('general_setting/locker_setup_add')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create </a>
+                <a href="<?=base_url('general_setting/locker_setup_add')?>" class="btn btn-info btn-xs btn-mini"> Add New </a>
               </div>
             <?php } ?>
           </div>
@@ -22,8 +22,14 @@
             <div id="infoMessage"><?php //echo $message;?></div>
             <?php if($this->session->flashdata('success')):?>
                 <div class="alert alert-success">
-                    <a class="close" data-dismiss="alert">&times;</a>
+                    <a class="close" data-dismiss="alert"></a>
                     <?php echo $this->session->flashdata('success');?>
+                </div>
+            <?php endif; ?>
+            <?php if($this->session->flashdata('error')):?>
+                <div class="alert alert-error">
+                    <a class="close" data-dismiss="alert"></a>
+                    <?php echo $this->session->flashdata('error');?>
                 </div>
             <?php endif; ?>
 
@@ -31,24 +37,27 @@
               <thead>
                 <tr>
                   <th style="width:2%"> SL </th>
-                  <th style="">Name bangla</th>
-                  <th style="">Name English</th>
-                  <th style="">Room</th>
-                  <th style="">Branch</th>
-                  <th style="">Status</th>
-                  <th style="">Action</th>
+                  <th class="text-center">Name bangla</th>
+                  <th class="text-center">Name English</th>
+                  <th class="text-center">Room</th>
+                  <th class="text-center">Branch</th>
+                  <th class="text-center">Status</th>
+                  <th class="text-center">Action</th>
                 </tr>
               </thead>
               <tbody>
                 <?php $sl = 0; foreach ($results as $row): $sl++; ?>
                   <tr>
-                    <td class="v-align-middle"><?=$sl.'.'?></td>
-                    <td class="v-align-middle"><?=$row->name_bn?></td>
-                    <td class="v-align-middle"><?=$row->name_en?></td>
-                    <td class="v-align-middle"><?=$row->room ?></td>
-                    <td class="v-align-middle"><?=$row->unit ?></td>
-                    <td class="v-align-middle"><?=$row->status == 1? 'Active':'Inactive' ?></td>
-                    <td><?php echo anchor(base_url()."general_setting/locker_setup_edit/".$row->id, 'Edit', 'class="btn btn-mini btn-primary"') ;?></td>
+                    <td class="text-center" style = "vertical-align:middle" ><?=$sl.'.'?></td>
+                    <td class="text-center" style = "vertical-align:middle" ><?=$row->name_bn?></td>
+                    <td class="text-center" style = "vertical-align:middle" ><?=$row->name_en?></td>
+                    <td class="text-center" style = "vertical-align:middle" ><?=$row->room ?></td>
+                    <td class="text-center" style = "vertical-align:middle" ><?=$row->unit ?></td>
+                    <td class="text-center" style = "vertical-align:middle" ><span class="badge <?php echo $row->status == 1? 'badge-success':'badge-danger' ?>"><?php echo $row->status == 1? 'Active':'Inactive' ?></span></td>
+                    <td class="text-center">
+                      <a href="<?php echo site_url('general_setting/locker_setup_edit/'.$row->id) ?>" class="btn btn-mini btn-primary"><i class="fa fa-pencil"></i></a>
+                      <a href="<?php echo site_url('general_setting/locker_setup_delete/'.$row->id) ?>" class="btn btn-mini btn-danger"><i class="fa fa-trash-o"></i></a>
+                    </td>
                   </tr>
                 <?php endforeach;?>
               </tbody>

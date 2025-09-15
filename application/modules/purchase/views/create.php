@@ -79,7 +79,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('purchase')?>" class="btn btn-blueviolet btn-xs btn-mini"> Purchase
+                            <a href="<?=base_url('purchase')?>" class="btn btn-info btn-xs btn-mini"> Purchase
                                 List</a>
                         </div>
                     </div>

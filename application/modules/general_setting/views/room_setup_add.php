@@ -12,7 +12,7 @@
              <div class="grid-title">
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
               <div class="pull-right">
-                <a href="<?=base_url('general_setting/room_setup')?>" class="btn btn-blueviolet btn-xs btn-mini">List</a>
+                <a href="<?=base_url('general_setting/room_setup')?>" class="btn btn-info btn-xs btn-mini">List</a>
               </div>
              </div>
              <div class="grid-body">
@@ -41,10 +41,10 @@
                 <div class="col-md-4">
                   <label class="form-label">Status <span style="color:red">*</span></label>
                   <?php echo form_error('status'); ?>
-                  <select name="status" class="form-control input-sm">
-                    <option value="1">Active</option>
-                    <option value="2">Inactive</option>
-                  </select>
+                  <div class="radio">
+                    <label><input type="radio" name="status" value="1"> Active</label>
+                    <label><input type="radio" name="status" value="2"> Inactive</label>
+                  </div>
                 </div>
               </div>
 

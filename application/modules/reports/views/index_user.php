@@ -45,12 +45,12 @@
 
                   <fieldset class="col-md-12">
                      <legend>Report Button</legend>
-                     <!-- <button type="submit" name="btnsubmit" value="item_report" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Item Report </button> -->
-                     <button type="submit" name="btnsubmit" value="request_requisition"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Request Requisition </button>
-                     <button type="submit" name="btnsubmit" value="approve_requisition" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Approve Requisition </button>
-                     <button type="submit" name="btnsubmit" value="rejected_requisition" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Rejected Requisition </button>
-                     <button type="submit" name="btnsubmit" value="delivered_requisition" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Delivered Requisition </button>
-                     <!-- <button type="submit" name="btnsubmit" value="low_inventory" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Low Inventory </button> -->
+                     <!-- <button type="submit" name="btnsubmit" value="item_report" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Item Report </button> -->
+                     <button type="submit" name="btnsubmit" value="request_requisition"  class="btn btn-info btn-cons"><i class="fa fa-list"></i> Request Requisition </button>
+                     <button type="submit" name="btnsubmit" value="approve_requisition" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Approve Requisition </button>
+                     <button type="submit" name="btnsubmit" value="rejected_requisition" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Rejected Requisition </button>
+                     <button type="submit" name="btnsubmit" value="delivered_requisition" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Delivered Requisition </button>
+                     <!-- <button type="submit" name="btnsubmit" value="low_inventory" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Low Inventory </button> -->
                   </fieldset>
 
 

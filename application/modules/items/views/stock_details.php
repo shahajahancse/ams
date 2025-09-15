@@ -13,7 +13,7 @@
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <?php if($this->ion_auth->in_group(array('badmin', 'sm'))): ?>
                   <div class="pull-right">
-                     <a href="<?=base_url('items/stock')?>" class="btn btn-blueviolet btn-xs btn-mini"><< Back List</a>
+                     <a href="<?=base_url('items/stock')?>" class="btn btn-info btn-xs btn-mini"><< Back List</a>
                   </div>
                   <?php endif; ?>
                </div>

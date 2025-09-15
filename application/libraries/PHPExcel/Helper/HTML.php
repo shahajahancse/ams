@@ -28,7 +28,7 @@ class PHPExcel_Helper_HTML
         'blue1' => '0000ff',
         'blue2' => '0000ee',
         'blue4' => '00008b',
-        'blueviolet' => '8a2be2',
+        'info' => '8a2be2',
         'brown' => 'a52a2a',
         'brown1' => 'ff4040',
         'brown2' => 'ee3b3b',

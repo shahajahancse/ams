@@ -16,6 +16,14 @@ class Depreciation extends Backend_Controller {
         $this->load->view('backend/_layout_main', $this->data);
     }
 
+    public function add($id) {
+
+        $asset_name = $this->db->get_where('items', array('id' => $id))->row()->item_name;
+        $this->data['asset_name'] = $asset_name;
+        $this->data['meta_title'] = 'Add Depreciation';
+        $this->data['subview'] = 'add';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
     public function run_depreciation() {
         $this->dep_model->run_monthly_depreciation();
         $this->session->set_flashdata('success', 'Monthly depreciation has been run successfully.');

@@ -17,9 +17,11 @@ class General_setting extends Backend_Controller {
 
    public function item_locker(){
       $unit_id = $this->session->userdata('unit_id');
-      $this->db->select('il.*, i.item_name, lo.name_en, ir.name_en as room, u.name_en as unit');
+      $this->db->select('il.*, i.item_name, lo.name_en, ir.name_en as room, u.name_en as unit,isc.sub_cate_name, ic.category_name');
       $this->db->from('item_locker_location as il');
       $this->db->join('items as i', 'i.id = il.item_id', 'left');
+      $this->db->join('item_categories as ic', 'ic.id = il.cat_id', 'left');
+      $this->db->join('item_sub_categories as isc', 'isc.id = il.sub_cat_id', 'left');
       $this->db->join('item_lockers as lo', 'lo.id = il.locker_no', 'left');
       $this->db->join('item_rooms as ir', 'ir.id = il.room_no', 'left');
       $this->db->join('units as u', 'u.id = il.unit_id', 'left');
@@ -42,8 +44,8 @@ class General_setting extends Backend_Controller {
          $unit_id = $this->session->userdata('unit_id');
          $form_data = array(
             'unit_id'      => $unit_id,
+            'cat_id'       => $this->input->post('category_id'),
             'item_id'      => $this->input->post('item_id'),
-            'category_id'       => $this->input->post('category_id'),
             'sub_cat_id'   => $this->input->post('sub_cat'),
             'room_no'      => $this->input->post('room_no'),
             'locker_no'    => $this->input->post('locker_no'),
@@ -55,6 +57,7 @@ class General_setting extends Backend_Controller {
             redirect('general_setting/item_locker');
          }
       }
+      // dd($_POST);
 
       // Load page
       $this->data['meta_title'] = 'Item Locker Setup';
@@ -70,8 +73,8 @@ class General_setting extends Backend_Controller {
 
       if ($this->form_validation->run() == true){
          $form_data = array(
+            'cat_id'       => $this->input->post('category_id'),
             'item_id'      => $this->input->post('item_id'),
-            'category_id'       => $this->input->post('category_id'),
             'sub_cat_id'   => $this->input->post('sub_cat'),
             'room_no'      => $this->input->post('room_no'),
             'locker_no'    => $this->input->post('locker_no'),
@@ -84,11 +87,17 @@ class General_setting extends Backend_Controller {
          }
       }
       $this->data['info'] = $this->General_setting_model->get_info('item_locker_location',$id);
-
+      // dd($this->data['info']);
       // Load page
       $this->data['meta_title'] = 'Update Item Locker';
       $this->data['subview'] = 'item_locker_edit';
       $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function item_locker_delete($id){
+      $this->Common_model->delete('item_locker_location', 'id', $id);
+      $this->session->set_flashdata('error', 'Information delete successfully.');
+      redirect('general_setting/item_locker');
    }
 
    public function locker_setup(){
@@ -155,6 +164,13 @@ class General_setting extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
 
+   public function locker_setup_delete($id){
+      if($this->Common_model->delete('item_lockers', 'id',$id )){
+         $this->session->set_flashdata('error', 'Record Delete successfully.');
+         redirect('general_setting/locker_setup');
+      }
+   }
+
    public function room_setup(){
       $this->data['results'] = $this->db->get('item_rooms')->result();
       $this->data['meta_title'] = 'Room List';
@@ -206,6 +222,12 @@ class General_setting extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
 
+   public function room_setup_delete($id){
+      if($this->Common_model->delete('item_rooms', 'id',$id )){
+         $this->session->set_flashdata('error', 'Record Delete successfully.');
+         redirect('general_setting/room_setup');
+      }
+   }
    public function units(){
       $this->data['results'] = $this->db->get('units')->result();
       $this->data['meta_title'] = 'All Branch List';
@@ -266,55 +288,71 @@ class General_setting extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
 
+   public function unit_delete($id){
+      if($this->Common_model->delete('units','id', $id )){
+         $this->session->set_flashdata('error', 'Record deleted successfully.');
+         redirect('general_setting/units');
+      }
+   }
 
-   public function division_type(){
+
+   public function branch_type(){
       $this->data['results'] = $this->db->get('units_types')->result();
-      $this->data['meta_title'] = 'Division Type List';
-      $this->data['subview'] = 'division_type';
+      $this->data['meta_title'] = 'Branch Type List';
+      $this->data['subview'] = 'branch_type';
       $this->load->view('backend/_layout_main', $this->data);
    }
-   public function division_type_add(){
+   public function branch_type_add(){
       $this->form_validation->set_rules('name_bn', 'Name Bangla', 'required|trim');
       $this->form_validation->set_rules('name_en', 'Name English', 'required|trim');
 
       if ($this->form_validation->run() == true){
          $form_data = array(
-            'name_bn'      => $this->input->post('name_bn'),
-            'name_en'      => $this->input->post('name_en'),
+            'name_bn' => $this->input->post('name_bn'),
+            'name_en' => $this->input->post('name_en'),
+            'status'  => $this->input->post('status'),
          );
          if($this->Common_model->save('units_types', $form_data)){
             $this->session->set_flashdata('success', 'Record Inserted successfully.');
-            redirect('general_setting/division_type');
+            redirect('general_setting/branch_type');
          }
       }
 
       // Load page
-      $this->data['meta_title'] = 'Create Division Type';
-      $this->data['subview'] = 'division_type_add';
+      $this->data['meta_title'] = 'Create Brance Type';
+      $this->data['subview'] = 'branch_type_add';
       $this->load->view('backend/_layout_main', $this->data);
    }
-   public function division_type_edit($id){
+   public function branch_type_edit($id){
       $this->form_validation->set_rules('name_bn', 'Name Bangla', 'required|trim');
       $this->form_validation->set_rules('name_en', 'Name English', 'required|trim');
 
       if ($this->form_validation->run() == true){
          $form_data = array(
-            'name_bn'       => $this->input->post('name_bn'),
-            'name_en'       => $this->input->post('name_en'),
+            'name_bn' => $this->input->post('name_bn'),
+            'name_en' => $this->input->post('name_en'),
+            'status'  => $this->input->post('status'),
          );
 
          if($this->Common_model->edit('units_types', $id, 'id', $form_data)){
             $this->session->set_flashdata('success', 'Information update successfully.');
-            redirect('general_setting/division_type');
+            redirect('general_setting/branch_type');
          }
       }
 
       $this->data['info'] = $this->General_setting_model->get_info('units_types',$id);
 
       // Load page
-      $this->data['meta_title'] = 'Edit Division Type';
-      $this->data['subview'] = 'division_type_edit';
+      $this->data['meta_title'] = 'Edit Branch Type';
+      $this->data['subview'] = 'branch_type_edit';
       $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function branch_type_delete($id){
+      if($this->Common_model->delete('units_types','id', $id )){
+         $this->session->set_flashdata('error', 'Record deleted successfully.');
+         redirect('general_setting/branch_type');
+      }
    }
 
 
@@ -322,77 +360,22 @@ class General_setting extends Backend_Controller {
       redirect('general_setting/department');
    }
 
-   public function sub_category_add(){
-      $this->form_validation->set_rules('category_id', 'select category', 'required|trim');
-      $this->form_validation->set_rules('sub_cate_name', 'sub category Name', 'required|trim');
 
-      if ($this->form_validation->run() == true){
 
-         $form_data = array(
-            'category_id'             => $this->input->post('category_id'),
-            'sub_cate_name'      => $this->input->post('sub_cate_name')
-         );
+   
 
-         if($this->Common_model->save('item_sub_categories', $form_data)){
-            $this->session->set_flashdata('success', 'Sub category create successfully.');
-            redirect('general_setting/sub_categories');
-         }
-      }
-
-      $this->data['categories'] = $this->Common_model->get_dropdown('item_categories', 'category_name', 'id');
-
-      // Load page
-      $this->data['meta_title'] = 'Add Sub Category';
-      $this->data['subview'] = 'sub_category_add';
-      $this->load->view('backend/_layout_main', $this->data);
-   }
-   public function sub_category_edit($id){
-
-      $this->form_validation->set_rules('category_id', 'select category', 'required|trim');
-      $this->form_validation->set_rules('sub_cate_name', 'sub category Name', 'required|trim');
-
-      if ($this->form_validation->run() == true){
-         $form_data = array(
-            'category_id'             => $this->input->post('category_id'),
-            'sub_cate_name'      => $this->input->post('sub_cate_name')
-         );
-         $this->db->where('id', $id);
-         $this->db->update('item_sub_categories', $form_data);
-         $this->session->set_flashdata('success', 'Sub category update successfully.');
-         redirect('general_setting/sub_categories');
-      }
-      $this->data['sub_categorie'] = $this->General_setting_model->get_sub_categories($id)[0];
-      // Load page
-      $this->data['meta_title'] = 'Edit Sub Category';
-      $this->data['subview'] = 'sub_category_edit';
-      $this->load->view('backend/_layout_main', $this->data);
-   }
-   public function sub_category_delete($id){
-      $this->db->where('id', $id);
-      $this->db->delete('item_sub_categories');
-      $this->session->set_flashdata('success', 'Sub category delete successfully.');
-      redirect('general_setting/sub_categories');
-   }
-
-   public function sub_categories(){
-      $this->data['results'] = $this->General_setting_model->get_sub_categories();
-      $this->data['meta_title'] = 'Sub Categories List';
-      $this->data['subview'] = 'sub_categories';
-      $this->load->view('backend/_layout_main', $this->data);
-   }
-
+   //// category section ////
    public function categories(){
-      $this->data['results'] = $this->General_setting_model->get_categories();
+      $this->data['results'] = $this->General_setting_model->get_categoriess();
       $this->data['meta_title'] = 'Categories List';
       $this->data['subview'] = 'categories';
       $this->load->view('backend/_layout_main', $this->data);
    }
    public function category_add(){
-      $this->form_validation->set_rules('cate_name', 'category Name', 'required|trim');
+      $this->form_validation->set_rules('cate_name', 'category Name', 'required|trim|is_unique[item_categories.category_name]');
       if ($this->form_validation->run() == true){
          $form_data = array(
             'category_name'  => $this->input->post('cate_name'),
-            'division_id'    => $this->input->post('division_id'),
             'status'      => 'Enable'
          );
          $this->db->insert('item_categories', $form_data);
@@ -410,8 +393,8 @@ class General_setting extends Backend_Controller {
       if ($this->form_validation->run() == true){
          $form_data = array(
             'category_name' => $this->input->post('cate_name'),
-            'division_id'   => $this->input->post('division_id'),
-            'status'      => 'Enable'
+            // 'division_id'   => $this->input->post('division_id'),
+            'status'        => $this->input->post('status')
          );
          $this->db->where('id', $id);
          $this->db->update('item_categories', $form_data);
@@ -419,6 +402,7 @@ class General_setting extends Backend_Controller {
          redirect('general_setting/categories');
       }
       $this->data['category'] = $this->General_setting_model->get_categories($id);
+      // dd($this->data);
       $this->data['meta_title'] = 'Edit Category';
       $this->data['subview'] = 'category_edit';
       $this->load->view('backend/_layout_main', $this->data);
@@ -427,9 +411,104 @@ class General_setting extends Backend_Controller {
    public function category_delete($id){
       $this->db->where('id', $id);
       $this->db->delete('item_categories');
-      $this->session->set_flashdata('success', 'Category delete successfully.');
+      $this->session->set_flashdata('error', 'Category delete successfully.');
       redirect('general_setting/categories');
    }
+   /////  end category section /////
+
+
+   //////  sub category section /////
+   public function sub_categories(){
+      $this->data['results'] = $this->General_setting_model->get_sub_categories();
+      $this->data['meta_title'] = 'Sub Categories List';
+      $this->data['subview'] = 'sub_categories';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+   
+   public function sub_category_add(){
+      $this->form_validation->set_rules('cate_id', 'Select category', 'required|trim');
+      $this->form_validation->set_rules('sub_cate_name', 'Sub category Name', 'required|trim|callback_check_duplicate_sub_category');
+
+      if ($this->form_validation->run() == true) {
+
+         $form_data = array(
+               'cate_id'      => $this->input->post('cate_id'),
+               'sub_cate_name'=> $this->input->post('sub_cate_name'),
+               'status'       => $this->input->post('status')
+         );
+
+         if($this->Common_model->save('item_sub_categories', $form_data)){
+               $this->session->set_flashdata('success', 'Sub category created successfully.');
+               redirect('general_setting/sub_categories');
+         }else{
+               $this->session->set_flashdata('error', 'Sub category not created successfully.');
+         }
+      }
+
+      $this->data['categories'] = $this->Common_model->get_dropdown('item_categories', 'category_name', 'id');
+
+      // Load page
+      $this->data['meta_title'] = 'Add Sub Category';
+      $this->data['subview'] = 'sub_category_add';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function check_duplicate_sub_category($sub_cate_name){
+      $cate_id = $this->input->post('cate_id');
+
+      $exists = $this->db
+         ->where('cate_id', $cate_id)
+         ->where('LOWER(sub_cate_name)', strtolower($sub_cate_name))
+         ->get('item_sub_categories')
+         ->num_rows();
+
+      if ($exists > 0) {
+         $this->form_validation->set_message('check_duplicate_sub_category', 'This sub category already exists in the selected category.');
+         return false;
+      }
+      return true;
+   }
+
+   public function sub_category_edit($id) {
+      $this->form_validation->set_rules('cate_id', 'select category', 'required|trim');
+      $this->form_validation->set_rules('sub_cate_name', 'sub category Name', 'required|trim');
+
+      
+      if ($this->form_validation->run() === TRUE) {
+         $form_data = array(
+               'cate_id'  => $this->input->post('cate_id'),
+               'sub_cate_name'=> $this->input->post('sub_cate_name'),
+               'status'       => $this->input->post('status')
+         );
+
+         $this->db->where('id', $id);
+         if ($this->db->update('item_sub_categories', $form_data)) {
+               $this->session->set_flashdata('success', 'Sub category updated successfully.');
+         } else {
+               $this->session->set_flashdata('error', 'Update failed.');
+         }
+         redirect('general_setting/sub_categories');
+      }
+
+      $sub_categorie = $this->General_setting_model->get_sub_categories($id);
+      if (!$sub_categorie) {
+         show_error('Sub category not found');
+      }
+
+      $this->data['sub_categorie'] = $sub_categorie[0];
+      $this->data['meta_title']    = 'Edit Sub Category';
+      $this->data['subview']       = 'sub_category_edit';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function sub_category_delete($id){
+      $this->db->where('id', $id);
+      $this->db->delete('item_sub_categories');
+      $this->session->set_flashdata('error', 'Sub category delete successfully.');
+      redirect('general_setting/sub_categories');
+   }
+   ////  end sub category section /////
+
 
    public function item_unit(){
       $this->data['results'] = $this->General_setting_model->get_item_unit();
@@ -438,9 +517,57 @@ class General_setting extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
 
+   public function item_unit_add(){
+      $this->form_validation->set_rules('unit_name', 'Unit Name', 'required|trim');
+
+         if ($this->form_validation->run() == TRUE) {
+            $form_data = array(
+               'unit_name'=> $this->input->post('unit_name'),
+               'status'   => $this->input->post('status')
+            );
+            if($this->Common_model->save('item_unit', $form_data)){
+                  $this->session->set_flashdata('success', 'Item unit created successfully.');
+                  redirect('general_setting/item_unit');
+            }
+         }
+
+         // Load page
+         $this->data['meta_title'] = 'Create Item Unit';
+         $this->data['subview'] = 'item_unit_add';
+         $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function item_unit_edit($id){
+      $this->form_validation->set_rules('unit_name', 'Unit Name', 'required|trim');
+         if ($this->form_validation->run() == TRUE) {
+            $form_data = array(
+               'unit_name'=> $this->input->post('unit_name'),
+               'status'   => $this->input->post('status')
+            );
+            $this->db->where('id', $id);
+            if($this->db->update('item_unit', $form_data)){
+                  $this->session->set_flashdata('success', 'Item unit updated successfully.');
+                  redirect('general_setting/item_unit');
+            }
+         }
+
+         // Load page
+         $this->data['meta_title'] = 'Edit Item Unit';
+         $this->data['subview'] = 'item_unit_edit';
+         $this->data['info'] = $this->General_setting_model->get_item_unit_by_id($id);
+         $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function item_unit_delete($id){
+      $this->db->where('id', $id);
+      $this->db->delete('item_unit');
+      $this->session->set_flashdata('error', 'Item unit delete successfully.');
+      redirect('general_setting/item_unit');
+   }
+
    public function designation(){
       $this->data['results'] = $this->General_setting_model->get_designation();
-      $this->data['meta_title'] = 'All designation List';
+      $this->data['meta_title'] = 'All Designation List';
       $this->data['subview'] = 'designation';
       $this->load->view('backend/_layout_main', $this->data);
    }
@@ -450,7 +577,8 @@ class General_setting extends Backend_Controller {
       if ($this->form_validation->run() == true){
          $form_data = array(
             'desig_name'      => $this->input->post('department_name'),
-            );
+            'status'          => $this->input->post('status')
+         );
 
          if($this->Common_model->save('designation', $form_data)){
             $this->session->set_flashdata('success', 'Designation create successfully.');
@@ -464,13 +592,14 @@ class General_setting extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
    public function designation_edit($id){
-      $this->form_validation->set_rules('department_name', 'Department Name', 'required|trim');
+      $this->form_validation->set_rules('designation_name', 'Department Name', 'required|trim');
 
       if ($this->form_validation->run() == true){
 
          $form_data = array(
-            'desig_name'       => $this->input->post('department_name')
-            );
+            'desig_name'=> $this->input->post('designation_name'),
+            'status'    => $this->input->post('status')
+         );
 
 
          if($this->Common_model->edit('designation', $id, 'id', $form_data)){
@@ -486,6 +615,13 @@ class General_setting extends Backend_Controller {
       $this->data['subview'] = 'designation_edit';
       $this->load->view('backend/_layout_main', $this->data);
    }
+   function designation_delete($id) {
+      $this->db->where('id',$id);
+      $this->db->delete('designation');
+      $this->session->set_flashdata('success', 'Information delete successfully.');
+      redirect('general_setting/designation');
+   }
+
 
    public function department(){
       $this->data['results'] = $this->General_setting_model->get_department();
@@ -502,7 +638,8 @@ class General_setting extends Backend_Controller {
 
          $form_data = array(
             'dept_name'      => $this->input->post('department_name'),
-            );
+            'status'         => $this->input->post('status')
+         );
 
          if($this->Common_model->save('departments', $form_data)){
             $this->session->set_flashdata('success', 'Department create successfully.');
@@ -518,12 +655,12 @@ class General_setting extends Backend_Controller {
 
    public function department_edit($id){
       $this->form_validation->set_rules('department_name', 'Department Name', 'required|trim');
-
       if ($this->form_validation->run() == true){
 
          $form_data = array(
-            'dept_name'       => $this->input->post('department_name')
-            );
+            'dept_name'=> $this->input->post('department_name'),
+            'status'   => $this->input->post('status')
+         );
 
 
          if($this->Common_model->edit('departments', $id, 'id', $form_data)){
@@ -539,6 +676,14 @@ class General_setting extends Backend_Controller {
       $this->data['subview'] = 'department_edit';
       $this->load->view('backend/_layout_main', $this->data);
    }
+   function department_delete($id) {
+      if($this->Common_model->delete('departments', 'id',$id )){
+         $this->session->set_flashdata('error', 'Record Delete successfully.');
+         redirect('general_setting/department');
+      }
+   }
+
+
    // group crud
    public function group(){
       $this->data['results'] = $this->db->get('groups')->result();
@@ -836,7 +981,7 @@ class General_setting extends Backend_Controller {
       }
 
 
-      public function unit_office_add(){
+   public function unit_office_add(){
       $this->form_validation->set_rules('title', 'course title', 'required|trim');
       $this->form_validation->set_rules('slug', 'course slug', 'required|trim');
       $this->form_validation->set_rules('short_desc', 'course short description', 'required|max_length[1000]|trim');
@@ -862,12 +1007,12 @@ class General_setting extends Backend_Controller {
             }
          }
 
-         $this->data['meta_title'] = 'Add Scouts Member';
-         $this->data['subview'] = 'unit_office_add';
-         $this->load->view('backend/_layout_main', $this->data);
-      }
+      $this->data['meta_title'] = 'Add Scouts Member';
+      $this->data['subview'] = 'unit_office_add';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
 
-      public function upazila_thana_add(){
+   public function upazila_thana_add(){
       $this->form_validation->set_rules('division', 'Division', 'required|trim');
       $this->form_validation->set_rules('district', 'District', 'required|trim');
       $this->form_validation->set_rules('up_th_name', 'Upazila/Thana Name', 'required|trim');
@@ -902,9 +1047,9 @@ class General_setting extends Backend_Controller {
          $this->data['meta_title'] = 'Add Upazila/Thana';
          $this->data['subview'] = 'upazila_thana_add';
          $this->load->view('backend/_layout_main', $this->data);
-      }
+   }
 
-      public function upazila_thana_edit($id){
+   public function upazila_thana_edit($id){
       $this->form_validation->set_rules('division', 'Division', 'required|trim');
       $this->form_validation->set_rules('district', 'District', 'required|trim');
       $this->form_validation->set_rules('up_th_name', 'Upazila/Thana Name', 'required|trim');
@@ -921,30 +1066,23 @@ class General_setting extends Backend_Controller {
          'up_th_name_bn'      => $this->input->post('up_th_name_bn'),
          'status'             => $this->input->post('status'),
          'up_th_geo'          => $this->input->post('up_th_geo')?$this->input->post('up_th_geo'):NULL
-         );
-
-         // print_r($form_data); exit;
+      );
       if($this->Common_model->edit('upazila_thana',$id, 'id', $form_data)){
-         /***********Activity Logs Start**********/
-               //$insert_id = $this->db->insert_id();
-               func_activity_log(2, 'Upazila/Thana  update ID :'.$id); //1=C, 2=U, 3=D, 4=V, 5=G ,A = 6
-               /***********Activity Logs End**********/
-               $this->session->set_flashdata('success', 'Information update successfully.');
-               redirect('general_setting/upazila_thana');
-            }
+            func_activity_log(2, 'Upazila/Thana  update ID :'.$id); 
+            $this->session->set_flashdata('success', 'Information update successfully.');
+            redirect('general_setting/upazila_thana');
          }
-
-         $this->data['info'] = $this->General_setting_model->get_info('upazila_thana',$id);
-
-         $this->data['division'] = $this->Common_model->get_dropdown('division', 'div_name', 'id');
-         $this->data['district'] = $this->Common_model->get_dropdown('district', 'district_name', 'id');
-
-         $this->data['meta_title'] = 'Add Upazila/Thana';
-         $this->data['subview'] = 'upazila_thana_edit';
-         $this->load->view('backend/_layout_main', $this->data);
       }
+      $this->data['info'] = $this->General_setting_model->get_info('upazila_thana',$id);
+      $this->data['division'] = $this->Common_model->get_dropdown('division', 'div_name', 'id');
+      $this->data['district'] = $this->Common_model->get_dropdown('district', 'district_name', 'id');
 
-      public function occupation(){
+      $this->data['meta_title'] = 'Add Upazila/Thana';
+      $this->data['subview'] = 'upazila_thana_edit';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function occupation(){
       $this->data['results'] = $this->General_setting_model->get_occupation();
       // print_r($this->data['results']); exit;
       // Load page
@@ -2120,23 +2258,8 @@ public function scout_expertness_group_add(){
         redirect('general_setting/badge_type');
      }
 
-     function department_delete($id) {
-        $form_data = array(
-         'is_delete' => 1
-         );
-        $this->data['info'] = $this->Common_model->edit('departments',$id,'id',$form_data);
-        /***********Activity Logs Start**********/
-        func_activity_log(3, 'department delete ID :'.$id); //1=C, 2=U, 3=D, 4=V, 5=G ,A = 6
-        /***********Activity Logs End**********/
-        $this->session->set_flashdata('success', 'Information delete successfully.');
-        redirect('general_setting/department');
-     }
-     function designation_delete($id) {
-      $this->db->where('id',$id);
-      $this->db->delete('designation');
-      $this->session->set_flashdata('success', 'Information delete successfully.');
-      redirect('general_setting/designation');
-     }
+
+
 
      function scout_badge_question_delete($id) {
         $form_data = array(

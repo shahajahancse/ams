@@ -11,7 +11,7 @@
                     <div class="grid-title">
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
-                            <a href="<?=base_url('my_requisition')?>" class="btn btn-blueviolet btn-xs btn-mini"> My
+                            <a href="<?=base_url('my_requisition')?>" class="btn btn-info btn-xs btn-mini"> My
                                 Requisition List</a>
                         </div>
                     </div>

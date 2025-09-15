@@ -91,18 +91,18 @@
                   <!-- Item Report -->
                   <fieldset class="col-md-12">
                      <legend>Item Report</legend>
-                     <button type="submit" name="btnsubmit" value="item_report" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Item Report </button>
-                     <button type="submit" name="btnsubmit" value="low_inventory" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Low Inventory </button>
+                     <button type="submit" name="btnsubmit" value="item_report" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Item Report </button>
+                     <button type="submit" name="btnsubmit" value="low_inventory" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Low Inventory </button>
                       <button type="submit" name="btnsubmit" value="item_excel" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Item Excel </button>
                        <button type="submit" name="btnsubmit" value="low_excel" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Low Inventory Excel </button>
                   </fieldset>
                   <!-- Requisition Report -->
                   <fieldset class="col-md-12">
                      <legend>Requsition Report</legend>
-                     <button type="submit" name="btnsubmit" value="request_requisition"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Request Requisition </button>
-                     <button type="submit" name="btnsubmit" value="approve_requisition" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Approve Requisition </button>
-                     <button type="submit" name="btnsubmit" value="rejected_requisition" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Rejected Requisition </button>
-                     <button type="submit" name="btnsubmit" value="delivered_requisition" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Delivered Requisition </button>
+                     <button type="submit" name="btnsubmit" value="request_requisition"  class="btn btn-info btn-cons"><i class="fa fa-list"></i> Request Requisition </button>
+                     <button type="submit" name="btnsubmit" value="approve_requisition" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Approve Requisition </button>
+                     <button type="submit" name="btnsubmit" value="rejected_requisition" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Rejected Requisition </button>
+                     <button type="submit" name="btnsubmit" value="delivered_requisition" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Delivered Requisition </button>
                      <br>
                      <button type="submit" name="btnsubmit" value="request_requisition_excel"  class="btn btn-info btn-cons"><i class="fa fa-list"></i> Request Excel </button>
                      <button type="submit" name="btnsubmit" value="approve_requisition_excel"  class="btn btn-info btn-cons"><i class="fa fa-list"></i> Approve Excel </button>
@@ -113,10 +113,10 @@
                   <!-- Purchase Report -->
                   <fieldset class="col-md-12">
                      <legend>Purchase Report</legend>
-                     <button type="submit" name="btnsubmit" value="request_purchase"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Request Purchase </button>
-                     <button type="submit" name="btnsubmit" value="approve_purchase"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Approve Purchase </button>
-                     <button type="submit" name="btnsubmit" value="rejected_purchase"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Rejected Purchase </button>
-                     <button type="submit" name="btnsubmit" value="recceived_purchase"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Recceived Purchase </button>
+                     <button type="submit" name="btnsubmit" value="request_purchase"  class="btn btn-info btn-cons"><i class="fa fa-list"></i> Request Purchase </button>
+                     <button type="submit" name="btnsubmit" value="approve_purchase"  class="btn btn-info btn-cons"><i class="fa fa-list"></i> Approve Purchase </button>
+                     <button type="submit" name="btnsubmit" value="rejected_purchase"  class="btn btn-info btn-cons"><i class="fa fa-list"></i> Rejected Purchase </button>
+                     <button type="submit" name="btnsubmit" value="recceived_purchase"  class="btn btn-info btn-cons"><i class="fa fa-list"></i> Recceived Purchase </button>
                      <br>
                      <button type="submit" name="btnsubmit" value="request_purchase_excel"  class="btn btn-info btn-cons"> Request Purchase Excel</button>
                      <button type="submit" name="btnsubmit" value="approve_purchase_axcel"  class="btn btn-info btn-cons"> Approve Purchase Excel</button>
@@ -126,10 +126,10 @@
                   <!-- Staff Report -->
                   <fieldset class="col-md-12">
                      <legend>Staff Report</legend>
-                     <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_request_requisition"  class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Request Requisition </button>
-                        <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_approve_requisition" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Approve Requisition </button>
-                     <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_rejected_requisition" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Rejected Requisition </button>
-                     <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_delivered_requisition" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Delivered Requisition </button>
+                     <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_request_requisition"  class="btn btn-info btn-cons"><i class="fa fa-list"></i> Request Requisition </button>
+                        <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_approve_requisition" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Approve Requisition </button>
+                     <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_rejected_requisition" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Rejected Requisition </button>
+                     <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_delivered_requisition" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Delivered Requisition </button>
                      <br>
                      <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_request_excel"  class="btn btn-info btn-cons"> Request User Excel </button>
                      <button type="submit" onclick="return validFunc()" name="btnsubmit" value="user_approve_excel" class="btn btn-info btn-cons"> Approve User Excel </button>
@@ -139,10 +139,10 @@
                   <!-- Asset Management Reports -->
                   <fieldset class="col-md-12">
                      <legend>Asset Management Reports</legend>
-                     <button type="submit" name="btnsubmit" value="asset_register_report" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Asset Register Report </button>
-                     <button type="submit" name="btnsubmit" value="depreciation_schedule_report" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Depreciation Schedule Report </button>
-                     <button type="submit" name="btnsubmit" value="disposal_gain_loss_report" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Disposal Gain/Loss Report </button>
-                     <button type="submit" name="btnsubmit" value="asset_movement_history_report" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Asset Movement History Report </button>
+                     <button type="submit" name="btnsubmit" value="asset_register_report" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Asset Register Report </button>
+                     <button type="submit" name="btnsubmit" value="depreciation_schedule_report" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Depreciation Schedule Report </button>
+                     <button type="submit" name="btnsubmit" value="disposal_gain_loss_report" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Disposal Gain/Loss Report </button>
+                     <button type="submit" name="btnsubmit" value="asset_movement_history_report" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Asset Movement History Report </button>
                   </fieldset>
                   <div class="clearfix"></div>
                   <?php form_close(); ?>

@@ -35,11 +35,11 @@
                   <fieldset class="col-md-12">      
                      <legend>Report Button (Number)</legend>
 
-                     <button type="submit" name="btnsubmit" value="smr_region" onclick="return smr_region()" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Top Scouts Member Registration By Region </button>
+                     <button type="submit" name="btnsubmit" value="smr_region" onclick="return smr_region()" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Top Scouts Member Registration By Region </button>
 
-                     <button type="submit" name="btnsubmit" value="smr_district" onclick="return smr_region()" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Top Scouts Member Registration By District </button>
+                     <button type="submit" name="btnsubmit" value="smr_district" onclick="return smr_region()" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Top Scouts Member Registration By District </button>
 
-                     <button type="submit" name="btnsubmit" value="smr_upazila" onclick="return smr_region()" class="btn btn-blueviolet btn-cons"><i class="fa fa-list"></i> Top Scouts Member Registration By Upazila </button>
+                     <button type="submit" name="btnsubmit" value="smr_upazila" onclick="return smr_region()" class="btn btn-info btn-cons"><i class="fa fa-list"></i> Top Scouts Member Registration By Upazila </button>
                      
                   </fieldset> 
 

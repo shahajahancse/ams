@@ -12,17 +12,10 @@
              <div class="grid-title">
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
               <div class="pull-right">
-                <a href="<?=base_url('general_setting/item_locker')?>" class="btn btn-blueviolet btn-xs btn-mini">List</a>
+                <a href="<?=base_url('general_setting/item_locker')?>" class="btn btn-info btn-xs btn-mini">List</a>
               </div>
              </div>
              <div class="grid-body">
-              <?php if($this->session->flashdata('success')):?>
-                  <div class="alert alert-success">
-                      <a class="close" data-dismiss="alert">&times;</a>
-                      <?php echo $this->session->flashdata('success');;?>
-                  </div>
-              <?php endif; ?>
-
               <?php
               $attributes = array('id' => 'department_validate');
               echo form_open_multipart("general_setting/item_locker_add", $attributes);?>
@@ -102,70 +95,72 @@
 </div>
 
 <script>
-   function rooms(id){
-      $.ajax({
-         type: "POST",
-         url: "<?=base_url('items/get_locker_by_room_id/');?>"+id,
-         success: function(data){
-             var parsedData = JSON.parse(data);
-             $('#locker_no').empty();
-             parsedData.forEach(function(item){
-                 $('#locker_no').append('<option value="' + item.id + '">' + item.name_en + '</option>');
-             })
-         }
-      })
-
-   }
+  function rooms(id){
+    $.ajax({
+      type: "POST",
+      url: "<?=base_url('items/get_locker_by_room_id/');?>",
+      data: {id:id},
+      success: function(data){
+        var parsedData = JSON.parse(data);
+        $('#locker_no').empty();
+        parsedData.forEach(function(item){
+          $('#locker_no').append('<option value="' + item.id + '">' + item.name_en + '</option>');
+        });
+      }
+    });
+  }
 </script>
 
 <script>
-   function items(id){
-      $.ajax({
-         type: "POST",
-         url: "<?=base_url('items/get_item_by_sub_category/');?>"+id,
-         success: function(data){
-             var parsedData = JSON.parse(data);
-             $('#item_id').empty();
-             parsedData.forEach(function(item){
-                 $('#item_id').append('<option value="' + item.id + '">' + item.item_name + '</option>');
-             })
-         }
-      })
-
-   }
+  function items(id){
+    $.ajax({
+      type: "POST",
+      url: "<?=base_url('items/get_item_by_sub_category/');?>",
+      data: {id:id},
+      success: function(data){
+        console.log(data);
+        var parsedData = JSON.parse(data);
+        $('#item_id').empty();
+        parsedData.forEach(function(item){
+          $('#item_id').append('<option value="' + item.id + '">' + item.item_name + '</option>');
+        });
+      }
+    });
+  }
 </script>
 
 <script>
-   function SubCat(id){
-      $.ajax({
-         type: "POST",
-         url: "<?=base_url('items/get_sub_category_by_category/');?>"+id,
-         success: function(data){
-             var parsedData = JSON.parse(data);
-             $('#sub_cat').empty();
-             parsedData.forEach(function(item){
-                 $('#sub_cat').append('<option value="' + item.id + '">' + item.sub_cate_name + '</option>');
-             })
-         }
-      })
+  function SubCat(id){
+    $.ajax({
+      type: "POST",
+      url: "<?=base_url('items/get_sub_category_by_category/');?>",
+      data: {id:id},
+      success: function(data){
+        // console.log(data);
+        var parsedData = JSON.parse(data);
+        $('#sub_cat').empty();
+        parsedData.forEach(function(item){
+          $('#sub_cat').append('<option value="' + item.id + '">' + item.sub_cate_name + '</option>');
+        });
+        $('#sub_cat').change();
+      }
+    });
 
-   }
+  }
 </script>
 
 <script type="text/javascript">
-   $(document).ready(function() {
-      $('#department_validate').validate({
-      // focusInvalid: false,
+  $(document).ready(function() {
+    $('#department_validate').validate({
       ignore: "",
       rules: {
-         name_bn: {
-            required: true
-         },
-         name_en: {
-            required: true
-         },
+        name_bn: {
+          required: true
+        },
+        name_en: {
+          required: true
+        },
       },
-
     });
-   });
+  });
 </script>

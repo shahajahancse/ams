@@ -58,7 +58,7 @@
                        </div>
                       </div>
                       <?php if ($region_id) { ?>
-                        <a href="<?= $doc_url; ?>" class="btn btn-blueviolet btn-xs btn-mini" style="float: right;margin-left: 10px;">DOC Download</a>
+                        <a href="<?= $doc_url; ?>" class="btn btn-info btn-xs btn-mini" style="float: right;margin-left: 10px;">DOC Download</a>
                         <a href="<?= $download_url; ?>" class="btn btn-primary btn-xs btn-mini" style="float: right;">PDF Download</a>
                      <?php  } ?>
                     

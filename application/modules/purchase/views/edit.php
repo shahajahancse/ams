@@ -49,7 +49,7 @@
                                  }else if($row->status == 4){
                                        $status = '<span class="label label-info">Back SM From DG</span>';
                                  }else if($row->status == 5){
-                                       $status = '<span class="label label-blueviolet">Approve JD</span>';
+                                       $status = '<span class="label label-info">Approve JD</span>';
                                  }else if($row->status == 6){
                                        $status = '<span class="label label-warning">Back JD From DG</span>';
                                  }else if($row->status == 7){

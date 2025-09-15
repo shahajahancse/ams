@@ -172,7 +172,7 @@ $qr_code_text = 'Name: ' . $info->first_name . ' ('. $info->scout_id .')';
      <div class="grid-title">
       <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
       <div class="pull-right">  
-        <a href="<?=base_url('my_profile')?>" class="btn btn-blueviolet btn-xs btn-mini"> My Profile</a>   
+        <a href="<?=base_url('my_profile')?>" class="btn btn-info btn-xs btn-mini"> My Profile</a>   
         <a href="<?=base_url('my_profile/pdf_id_card')?>" target="_blank" class="btn btn-success btn-xs btn-mini"> Download Scout ID Card</a>
 
         <?php /*

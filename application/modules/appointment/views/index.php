@@ -13,7 +13,7 @@
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
                      <?php //if($this->ion_auth->is_admin()){ ?>
-                     <a href="<?=base_url('appointment/create')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create Appointment</a>
+                     <a href="<?=base_url('appointment/create')?>" class="btn btn-info btn-xs btn-mini"> Create Appointment</a>
                      <?php //} ?>
                   </div>
                </div>

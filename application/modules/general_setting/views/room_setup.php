@@ -12,17 +12,22 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('general_setting/room_setup_add')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create </a>
+              <a href="<?=base_url('general_setting/room_setup_add')?>" class="btn btn-info btn-xs btn-mini"> Create </a>
             </div>
           </div>
 
           <div class="grid-body ">
-            <div id="infoMessage"><?php //echo $message;?></div>
             <?php if($this->session->flashdata('success')):?>
                 <div class="alert alert-success">
-                    <a class="close" data-dismiss="alert">&times;</a>
+                    <a class="close" data-dismiss="alert"></a>
                     <?php echo $this->session->flashdata('success');?>
                 </div>
+            <?php endif; ?>
+            <?php if($this->session->flashdata('error')):?>
+              <div class="alert alert-error">
+                <a class="close" data-dismiss="alert"></a>
+                <?php echo $this->session->flashdata('error');?>
+              </div>
             <?php endif; ?>
 
             <table class="table table-hover table-bordered  table-flip-scroll cf" id="">
@@ -38,11 +43,21 @@
               <tbody>
                 <?php $sl = 0; foreach ($results as $row): $sl++; ?>
                   <tr>
-                    <td class="v-align-middle"><?=$sl.'.'?></td>
-                    <td class="v-align-middle"><?=$row->name_bn?></td>
-                    <td class="v-align-middle"><?=$row->name_en?></td>
-                    <td class="v-align-middle"><?=$row->status == 1? 'Active':'Inactive' ?></td>
-                    <td><?php echo anchor(base_url()."general_setting/room_setup_edit/".$row->id, 'Edit', 'class="btn btn-mini btn-primary"') ;?></td>
+                    <td style="vertical-align:middle"><?=$sl.'.'?></td>
+                    <td style="vertical-align:middle"><?=$row->name_bn?></td>
+                    <td style="vertical-align:middle"><?=$row->name_en?></td>
+                    <td style="vertical-align:middle">
+                      <?php if($row->status == 1): ?>
+                      <span class="badge badge-success">Active</span>
+                      <?php else: ?>
+                      <span class="badge badge-danger">Inactive</span>
+                      <?php endif; ?>
+                    </td>
+                    <td>
+                      <a class="btn btn-mini btn-primary" href="<?php echo site_url('general_setting/room_setup_edit/'.$row->id) ?>"><i class="fa fa-pencil"></i> </a>
+                      <a class="btn btn-mini btn-danger" href="<?php echo site_url('general_setting/room_setup_delete/'.$row->id) ?>" onclick="return confirm('Are you sure you want to delete this Room Setup?')"><i class="fa fa-trash-o"></i> </a>
+                    </td>
+                    </td>
                   </tr>
                 <?php endforeach;?>
               </tbody>

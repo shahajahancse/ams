@@ -51,7 +51,7 @@
                    $delivered = 'disabled';
                  }
                  ?>
-                 <?=anchor("requisition/delivery_product/".encrypt_url($row->id), 'Delivery Product', array('class' => 'btn btn-blueviolet btn-mini', $delivered=>$delivered))?>
+                 <?=anchor("requisition/delivery_product/".encrypt_url($row->id), 'Delivery Product', array('class' => 'btn btn-info btn-mini', $delivered=>$delivered))?>
                  <?php } ?>
 
                  <?=anchor("requisition/details/".encrypt_url($row->id), 'Details', array('class' => 'btn btn-primary btn-mini'))?>

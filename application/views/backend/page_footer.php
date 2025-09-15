@@ -34,6 +34,30 @@
 <!-- <script src="https://oss.maxcdn.com/jquery.mask/1.11.4/jquery.mask.min.js"></script> -->
 <script src="<?=base_url();?>awedget/assets/plugins/jquery-validation/dist/additional-methods.min.js" type="text/javascript"></script>
 
+  <!-- <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> -->
+  <!-- DataTables JS -->
+  <script src="https://cdn.datatables.net/1.13.6/js/jquery.dataTables.min.js"></script>
+  <script>
+    setTimeout(function(){
+      $(".alert").fadeOut("slow");
+    }, 3000);
+  </script>
+
+  <script>
+    $(document).ready(function() {
+      $('#usersTable').DataTable({
+        "columnDefs": [
+          {"targets": [0, 2] }
+        ],
+        "pageLength": 10,
+        "ordering": true,
+        "searching": true  
+      });
+    });
+  </script>
+
+
+
 <?php /*
 <!-- END PAGE LEVEL PLUGINS -->
 <!-- <script src="<?=base_url();?>awedget/assets/js/form_validations.js" type="text/javascript"></script> -->

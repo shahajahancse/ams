@@ -1,4 +1,4 @@
-<div class="page-content">
+<div class="page-content" style="min-height: 10vh;overflow-x: auto;">
    <div class="content">
       <ul class="breadcrumb" style="margin-bottom: 20px;">
          <li> <a href="<?=base_url()?>" class="active"> Dashboard </a> </li>
@@ -11,7 +11,7 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                    <div class="pull-right">
-                     <a href="<?=base_url('general_setting/category_add')?>" class="btn btn-blueviolet btn-xs btn-mini"> Add Category </a>
+                     <a href="<?=base_url('general_setting/category_add')?>" class="btn btn-info btn-xs btn-mini"> Add Category </a>
                   </div>
                </div>
 
@@ -19,35 +19,51 @@
                   <div id="infoMessage"><?php //echo $message;?></div>
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">
-                        <a class="close" data-dismiss="alert">&times;</a>
+                        <a class="close" data-dismiss="alert"></a>
                         <?php echo $this->session->flashdata('success');?>
                      </div>
                   <?php endif; ?>
+                  <?php if($this->session->flashdata('error')):?>
+                     <div class="alert alert-error">
+                        <a class="close" data-dismiss="alert"></a>
+                        <?php echo $this->session->flashdata('error');?>
+                     </div>
+                  <?php endif; ?>
 
-                  <table class="table table-hover table-bordered  table-flip-scroll cf" id="">
+                  <table class="table table-hover table-bordered" id="usersTable">
                      <thead>
                         <tr>
-                           <th style="width:2%"> SL </th>
-                           <th style="width:60%">Category Name</th>
-                           <th style="width:40%">Action</th>
+                           <th class="text-center"> SL </th>
+                           <th class="text-center">Category Name</th>
+                           <th class="text-center">Status</th>
+                           <th class="text-center">Action</th>
                         </tr>
                      </thead>
                      <tbody>
                         <?php
                         $sl = 0;
+                        // dd($results);
                         foreach ($results as $row):
                            $sl++;
                         ?>
                         <tr>
-                           <td class="v-align-middle"><?=$sl.'.'?></td>
-                           <td class="v-align-middle"><?=$row->category_name?></td>
-                           <td class="v-align-middle">
-                              <a href="<?=base_url('general_setting/category_edit/'.$row->id)?>" class="btn btn-primary btn-xs btn-mini">Edit</a>
+                           <td class="text-center" style="vertical-align:middle"><?=$sl.'.'?></td>
+                           <td class="text-center" style="vertical-align:middle"><?=$row->category_name?></td>
+                           <td class="text-center" style="vertical-align:middle">
+                              <?php if($row->status == 'Enable') { ?>
+                              <span class="badge badge-success">Active</span>
+                              <?php } else { ?>
+                              <span class="badge badge-danger">Inactive</span>
+                              <?php } ?>
+                           </td>
+                           <td class="text-center" style="vertical-align:middle">
+                              <a href="<?=base_url('general_setting/category_edit/'.$row->id)?>" class="btn btn-primary btn-xs btn-mini"><i class="fa fa-edit"></i> </a>
+                              <a href="<?=base_url('general_setting/category_delete/'.$row->id)?>" class="btn btn-danger btn-xs btn-mini"><i class="fa fa-trash-o"></i> </a>
                            </td>
                         </tr>
                      <?php endforeach;?>
-                  </tbody>
-               </table>
+                   </tbody>
+                  </table>
 
             </div>
          </div>

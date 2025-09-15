@@ -52,7 +52,7 @@
                                 }else if($info->status == 5){
                                     $status = '<span class="label label-primary">Director Approve</span>';
                                 }else if($info->status == 6){
-                                    $status = '<span class="label label-blueviolet">Received</span>';
+                                    $status = '<span class="label label-info">Received</span>';
                                 }else if($info->status == 7){
                                     $status = '<span class="label label-important">Rejected</span>';
                                 }else if($info->status == 8){

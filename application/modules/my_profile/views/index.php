@@ -241,11 +241,11 @@ $qr_code_text = 'Name: ' . $info->first_name . ' ('. $info->scout_id .')';
 
                 <div class="pull-right">    
                     <?php if($scout_id != NULL){ ?>
-                    <a href="<?=base_url('my_profile/id_card')?>" class="btn btn-blueviolet btn-xs btn-mini"><i class="fa fa-download"></i> Scout ID Card</a>   
+                    <a href="<?=base_url('my_profile/id_card')?>" class="btn btn-info btn-xs btn-mini"><i class="fa fa-download"></i> Scout ID Card</a>   
                     <?php } ?>       
-                    <a href="<?=base_url('my_profile/change_image')?>" class="btn btn-blueviolet btn-xs btn-mini"><i class="fa fa-user"></i> Change Image</a>
-                    <a href="<?=base_url('my_profile/change_username')?>" class="btn btn-blueviolet btn-xs btn-mini"><i class="fa fa-refresh"></i> Change Username</a>
-                    <a href="<?=base_url('my_profile/change_password')?>" class="btn btn-blueviolet btn-xs btn-mini"><i class="fa fa-key"></i> Change Password</a>
+                    <a href="<?=base_url('my_profile/change_image')?>" class="btn btn-info btn-xs btn-mini"><i class="fa fa-user"></i> Change Image</a>
+                    <a href="<?=base_url('my_profile/change_username')?>" class="btn btn-info btn-xs btn-mini"><i class="fa fa-refresh"></i> Change Username</a>
+                    <a href="<?=base_url('my_profile/change_password')?>" class="btn btn-info btn-xs btn-mini"><i class="fa fa-key"></i> Change Password</a>
                 </div>
               </div>
                             

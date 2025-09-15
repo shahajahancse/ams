@@ -12,14 +12,20 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('general_setting/sub_categories')?>" class="btn btn-success btn-xs btn-mini"> Sub Category List</a>
+                     <a href="<?=base_url('general_setting/sub_categories')?>" class="btn btn-info btn-xs btn-mini"> Sub Category List</a>
                   </div>
                </div>
                <div class="grid-body">
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">
-                        <a class="close" data-dismiss="alert">&times;</a>
-                        <?php echo $this->session->flashdata('success');;?>
+                        <a class="close" data-dismiss="alert"></a>
+                        <?php echo $this->session->flashdata('success');?>
+                     </div>
+                  <?php endif; ?>
+                  <?php if($this->session->flashdata('error')):?>
+                     <div class="alert alert-error">
+                        <a class="close" data-dismiss="alert"></a>
+                        <?php echo $this->session->flashdata('error');?>
                      </div>
                   <?php endif; ?>
 
@@ -28,15 +34,23 @@
                   echo form_open_multipart("general_setting/sub_category_add", $attributes);?>
 
                   <div class="row form-row">
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <label class="form-label">Select Category</label>
                         <?php echo form_error('cate_id'); ?>
                         <?php echo form_dropdown('cate_id',$categories, set_value('cate_id'), 'class="form-control input-sm"');?>
                      </div>
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <label class="form-label">Sub Category Name </label>
                         <?php echo form_error('sub_cate_name'); ?>
                         <input name="sub_cate_name" type="text" value="<?=set_value('sub_cate_name')?>" class="form-control input-sm" placeholder="">
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Status</label>
+                        <?php echo form_error('status'); ?>
+                        <select name="status" class="form-control input-sm">
+                           <option value="1" <?=set_select('status', '1', set_value('status', '1'))?>>Active</option>
+                           <option value="2" <?=set_select('status', '2', set_value('status', '2'))?>>Inactive</option>
+                        </select>
                      </div>
                   </div>
 

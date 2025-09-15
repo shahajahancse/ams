@@ -12,7 +12,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('general_setting/proficiency_badge_add')?>" class="btn btn-blueviolet btn-primary btn-xs btn-mini"> Add Proficiency Badge</a>  
+              <a href="<?=base_url('general_setting/proficiency_badge_add')?>" class="btn btn-info btn-primary btn-xs btn-mini"> Add Proficiency Badge</a>  
             </div>            
           </div>
 

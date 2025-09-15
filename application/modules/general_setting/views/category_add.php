@@ -12,17 +12,20 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                  <a href="<?=base_url('general_setting/categories')?>" class="btn btn-success btn-xs btn-mini"> Category List</a>
+                  <a href="<?=base_url('general_setting/categories')?>" class="btn btn-info btn-xs btn-mini"> Category List</a>
                   </div>
                </div>
                <div class="grid-body">
-                  <!-- <form id="form_traditional_validation" action="#"> -->
-                  <!-- <div id="infoMessage"><?php //echo $message;?></div> -->
-                  <div><?php //echo validation_errors(); ?></div>
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">
-                        <a class="close" data-dismiss="alert">&times;</a>
-                        <?php echo $this->session->flashdata('success');;?>
+                        <a class="close" data-dismiss="alert"></a>
+                        <?php echo $this->session->flashdata('success');?>
+                     </div>
+                  <?php endif; ?>
+
+                  <?php if($this->session->flashdata('error')):?>
+                     <div class="alert alert-error">
+                        <?php echo $this->session->flashdata('error');?>
                      </div>
                   <?php endif; ?>
 
@@ -32,20 +35,23 @@
 
                   <div class="row form-row">
                      <div class="col-md-6">
-                        <label class="form-label">Select Division <span class="required">*</span></label>
-                        <?php $divs = $this->db->where('type', 2)->get('units')->result(); ?>
-                        <select name="division_id" class="form-control input-sm" required>
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($divs as $key => $value) { ?>
-                              <option value="<?=$value->id?>"><?=$value->name_en?></option>
-                           <?php } ?>
-                           <option value="7">Others</option>
-                        </select>
+                        <label class="form-label">Category Name </label>
+                        <input name="cate_name" type="text" value="<?=set_value('cate_name')?>" class="form-control input-sm" placeholder="">
+                        <?php echo form_error('cate_name'); ?>
                      </div>
                      <div class="col-md-6">
-                        <label class="form-label">Category Name </label>
-                        <?php echo form_error('cate_name'); ?>
-                        <input name="cate_name" type="text" value="<?=set_value('cate_name')?>" class="form-control input-sm" placeholder="">
+                        <label class="form-label">Status </label>
+                        <?php echo form_error('status'); ?>
+                        <div class="form-group">
+                           <label class="radio-inline">
+                              <input type="radio" name="status" value="Enable" <?=set_radio('status', 'Enable', set_value('status', 'Enable'))?> checked>
+                              Active
+                           </label>
+                           <label class="radio-inline">
+                              <input type="radio" name="status" value="Disable" <?=set_radio('status', 'Disable', set_value('status', 'Disable'))?>>
+                              Inactive
+                           </label>
+                        </div>
                      </div>
                   </div>
 

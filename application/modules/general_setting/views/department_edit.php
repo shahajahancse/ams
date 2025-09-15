@@ -12,20 +12,10 @@
              <div class="grid-title">
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
               <div class="pull-right">                
-                <a href="<?=base_url('general_setting/department')?>" class="btn btn-blueviolet btn-xs btn-mini"> Department List</a>  
+                <a href="<?=base_url('general_setting/department')?>" class="btn btn-info btn-xs btn-mini"> Department List</a>  
               </div>
              </div>
              <div class="grid-body">
-              <!-- <form id="form_traditional_validation" action="#"> -->
-              <!-- <div id="infoMessage"><?php //echo $message;?></div> -->
-              <div><?php //echo validation_errors(); ?></div>
-              <?php if($this->session->flashdata('success')):?>
-                  <div class="alert alert-success">
-                      <a class="close" data-dismiss="alert">&times;</a>
-                      <?php echo $this->session->flashdata('success');;?>
-                  </div>
-              <?php endif; ?>
-
               <?php 
               $attributes = array('id' => 'department_validate');
               echo form_open_multipart("general_setting/department_edit/".$info->id, $attributes);?>
@@ -40,8 +30,8 @@
                 <div class="col-md-6">
                     <label class="form-label">Status</label>
                     <?php echo form_error('status'); ?>
-                    <input type="radio" name="status" id="" class="group_control" value="1" <?=set_value('is_current', $info->status)==1?'checked':'';?>> Enable &nbsp;&nbsp;
-                    <input type="radio" name="status" id="" class="group_control" value="0" <?=set_value('is_current', $info->status)==0?'checked':'';?>> Disable
+                    <input type="radio" name="status" id="" class="group_control" value="1" <?=set_value('is_current', $info->status)==1?'checked':'';?>> Active &nbsp;&nbsp;
+                    <input type="radio" name="status" id="" class="group_control" value="0" <?=set_value('is_current', $info->status)==0?'checked':'';?>> Inactive
                  </div>
               </div>
 

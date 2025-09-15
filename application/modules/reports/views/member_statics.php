@@ -20,7 +20,7 @@
         <!-- END DASHBOARD TILES -->
 
         <div class="row">
-          <a href="<?=base_url('reports/doc_member_statics')?>" class="btn btn-blueviolet btn-xs btn-mini" style="float: right; margin-left: 10px;">DOC Download</a>
+          <a href="<?=base_url('reports/doc_member_statics')?>" class="btn btn-info btn-xs btn-mini" style="float: right; margin-left: 10px;">DOC Download</a>
           <a href="<?=base_url('reports/pdf_member_statics')?>" class="btn btn-primary btn-xs btn-mini" style="float: right;">PDF Download</a>
           
           <div class="col-md-12">

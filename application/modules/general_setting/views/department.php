@@ -12,39 +12,48 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('general_setting/department_add')?>" class="btn btn-blueviolet btn-xs btn-mini"> Add Department </a>
+              <a href="<?=base_url('general_setting/department_add')?>" class="btn btn-info btn-xs btn-mini"> Add New </a>
             </div>            
           </div>
 
-          <div class="grid-body ">
-            <div id="infoMessage"><?php //echo $message;?></div>            
+          <div class="grid-body ">          
             <?php if($this->session->flashdata('success')):?>
                 <div class="alert alert-success">
-                    <a class="close" data-dismiss="alert">&times;</a>
+                    <a class="close" data-dismiss="alert"></a>
                     <?php echo $this->session->flashdata('success');?>
                 </div>
             <?php endif; ?>
             
-            <table class="table table-hover table-bordered  table-flip-scroll cf" id="">
+            <?php if($this->session->flashdata('error')):?>
+                <div class="alert alert-error">
+                    <a class="close" data-dismiss="alert"></a>
+                    <?php echo $this->session->flashdata('error');?>
+                </div>
+            <?php endif; ?>
+            
+            <table class="table table-hover table-bordered  table-flip-scroll cf" id="usersTable">
               <thead>
                 <tr>
-                  <th style="width:2%"> SL </th>
-                  <th style="width:60%">Department Name</th>
-                  <!-- <th style="width:18%">Status</th> -->
-                  <th style="width:20%">Action</th>
+                  <th class="text-center"> SL </th>
+                  <th class="text-center">Department Name</th>
+                  <th class="text-center">Status</th>
+                  <th class="text-center">Action</th>
                 </tr>
               </thead>
-              <tbody>
+              <tbody class="text-center" >
               <?php 
                 $sl = 0;
                 foreach ($results as $row):
                   $sl++;
               ?>
                 <tr>
-                  <td class="v-align-middle"><?=$sl.'.'?></td>
-                  <td class="v-align-middle"><?=$row->dept_name?></td>
-                  <!-- <td> <?php echo ($row->status) ?'<span class="btn btn-primary btn-xs btn-mini">Enable </span>': '<span class="btn btn-danger btn-xs btn-mini">Disable</span>';?> </td> -->
-                  <td><?php echo anchor(base_url()."general_setting/department_edit/".$row->id, 'Edit', 'class="btn btn-mini btn-primary"') ;?>&nbsp;<a class="btn btn-mini btn-primary" href="<?=base_url()?>general_setting/department_delete/<?=$row->id?>" onclick="return confirm('Are you sure you want to delete this Department?');">Delete</a></td>
+                  <td style="vertical-align:middle"><?=$sl.'.'?></td>
+                  <td style="vertical-align:middle"><?=$row->dept_name?></td>
+                  <td style="vertical-align:middle"><span class="badge <?= ($row->status==1) ? 'badge-success':'badge-danger'?>"><?=($row->status==1) ? 'Active':'Inactive'?></span></td>
+                  <td style="vertical-align:middle">
+                    <a href="<?=base_url()?>general_setting/department_edit/<?=$row->id?>" class="btn btn-mini btn-primary"><i class="fa fa-pencil"></i> </a>
+                    <a class="btn btn-mini btn-danger" href="<?=base_url()?>general_setting/department_delete/<?=$row->id?>" onclick="return confirm('Are you sure you want to delete this Department?');"><i class="fa fa-trash-o"></i> </a>
+                  </td>
                 <?php endforeach;?>                      
               </tbody>
             </table>

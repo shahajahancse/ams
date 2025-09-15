@@ -42,7 +42,7 @@
                     <td class="v-align-middle"><?=date('d M, Y h:i A', strtotime($row->updated));?></td>
                     <td> <?=$status?></td>
                     <td align="right">
-                      <?=anchor("requisition/change_status/".encrypt_url($row->id), 'Approval Status', array('class' => 'btn btn-blueviolet btn-mini'))?>
+                      <?=anchor("requisition/change_status/".encrypt_url($row->id), 'Approval Status', array('class' => 'btn btn-info btn-mini'))?>
                       <?=anchor("requisition/details/".encrypt_url($row->id), 'Details', array('class' => 'btn btn-primary btn-mini'))?>
                     </td>
                   </tr>

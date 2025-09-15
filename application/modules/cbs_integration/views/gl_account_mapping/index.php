@@ -12,7 +12,7 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('cbs_integration/add_gl_account_mapping')?>" class="btn btn-blueviolet btn-xs btn-mini"> Add GL Account Mapping</a>
+                     <a href="<?=base_url('cbs_integration/add_gl_account_mapping')?>" class="btn btn-info btn-xs btn-mini"> Add GL Account Mapping</a>
                      <a href="<?=base_url('cbs_integration/export_journal_entries')?>" class="btn btn-success btn-xs btn-mini">Export Journal Entries</a>
                   </div>
                </div>

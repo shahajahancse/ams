@@ -5771,16 +5771,16 @@ body.menu-non-fixed .page-sidebar {
     background-color: #0090d9;
   }
 
-  .btn-blueviolet {
+  .btn-info {
     color: #e4dfdf;
-    background-color: blueviolet;
+    background-color: info;
   }
-  .btn-blueviolet:hover,
-  .btn-blueviolet:focus,
-  .btn-blueviolet:active,
-  .btn-blueviolet.active,
-  .btn-blueviolet.disabled,
-  .btn-blueviolet[disabled] {
+  .btn-info:hover,
+  .btn-info:focus,
+  .btn-info:active,
+  .btn-info.active,
+  .btn-info.disabled,
+  .btn-info[disabled] {
     color: #ffffff;
     background-color: #740ed2;
   }

@@ -45,6 +45,18 @@
     <link href="<?=base_url();?>awedget/assets/css/style.css" rel="stylesheet" type="text/css" />
     <link href="<?=base_url();?>awedget/assets/css/responsive.css" rel="stylesheet" type="text/css" />
     <link href="<?=base_url();?>awedget/assets/css/custom-icon-set.css" rel="stylesheet" type="text/css" />
+    <!-- DataTables CSS -->
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.min.css">
+    <style>
+        .sorting_asc{
+            background-image: none !important;
+        }
+        .sorting_desc{
+            background-image: none !important;
+        }
+    </style>
+    <!-- jQuery -->
+
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.3/dist/sweetalert2.min.css" rel="stylesheet">
@@ -57,7 +69,12 @@
     .select2-container{
         display: inline-table !important;
     }
+    .dataTable td, 
+    .dataTable th {
+        padding: 6px 10px !important; /* top/bottom - left/right */
+    }
 </style>
+
 <?php  if($this->router->fetch_class('my_message') == 'my_message'){ ?>
 
 <body class="inner-menu-always-open" style="font-family: sans-serif;">
@@ -225,19 +242,19 @@
                                             Setting</span> <span class="selected"></span> <span class="arrow"></span>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li> <a href="<?=base_url('general_setting/item_locker');?>"><i class="fa fa-file"></i>Item Locker</a></li>
+                                        <li> <a href="<?=base_url('general_setting/item_locker');?>"><i class="fa fa-file"></i> Item Locker</a></li>
                                         <li> <a href="<?=base_url('general_setting/locker_setup');?>"><i class="fa fa-lock"></i> Locker Setup</a></li>
                                         <li> <a href="<?=base_url('general_setting/room_setup');?>"> <i class="fa fa-home"></i> Room Setup</a></li>
-                                        <li> <a href="<?=base_url('general_setting/sub_categories');?>"> <i class="fa fa-list"></i> Sub Categories</a></li>
                                         <li> <a href="<?=base_url('general_setting/categories');?>"> <i class="fa fa-bars"></i> Categories</a></li>
+                                        <li> <a href="<?=base_url('general_setting/sub_categories');?>"> <i class="fa fa-list"></i> Sub Categories</a></li>
                                         <li> <a href="<?=base_url('general_setting/item_unit');?>"><i class="fa fa-th-list"></i> Item Unit</a></li>
-                                        <li> <a href="<?=base_url('general_setting/department');?>"> Department</a></li>
-                                        <li> <a href="<?=base_url('general_setting/designation');?>"> Designation</a>
-                                        <li> <a href="<?=base_url('general_setting/units');?>"> Division </a>
-                                        <li> <a href="<?=base_url('general_setting/division_type');?>"> Division Type </a>
+                                        <li> <a href="<?=base_url('general_setting/department');?>"><i class="fa fa-building-o"></i> Department</a></li>
+                                        <li> <a href="<?=base_url('general_setting/designation');?>"><i class="fa fa-level-up"></i> Designation</a>
+                                        <li> <a href="<?=base_url('general_setting/units');?>"><i class="fa fa-building-o"></i> Branch </a>
+                                        <li> <a href="<?=base_url('general_setting/branch_type');?>"> <i class="fa fa-list-alt"></i>Branch Type </a>
                                         <!-- <li> <a href="<?=base_url('general_setting/group');?>"> Group</a> -->
                                         </li>
-                                        <li> <a href="<?=base_url('custom_fields');?>"> Custom Fields</a></li>
+                                        <!-- <li> <a href="<?=base_url('custom_fields');?>"> Custom Fields</a></li> -->
                                     </ul>
                                 </li>
                                 <?php } ?>

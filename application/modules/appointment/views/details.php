@@ -19,11 +19,11 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">                
-                     <a href="<?=base_url('appointment')?>" class="btn btn-blueviolet btn-xs btn-mini"> Appointment List</a>  
-                     <a href="<?=base_url('appointment/update/'.encrypt_url($info->id))?>" class="btn btn-blueviolet btn-xs btn-mini">Update</a>
+                     <a href="<?=base_url('appointment')?>" class="btn btn-info btn-xs btn-mini"> Appointment List</a>  
+                     <a href="<?=base_url('appointment/update/'.encrypt_url($info->id))?>" class="btn btn-info btn-xs btn-mini">Update</a>
 
                      <!-- <a href="<?=base_url('committee/pdf_national_committee/'.encrypt_url($info->id))?>" class="btn btn-success btn-mini" target="_blank"> Download PDF</a> -->
-                     <!-- <a> <input class="btn btn-blueviolet btn-xs btn-mini" type="button" onclick="printDiv('printableArea')" value="Print" /></a>  -->
+                     <!-- <a> <input class="btn btn-info btn-xs btn-mini" type="button" onclick="printDiv('printableArea')" value="Print" /></a>  -->
                   </div>
                </div>
 

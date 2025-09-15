@@ -932,7 +932,7 @@ class mPDF
 			'red' => '#FF0000', 'royalblue' => '#4169E1', 'salmon' => '#FA8072', 'seagreen' => '#2E8B57', 'sienna' => '#A0522D', 'silver' => '#C0C0C0', 'skyblue' => '#87CEEB',
 			'slategray' => '#708090', 'springgreen' => '#00FF7F', 'steelblue' => '#4682B4', 'tan' => '#D2B48C', 'teal' => '#008080', 'thistle' => '#D8BFD8', 'turquoise' => '#40E0D0',
 			'violetred' => '#D02090', 'white' => '#FFFFFF', 'yellow' => '#FFFF00',
-			'aliceblue' => '#f0f8ff', 'azure' => '#f0ffff', 'bisque' => '#ffe4c4', 'blanchedalmond' => '#ffebcd', 'blueviolet' => '#8a2be2', 'burlywood' => '#deb887',
+			'aliceblue' => '#f0f8ff', 'azure' => '#f0ffff', 'bisque' => '#ffe4c4', 'blanchedalmond' => '#ffebcd', 'info' => '#8a2be2', 'burlywood' => '#deb887',
 			'chartreuse' => '#7fff00', 'coral' => '#ff7f50', 'cornsilk' => '#fff8dc', 'cyan' => '#00ffff', 'darkcyan' => '#008b8b', 'darkgray' => '#a9a9a9',
 			'darkgrey' => '#a9a9a9', 'darkkhaki' => '#bdb76b', 'darkolivegreen' => '#556b2f', 'darkorchid' => '#9932cc', 'darksalmon' => '#e9967a',
 			'darkslateblue' => '#483d8b', 'darkslategrey' => '#2f4f4f', 'darkturquoise' => '#00ced1', 'deeppink' => '#ff1493', 'dimgray' => '#696969',

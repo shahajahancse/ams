@@ -14,7 +14,7 @@
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
               <a target="_blank" href="<?=base_url('acl/acl_excel')?>" class="btn btn-info btn-xs btn-mini"> Excel </a>
-              <a href="<?=base_url('acl/create_user')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create User </a>
+              <a href="<?=base_url('acl/create_user')?>" class="btn btn-info btn-xs btn-mini"> Create User </a>
             </div>
           </div>
 

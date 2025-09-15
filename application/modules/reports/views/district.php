@@ -36,7 +36,7 @@
                     </div>
                  </div>
                   <div>
-                    <a href="<?=base_url('reports/doc_scouts_district_offices')?>" class="btn btn-blueviolet btn-xs btn-mini" style="float: right;margin-left: 10px;">DOC Download</a>
+                    <a href="<?=base_url('reports/doc_scouts_district_offices')?>" class="btn btn-info btn-xs btn-mini" style="float: right;margin-left: 10px;">DOC Download</a>
 
                     <a href="<?=base_url('reports/pdf_scouts_district_offices')?>" class="btn btn-primary btn-xs btn-mini" style="float: right;">PDF Download</a>
                   </div>

@@ -26,7 +26,7 @@
                 .tg .tg-yw4l{vertical-align:middle; text-align: right; font-weight: bold;}
                 </style>
         <div class="row">
-          <a href="<?=base_url('reports/doc_unit_report')?>" class="btn btn-blueviolet btn-xs btn-mini" style="float: right;margin-left:10px; ">DOC Download</a>
+          <a href="<?=base_url('reports/doc_unit_report')?>" class="btn btn-info btn-xs btn-mini" style="float: right;margin-left:10px; ">DOC Download</a>
           <a href="<?=base_url('reports/pdf_unit_report')?>" class="btn btn-primary btn-xs btn-mini" style="float: right;">PDF Download</a>
           <div class="col-md-12" style="padding-bottom: 10px;">
             <h2 style="text-align: center; font-weight: bold; "> স্কাউট ইউনিট রিপোর্ট </h2>

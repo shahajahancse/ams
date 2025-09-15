@@ -19,6 +19,13 @@ class General_setting_model extends CI_Model {
               return $query;
        }
 
+       public function get_categoriess() {
+              // result query
+              $this->db->select('*');
+              $this->db->from('item_categories');
+              $query = $this->db->get()->result();
+              return $query;
+       }
        public function get_categories($id=null) {
               // result query
               $this->db->select('*');
@@ -26,7 +33,7 @@ class General_setting_model extends CI_Model {
               if($id){
                      $this->db->where('id', $id);
               }
-              $query = $this->db->get()->result();
+              $query = $this->db->get()->row();
               return $query;
        }
 
@@ -36,6 +43,13 @@ class General_setting_model extends CI_Model {
                      // $this->db->where('is_delete',0);
               $this->db->from('item_unit');
               $query = $this->db->get()->result();
+              return $query;
+       }
+       public function get_item_unit_by_id($id) {
+              $this->db->select('*');
+              $this->db->from('item_unit');
+              $this->db->where('id', $id);
+              $query = $this->db->get()->row();
               return $query;
        }
 

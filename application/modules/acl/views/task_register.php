@@ -12,7 +12,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('acl/create_task_register')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create Task Register</a>  
+              <a href="<?=base_url('acl/create_task_register')?>" class="btn btn-info btn-xs btn-mini"> Create Task Register</a>  
             </div>            
           </div>
 

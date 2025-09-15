@@ -13,7 +13,7 @@
                         <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                         <div class="pull-right">
                             <?php if ($this->ion_auth->in_group(array('sm','admin'))) { ?>
-                                <a href="<?=base_url('purchase/create')?>" class="btn btn-blueviolet btn-xs btn-mini"> Create Purchase</a>
+                                <a href="<?=base_url('purchase/create')?>" class="btn btn-info btn-xs btn-mini"> Create Purchase</a>
                             <?php } ?>
                         </div>
                     </div>

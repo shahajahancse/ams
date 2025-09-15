@@ -12,7 +12,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('general_setting/occupation_add')?>" class="btn btn-blueviolet btn-xs btn-mini"> Add Occupation </a>
+              <a href="<?=base_url('general_setting/occupation_add')?>" class="btn btn-info btn-xs btn-mini"> Add Occupation </a>
             </div>            
           </div>
 

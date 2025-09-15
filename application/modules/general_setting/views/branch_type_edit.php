@@ -11,31 +11,35 @@
              <div class="grid-title">
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
               <div class="pull-right">
-                <a href="<?=base_url('general_setting/division_type')?>" class="btn btn-blueviolet btn-xs btn-mini">List</a>
+                <a href="<?=base_url('general_setting/branch_type')?>" class="btn btn-info btn-xs btn-mini">List</a>
               </div>
              </div>
              <div class="grid-body">
-              <?php if($this->session->flashdata('success')):?>
-                  <div class="alert alert-success">
-                      <a class="close" data-dismiss="alert">&times;</a>
-                      <?php echo $this->session->flashdata('success');;?>
-                  </div>
-              <?php endif; ?>
-
               <?php
               $attributes = array('id' => 'department_validate');
-              echo form_open_multipart('general_setting/division_type_add', $attributes);?>
+              echo form_open_multipart("general_setting/branch_type_edit/".$info->id, $attributes);?>
 
               <div class="row form-row">
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <label class="form-label">Name Bangla <span style="color:red">*</span></label>
                   <?php echo form_error('name_bn'); ?>
-                  <input name="name_bn" id="name_bn" type="text" value="<?=set_value('name_bn')?>" class="form-control input-sm" placeholder="">
+                  <input name="name_bn" id="name_bn" type="text" value="<?=set_value('name_bn', $info->name_bn)?>" class="form-control input-sm" placeholder="">
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
                   <label class="form-label">Name English <span style="color:red">*</span></label>
                   <?php echo form_error('name_en'); ?>
-                  <input name="name_en" id="name_en" type="text" value="<?=set_value('name_en')?>" class="form-control input-sm" placeholder="">
+                  <input name="name_en" id="name_en" type="text" value="<?=set_value('name_en', $info->name_en)?>" class="form-control input-sm" placeholder="">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Name English <span style="color:red">*</span></label>
+                  <?php echo form_error('name_en'); ?>
+                  <input name="name_en" id="name_en" type="text" value="<?=set_value('name_en', $info->name_en)?>" class="form-control input-sm" placeholder="">
+                </div>
+                <div class="col-md-4">
+                  <label class="form-label">Status</label>
+                  <?php echo form_error('status'); ?>
+                  <input type="radio" name="status" id="" class="group_control" value="1" <?=set_value('is_current', $info->status)==1?'checked':'';?>> Active &nbsp;&nbsp;
+                  <input type="radio" name="status" id="" class="group_control" value="0" <?=set_value('is_current', $info->status)==0?'checked':'';?>> Inactive
                 </div>
               </div>
 

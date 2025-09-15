@@ -50,7 +50,7 @@
                               }else if($info->status == 4){
                                  $status = '<span class="label label-info">Back User From DO</span>';
                               }else if($info->status == 5){
-                                 $status = '<span class="label label-blueviolet">Approve</span>';
+                                 $status = '<span class="label label-info">Approve</span>';
                               }else if($info->status == 6){
                                  $status = '<span class="label label-primary">Delivered</span>';
                               }else if($info->status == 7){

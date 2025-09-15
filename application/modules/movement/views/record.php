@@ -12,7 +12,7 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('movement')?>" class="btn btn-blueviolet btn-xs btn-mini"> Movement List</a>
+                     <a href="<?=base_url('movement')?>" class="btn btn-info btn-xs btn-mini"> Movement List</a>
                   </div>
                </div>
                <div class="grid-body" style="padding: 26px 29px;">
