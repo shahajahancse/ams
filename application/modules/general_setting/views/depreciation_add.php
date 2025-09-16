@@ -7,41 +7,49 @@
     </ul>
 
     <div class="row">
-       <div class="col-md-12">
+       <div class="col-md-12" style="overflow-y: hidden;">
           <div class="grid simple horizontal">
              <div class="grid-title">
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
               <div class="pull-right">                
-                <a href="<?=base_url('general_setting/designation')?>" class="btn btn-info btn-xs btn-mini"> Designation List</a>  
+                <a href="<?=base_url('general_setting/depriciation')?>" class="btn btn-info btn-xs btn-mini"> Depriciation List</a>  
               </div>
              </div>
              <div class="grid-body" style="overflow-x: hidden;">
               <?php 
-              $attributes = array('id' => 'department_validate');
-              echo form_open_multipart("general_setting/designation_add", $attributes);?>
+              $attributes = array('id' => 'depriciation_validate');
+              echo form_open_multipart("general_setting/depreciation_add", $attributes);?>
 
               <div class="row form-row">
-                <div class="col-md-6">
-                  <label class="form-label">Designation</label>
-                  <?php echo form_error('department_name'); ?>
-                  <input name="department_name" id="department_name" type="text" value="<?=set_value('department_name')?>" class="form-control input-sm" placeholder="">
+                <div class="col-md-4">
+                  <label class="form-label">Type</label>
+                  <?php echo form_error('type'); ?>
+                  <select   name="type" class="form-control input-sm" required>
+                    <option value="">Select Type</option>
+                    <option value="1">Amount</option>
+                    <option value="2">Percentage</option>
+                  </select>
                 </div>
-                <div class="col-md-6">
+                <div class="col-md-4">
+                  <label class="form-label">Amount/Percentage</label>
+                  <?php echo form_error('rate'); ?>
+                  <input name="rate" id="rate" type="number" value="<?=set_value('rate')?>" class="form-control input-sm" placeholder="" required>
+                </div>
+                <div class="col-md-4">
                   <label class="form-label">Status</label>
                   <?php echo form_error('status'); ?>
                   <div class="form-group">
                     <label class="radio-inline">
-                      <input type="radio" name="status" value="1" <?=set_value('status', 1)==1?'checked':'';?>>
+                      <input type="radio" name="status" value="1" checked>
                       Active
                     </label>
                     <label class="radio-inline">
-                      <input type="radio" name="status" value="0" <?=set_value('status', 0)==0?'checked':'';?>>
+                      <input type="radio" name="status" value="0" >
                       Inactive
                     </label>
                   </div>
                 </div>
               </div>
-              
 
 
               <div class="form-actions">  
@@ -62,15 +70,16 @@
 </div>
 
 <script type="text/javascript">
-  $(document).ready(function() {
-    $('#department_validate').validate({
+   $(document).ready(function() {
+      $('#depriciation_validate').validate({
       // focusInvalid: false, 
       ignore: "",
       rules: {
-        department_name: {
-          required: true
-        },
+         depriciation_name: {
+            required: true
+         },
       },
+
     });
-  });   
+   });   
 </script>

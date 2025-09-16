@@ -24,21 +24,26 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('items')?>" class="btn btn-info btn-xs btn-mini"> Items List</a>
+                     <a href="<?=base_url('items')?>" class="btn btn-info btn-xs btn-mini"> Assets List</a>
                   </div>
                </div>
                <div class="grid-body" style="padding: 26px 29px;">
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">
-                        <?php echo $this->session->flashdata('success');;?>
+                        <?php echo $this->session->flashdata('success');?>
+                     </div>
+                  <?php endif; ?>
+                  <?php if($this->session->flashdata('error')):?>
+                     <div class="alert alert-error">
+                        <?php echo $this->session->flashdata('error');?>
                      </div>
                   <?php endif; ?>
 
                   <?php $attributes = array('id' => 'validate');
                   echo form_open_multipart("items/create", $attributes);?>
                   <div class="row form-row">
-                     <div class="col-md-4">
-                        <label class="form-label">Select Division <span class="required">*</span></label>
+                     <div class="col-md-3">
+                        <label class="form-label">Select Branch <span class="required">*</span></label>
                         <?php $divs = $this->db->where('type', 2)->get('units')->result(); ?>
                         <select name="division_id" class="form-control input-sm" required>
                            <option value="">-- Select One --</option>
@@ -48,6 +53,7 @@
                            <option value="0">Others</option>
                         </select>
                      </div>
+                     
                      <div class="col-md-3">
                         <label class="form-label">Select Category <span class="required">*</span></label>
                         <?php $cat = $this->db->get('item_categories')->result(); ?>
@@ -65,19 +71,36 @@
                            <option value="">-- Select One --</option>
                         </select>
                      </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Item Type <span class="required">*</span></label>
+                     <div class="col-md-3">
+                        <label class="form-label">Asset Type<span class="required">*</span></label>
                         <?php echo form_error('type'); ?>
                         <select name="type" id="type" class="form-control input-sm">
-                           <option value="1">Consumable</option>
-                           <option value="2">Non-Consumable</option>
-                           <option value="3">Permanent</option>
+                           <option value="">--Select Type--</option>
+                           <option value="1">Depriciation</option>
+                           <option value="2">Non Depriciation</option>
+                           <option value="3">Fixed</option>
                         </select>
                      </div>
                   </div>
 
                   <div class="row form-row">
-                     <div class="col-md-6">
+                     <div class="col-md-2">
+                        <label class="form-label">Select Type <span class="required">*</span></label>
+                        <select name="depreciation_type" id="depreciation_type" class="form-control input-sm" required>
+                           <option value="">-- Select Type --</option>
+                           <option value="1">Amount</option>
+                           <option value="2">Percentage</option>
+                        </select>
+                     </div>
+
+                     <div class="col-md-2">
+                        <label class="form-label">Amount/Percentage <span class="required">*</span></label>
+                        <select name="rate" id="rate" class="form-control input-sm" required>
+                           <option value="">-- Select --</option>
+                        </select>
+                     </div>
+
+                     <div class="col-md-4">
                         <label class="form-label">Item Name <span class="required">*</span></label>
                         <?php echo form_error('item_name'); ?>
                         <input name="item_name" type="text" value="<?=set_value('item_name')?>" class="form-control input-sm" placeholder="">
@@ -88,11 +111,6 @@
                         $more_attr = 'class="form-control input-sm"';
                         echo form_dropdown('unit_id', $units, set_value('unit_id'), $more_attr);
                         ?>
-                     </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Order Level <span class="required">*</span></label>
-                        <?php echo form_error('order_level'); ?>
-                        <input name="order_level" id="order_level" type="number" value="<?=set_value('order_level')?>" class="form-control input-sm" >
                      </div>
                      <div class="col-md-2">
                         <label class="form-label">Status <span class="required">*</span></label>
@@ -106,7 +124,7 @@
 
                   <div class="row form-row">
                      <div class="col-md-12">
-                        <label class="form-label">Item Specification</label>
+                        <label class="form-label">Asset Specification</label>
                         <textarea name="description" class="form-control input-sm" rows="3"><?=set_value('description')?></textarea>
                      </div>
                   </div>
@@ -140,33 +158,6 @@
                         <label class="form-label">Warranty (Months)</label>
                         <input name="warranty_months" type="number" value="<?=set_value('warranty_months')?>" class="form-control input-sm">
                      </div>
-                     <div class="col-md-4">
-                        <label class="form-label">Custodian</label>
-                        <select name="custodian_id" class="form-control input-sm">
-                           <option value="">-- Select Custodian --</option>
-                           <?php foreach ($custodians as $custodian) { ?>
-                              <option value="<?=$custodian->id?>"><?=$custodian->first_name . ' ' . $custodian->last_name?></option>
-                           <?php } ?>
-                        </select>
-                     </div>
-                  </div>
-
-                  <div class="row form-row">
-                     <div class="col-md-4">
-                        <label class="form-label">Depreciation Method</label>
-                        <select name="depreciation_method" class="form-control input-sm">
-                           <option value="straight-line">Straight-Line</option>
-                           <option value="wdv">Written Down Value</option>
-                        </select>
-                     </div>
-                     <div class="col-md-4">
-                        <label class="form-label">Useful Life (Years)</label>
-                        <input name="useful_life" type="number" value="<?=set_value('useful_life', 5)?>" class="form-control input-sm">
-                     </div>
-                     <div class="col-md-4">
-                        <label class="form-label">Salvage Value</label>
-                        <input name="salvage_value" type="number" step="0.01" value="<?=set_value('salvage_value', 0)?>" class="form-control input-sm">
-                     </div>
                   </div>
 
                   <div class="row form-row">
@@ -178,37 +169,6 @@
                            <option value="Disposed">Disposed</option>
                            <option value="Retired">Retired</option>
                         </select>
-                     </div>
-                     <div class="col-md-4">
-                        <label class="form-label">Branch</label>
-                        <?php
-                        $more_attr = 'class="form-control input-sm" id="branch_id"';
-                        echo form_dropdown('branch_id', $branches, set_value('branch_id'), $more_attr);
-                        ?>
-                     </div>
-                     <div class="col-md-4">
-                        <label class="form-label">Department</label>
-                        <?php
-                        $more_attr = 'class="form-control input-sm"';
-                        echo form_dropdown('department_id', $departments, set_value('department_id'), $more_attr);
-                        ?>
-                     </div>
-                  </div>
-
-                  <div class="row form-row">
-                     <div class="col-md-4">
-                        <label class="form-label">Floor</label>
-                        <?php
-                        $more_attr = 'class="form-control input-sm" id="floor_id"';
-                        echo form_dropdown('floor_id', $floors, set_value('floor_id'), $more_attr);
-                        ?>
-                     </div>
-                     <div class="col-md-4">
-                        <label class="form-label">Room</label>
-                        <?php
-                        $more_attr = 'class="form-control input-sm" id="room_id"';
-                        echo form_dropdown('room_id', $rooms, set_value('room_id'), $more_attr);
-                        ?>
                      </div>
                   </div>
 
@@ -290,15 +250,17 @@
    function getSubCategory(id){
       $.ajax({
          type: "POST",
-         url: "<?=base_url('items/get_sub_category_by_category/');?>"+id,
+         url: "<?=base_url('items/get_sub_category_by_category/');?>",
+         data: {id:id},
          success: function(data){
-             var parsedData = JSON.parse(data);
-             $('#sub_category').empty();
-             parsedData.forEach(function(item){
-                 $('#sub_category').append('<option value="' + item.id + '">' + item.sub_cate_name + '</option>');
-             })
+            var parsedData = JSON.parse(data);
+            $('#sub_category').empty();
+            $('#sub_category').append(`<option value="">-- Select Sub Category --</option>`);
+            parsedData.forEach(function(item){
+               $('#sub_category').append('<option value="' + item.id + '">' + item.sub_cate_name + '</option>');
+            });
          }
-      })
+      });
 
    }
 
@@ -307,7 +269,8 @@
          var branch_id = $(this).val();
          if (branch_id) {
             $.ajax({
-               url: '<?=base_url('items/get_floors_by_branch/');?>' + branch_id,
+               url: '<?=base_url('items/get_floors_by_branch/');?>',
+               data: {id: branch_id},
                type: 'POST',
                dataType: 'json',
                success: function(data) {
@@ -330,7 +293,8 @@
          var floor_id = $(this).val();
          if (floor_id) {
             $.ajax({
-               url: '<?=base_url('items/get_rooms_by_floor/');?>' + floor_id,
+               url: '<?=base_url('items/get_rooms_by_floor/');?>',
+               data: {id: floor_id},
                type: 'POST',
                dataType: 'json',
                success: function(data) {
@@ -344,6 +308,31 @@
          } else {
             $('#room_id').empty();
             $('#room_id').append('<option value="">-- Select Room --</option>');
+         }
+      });
+   });
+</script>
+
+<script>
+   $(document).ready(function () {
+      $('#depreciation_type').on('change', function () {
+         let type = $(this).val();
+         if (type !== '') {
+            $.ajax({
+               url: "<?= base_url('general_setting/getOptions') ?>",
+               type: "POST",
+               data: { type: type },
+               dataType: "json",
+               success: function (response) {
+                  $('#rate').empty();
+                  $('#rate').append('<option value="">-- Select one --</option>');
+                  $.each(response, function (key, value) {
+                     $('#rate').append('<option value="' + key + '">' + value + '</option>');
+                  });
+               }
+            });
+         } else {
+            $('#rate').html('<option value="">-- Select one--</option>');
          }
       });
    });

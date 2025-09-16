@@ -16,7 +16,7 @@
                <div class="grid-body ">
                   <div class="text-center">
                      <h3>QR Code for Asset</h3>
-                     <img src="<?=$qr_code_path?>" alt="QR Code">
+                     <img src="<?=$qr_code_path?>" alt="QR Code" style="height: 300px;">
                      <br><br>
                      <button onclick="window.print()" class="btn btn-primary">Print QR Code</button>
                      <a href="<?=base_url('items')?>" class="btn btn-default">Back to Items</a>

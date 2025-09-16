@@ -16,7 +16,7 @@
                      <a href="<?=base_url('general_setting/asset_floors')?>" class="btn btn-info btn-xs btn-mini"> Asset Floors List</a>
                   </div>
                </div>
-               <div class="grid-body">
+               <div class="grid-body" style="overflow-x: hidden;">
                   <?php if($this->session->flashdata('success')):?>
                      <div class="alert alert-success">
                         <?php echo $this->session->flashdata('success');?>

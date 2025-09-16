@@ -252,9 +252,11 @@
                                         <li> <a href="<?=base_url('general_setting/designation');?>"><i class="fa fa-level-up"></i> Designation</a>
                                         <li> <a href="<?=base_url('general_setting/units');?>"><i class="fa fa-building-o"></i> Branch </a>
                                         <li> <a href="<?=base_url('general_setting/branch_type');?>"> <i class="fa fa-list-alt"></i>Branch Type </a>
-                                        <!-- <li> <a href="<?=base_url('general_setting/group');?>"> Group</a> -->
+                                        <li> <a href="<?=base_url('general_setting/depreciation');?>"> Depreciation</a>
                                         </li>
-                                        <!-- <li> <a href="<?=base_url('custom_fields');?>"> Custom Fields</a></li> -->
+                                        <li> 
+                                            <a href="<?=base_url('custom_fields');?>"><i class="fa fa-list"></i> Custom Fields</a>
+                                        </li>
                                     </ul>
                                 </li>
                                 <?php } ?>

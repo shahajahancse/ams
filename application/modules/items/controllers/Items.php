@@ -25,58 +25,58 @@ class Items extends Backend_Controller {
 
    public function create(){
       //Validation
-      $this->form_validation->set_rules('division_id', 'select division', 'required|trim');
+      // $this->form_validation->set_rules('division_id', 'select division', 'required|trim');
       $this->form_validation->set_rules('cat_id', 'select category', 'required|trim');
       $this->form_validation->set_rules('sub_cat_id', 'select sub category', 'required|trim');
       $this->form_validation->set_rules('item_name', 'item name', 'required|trim');
-      $this->form_validation->set_rules('unit_id', 'select unit', 'required|trim');
-      $this->form_validation->set_rules('order_level', 'order level', 'required|trim');
+      // $this->form_validation->set_rules('unit_id', 'select unit', 'required|trim');
+      // $this->form_validation->set_rules('order_level', 'order level', 'required|trim');
       // New fields validation
-      $this->form_validation->set_rules('acquisition_date', 'acquisition date', 'trim');
-      $this->form_validation->set_rules('cost', 'cost', 'numeric|trim');
-      $this->form_validation->set_rules('supplier_id', 'supplier', 'trim');
-      $this->form_validation->set_rules('serial_number', 'serial number', 'trim');
-      $this->form_validation->set_rules('warranty_months', 'warranty months', 'integer|trim');
-      $this->form_validation->set_rules('custodian_id', 'custodian', 'trim');
-      $this->form_validation->set_rules('asset_status', 'asset status', 'trim');
-      $this->form_validation->set_rules('branch_id', 'branch', 'trim');
-      $this->form_validation->set_rules('department_id', 'department', 'trim');
-      $this->form_validation->set_rules('floor_id', 'floor', 'trim');
-      $this->form_validation->set_rules('room_id', 'room', 'trim');
+      // $this->form_validation->set_rules('acquisition_date', 'acquisition date', 'trim');
+      // $this->form_validation->set_rules('cost', 'cost', 'numeric|trim');
+      // $this->form_validation->set_rules('supplier_id', 'supplier', 'trim');
+      // $this->form_validation->set_rules('serial_number', 'serial number', 'trim');
+      // $this->form_validation->set_rules('warranty_months', 'warranty months', 'integer|trim');
+      // $this->form_validation->set_rules('custodian_id', 'custodian', 'trim');
+      // $this->form_validation->set_rules('asset_status', 'asset status', 'trim');
+      // $this->form_validation->set_rules('branch_id', 'branch', 'trim');
+      // $this->form_validation->set_rules('department_id', 'department', 'trim');
+      // $this->form_validation->set_rules('floor_id', 'floor', 'trim');
+      // $this->form_validation->set_rules('room_id', 'room', 'trim');
 
-      $this->form_validation->set_rules('depreciation_method', 'depreciation method', 'trim');
-      $this->form_validation->set_rules('useful_life', 'useful life', 'integer|trim');
-      $this->form_validation->set_rules('salvage_value', 'salvage value', 'numeric|trim');
+      // $this->form_validation->set_rules('depreciation_method', 'depreciation method', 'trim');
+      // $this->form_validation->set_rules('useful_life', 'useful life', 'integer|trim');
+      // $this->form_validation->set_rules('salvage_value', 'salvage value', 'numeric|trim');
 
 
       //Validate and input data
       if ($this->form_validation->run() == true){
          $form_data = array(
             'division_id'   => $this->input->post('division_id'),
-            'cat_id'        => $this->input->post('cat_id'),
+            'category_id'        => $this->input->post('cat_id'),
             'sub_cat_id'    => $this->input->post('sub_cat_id'),
             'item_name'     => $this->input->post('item_name'),
             'unit_id'       => $this->input->post('unit_id'),
             'type'          => $this->input->post('type'),
-            'order_level'   => $this->input->post('order_level'),
+            'order_level'   => 10,
             'status'        => $this->input->post('status'),
             'description'   => $this->input->post('description'),
             // New fields
             'acquisition_date' => $this->input->post('acquisition_date'),
             'cost'             => $this->input->post('cost'),
-            'book_value'       => $this->input->post('cost'),
-            'supplier_id'      => $this->input->post('supplier_id'),
+            // 'book_value'       => $this->input->post('cost'),
+            // 'supplier_id'      => $this->input->post('supplier_id'),
             'serial_number'    => $this->input->post('serial_number'),
             'warranty_months'  => $this->input->post('warranty_months'),
-            'custodian_id'     => $this->input->post('custodian_id'),
+            // 'custodian_id'     => $this->input->post('custodian_id'),
             'asset_status'     => $this->input->post('asset_status'),
-            'branch_id'        => $this->input->post('branch_id'),
-            'department_id'    => $this->input->post('department_id'),
-            'floor_id'         => $this->input->post('floor_id'),
-            'room_id'          => $this->input->post('room_id'),
-            'depreciation_method' => $this->input->post('depreciation_method'),
-            'useful_life' => $this->input->post('useful_life'),
-            'salvage_value' => $this->input->post('salvage_value')
+            // 'branch_id'        => $this->input->post('branch_id'),
+            // 'department_id'    => $this->input->post('department_id'),
+            // 'floor_id'         => $this->input->post('floor_id'),
+            // 'room_id'          => $this->input->post('room_id'),
+            // 'depreciation_method' => $this->input->post('depreciation_method'),
+            // 'useful_life' => $this->input->post('useful_life'),
+            // 'salvage_value' => $this->input->post('salvage_value')
          );
 
          if($this->Common_model->save('items', $form_data)){
@@ -88,18 +88,20 @@ class Items extends Backend_Controller {
                   'item_id'        => $insert_id,
                   'cat_id'         => $this->input->post('cat_id'),
                   'sub_cat_id'     => $this->input->post('sub_cat_id'),
-                  'order_level'    => $this->input->post('order_level'),
+                  'order_level'    => 12,
+                  // 'order_level'    => $this->input->post('order_level'),
                );
                $this->Common_model->save('item_stocks', $data);
             } else {
                $units = $this->db->get('units')->result();
                foreach ($units as $key => $v) {
                   $data = array(
-                     'unit_id'        => $v->id,
-                     'item_id'        => $insert_id,
-                     'cat_id'         => $this->input->post('cat_id'),
-                     'sub_cat_id'     => $this->input->post('sub_cat_id'),
-                     'order_level'    => $this->input->post('order_level'),
+                     'unit_id'     => $v->id,
+                     'item_id'     => $insert_id,
+                     'cat_id'      => $this->input->post('cat_id'),
+                     'sub_cat_id'  => $this->input->post('sub_cat_id'),
+                     'order_level' => 12,
+                     // 'order_level'    => $this->input->post('order_level'),
                   );
                   $this->Common_model->save('item_stocks', $data);
                }
@@ -130,7 +132,7 @@ class Items extends Backend_Controller {
       $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
 
       // Load page
-      $this->data['meta_title'] = 'Add Item Form';
+      $this->data['meta_title'] = 'Add Asset Form';
       $this->data['subview'] = 'create';
       $this->load->view('backend/_layout_main', $this->data);
    }
@@ -523,52 +525,85 @@ class Items extends Backend_Controller {
    }
    /*************details_pdf function pdf End**************/
 
-    public function generate_qr_code($id) {
-        $this->load->library('ciqrcode'); // Load the Ciqrcode library
+   // public function generate_qr_code($id) {
+   //    $this->load->library('ciqrcode'); // Load the Ciqrcode library
 
-        $asset_id = (int) decrypt_url($id); // Decrypt the asset ID
+   //    $asset_id = (int) decrypt_url($id); // Decrypt the asset ID
 
-        // Fetch asset information
-        $asset_info = $this->Items_model->get_info($asset_id);
+   //    // Fetch asset information
+   //    $asset_info = $this->Items_model->get_info($asset_id);
 
-        if (!$asset_info) {
-            show_404(); // Asset not found
-        }
+   //    if (!$asset_info) {
+   //       show_404(); // Asset not found
+   //    }
 
-        // Prepare data for QR code
-        // You can customize this string to include more asset information
-        $qr_data = "Asset ID: " . $asset_info->id . "\n";
-        $qr_data .= "Name: " . $asset_info->item_name . "\n";
-        $qr_data .= "Serial: " . $asset_info->serial_number . "\n";
-        $qr_data .= "Location: " . $asset_info->branch_name . ", " . $asset_info->department_name . ", " . $asset_info->floor_name . ", " . $asset_info->room_name . "\n";
-        $qr_data .= "Status: " . $asset_info->asset_status . "\n";
-        $qr_data .= "Cost: " . $asset_info->cost . "\n";
-        $qr_data .= "Acquisition Date: " . $asset_info->acquisition_date . "\n";
-        $qr_data .= "Supplier: " . $asset_info->supplier_name . "\n";
-        $qr_data .= "Custodian: " . $asset_info->custodian_name . "\n";
-        $qr_data .= "Warranty (Months): " . $asset_info->warranty_months . "\n";
+   //    // Prepare data for QR code
+   //    // You can customize this string to include more asset information
+   //    $qr_data = "Asset ID: " . $asset_info->id . "\n";
+   //    $qr_data .= "Name: " . $asset_info->item_name . "\n";
+   //    $qr_data .= "Serial: " . $asset_info->serial_number . "\n";
+   //    $qr_data .= "Location: " . $asset_info->branch_name . ", " . $asset_info->department_name . ", " . $asset_info->floor_name . ", " . $asset_info->room_name . "\n";
+   //    $qr_data .= "Status: " . $asset_info->asset_status . "\n";
+   //    $qr_data .= "Cost: " . $asset_info->cost . "\n";
+   //    $qr_data .= "Acquisition Date: " . $asset_info->acquisition_date . "\n";
+   //    $qr_data .= "Supplier: " . $asset_info->supplier_name . "\n";
+   //    $qr_data .= "Custodian: " . $asset_info->custodian_name . "\n";
+   //    $qr_data .= "Warranty (Months): " . $asset_info->warranty_months . "\n";
 
 
-        // QR code generation parameters
-        $params['data'] = $qr_data;
-        $params['level'] = 'H'; // Error correction level: L, M, Q, H
-        $params['size'] = 10; // Size of the QR code (1-10)
-        $params['savename'] = FCPATH . 'qrcode_img/' . $asset_info->id . '_qrcode.png'; // Save to qrcode_img directory
+   //    // QR code generation parameters
+   //    $params['data'] = $qr_data;
+   //    $params['level'] = 'H'; // Error correction level: L, M, Q, H
+   //    $params['size'] = 10; // Size of the QR code (1-10)
+   //    $params['savename'] = FCPATH . 'qrcode_img/' . $asset_info->id . '_qrcode.png'; // Save to qrcode_img directory
 
-        // Ensure the qrcode_img directory exists
-        if (!is_dir(FCPATH . 'qrcode_img')) {
-            mkdir(FCPATH . 'qrcode_img', 0777, TRUE);
-        }
+   //    // Ensure the qrcode_img directory exists
+   //    if (!is_dir(FCPATH . 'qrcode_img')) {
+   //       mkdir(FCPATH . 'qrcode_img', 0777, TRUE);
+   //    }
 
-        $this->ciqrcode->generate($params);
+   //    $this->ciqrcode->generate($params);
 
-        // Redirect to display the QR code or download it
-        // For now, let's redirect to a simple view that displays the image
-        $this->data['qr_code_path'] = base_url('qrcode_img/' . $asset_info->id . '_qrcode.png');
-        $this->data['meta_title'] = 'Asset QR Code';
-        $this->data['subview'] = 'qr_code_display'; // A new view to create
-        $this->load->view('backend/_layout_main', $this->data);
-    }
+   //    // Redirect to display the QR code or download it
+   //    // For now, let's redirect to a simple view that displays the image
+   //    $this->data['qr_code_path'] = base_url('qrcode_img/' . $asset_info->id . '_qrcode.png');
+   //    $this->data['meta_title'] = 'Asset QR Code';
+   //    $this->data['subview'] = 'qr_code_display'; // A new view to create
+   //    $this->load->view('backend/_layout_main', $this->data);
+   // }
+   public function generate_qr_code($id)
+   {
+      $this->load->library('ciqrcode'); // Load QR library
+
+      $asset_id = (int) decrypt_url($id); // Decrypt asset ID if needed
+      $asset_info = $this->Items_model->get_info($asset_id);
+
+      if (!$asset_info) {
+         show_404();
+      }
+
+      // QR code should contain a URL (link to details page)
+      $qr_data = base_url('assets/view/' . $asset_info->id);
+
+      // Ensure the directory exists
+      if (!is_dir(FCPATH . 'qrcode_img')) {
+         mkdir(FCPATH . 'qrcode_img', 0777, TRUE);
+      }
+
+      // QR generation parameters
+      $params['data'] = $qr_data;
+      $params['level'] = 'H'; // Error correction
+      $params['size'] = 10;
+      $params['savename'] = FCPATH . 'qrcode_img/' . $asset_info->id . '_qrcode.png';
+
+      $this->ciqrcode->generate($params);
+
+      // Send path to view
+      $this->data['qr_code_path'] = base_url('qrcode_img/' . $asset_info->id . '_qrcode.png');
+      $this->data['meta_title'] = 'Asset QR Code';
+      $this->data['subview'] = 'qr_code_display';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
 
     public function bulk_import() {
         $this->data['meta_title'] = 'Bulk Import Assets';

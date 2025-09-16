@@ -6,7 +6,7 @@
     </ul>
 
     <div class="row">
-       <div class="col-md-8">
+       <div class="col-md-12">
           <div class="grid simple horizontal">
              <div class="grid-title">
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
@@ -14,7 +14,7 @@
                 <a href="<?=base_url('general_setting/branch_type')?>" class="btn btn-info btn-xs btn-mini">List</a>
               </div>
              </div>
-             <div class="grid-body">
+             <div class="grid-body" style="overflow-x: hidden;">
               <?php if($this->session->flashdata('success')):?>
                   <div class="alert alert-success">
                       <a class="close" data-dismiss="alert">&times;</a>

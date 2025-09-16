@@ -30,7 +30,7 @@
               </div>
             <?php endif; ?>
 
-            <table class="table table-hover table-bordered  table-flip-scroll cf" id="">
+            <table class="table table-hover table-bordered  table-flip-scroll cf" id="usersTable">
               <thead>
                 <tr>
                   <th style="width:2%"> SL </th>

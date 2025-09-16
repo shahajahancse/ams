@@ -33,15 +33,15 @@
                   <?php endif;
                   ?>
 
-                  <table class="table table-hover dataTable table-condensed">
+                  <table class="table table-bordered table-hover table-condensed" id="usersTable">
                      <thead>
                         <tr>
-                           <th style="width:2%"> SL </th>
-                           <th style="width:20%">Field Name</th>
-                           <th style="width:15%">Field Type</th>
-                           <th style="width:10%">Required</th>
-                           <th style="width:30%">Options (for Dropdown)</th>
-                           <th style="width:10%" class="text-center">Action</th>
+                           <th class="text-center"> SL </th>
+                           <th class="text-center">Field Name</th>
+                           <th class="text-center">Field Type</th>
+                           <th class="text-center">Options (for Dropdown)</th>
+                           <th class="text-center">Required</th>
+                           <th  class="text-center">Action</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -50,12 +50,12 @@
                            <?php $i=0; foreach ($custom_fields as $field): $i++;
                               ?>
                            <tr>
-                              <td class="v-align-middle"><?=$i?>.</td>
-                              <td class="v-align-middle"><?=$field->field_name?></td>
-                              <td class="v-align-middle"><?=$field->field_type?></td>
-                              <td class="v-align-middle"><?=($field->is_required == 1) ? 'Yes' : 'No'?></td>
-                              <td class="v-align-middle"><?=$field->options?></td>
-                              <td class="text-center">
+                              <td class="text-center" style="vertical-align:middle"><?=$i?>.</td>
+                              <td class="text-center" style="vertical-align:middle"><?=$field->field_name?></td>
+                              <td class="text-center" style="vertical-align:middle"><?=$field->field_type?></td>
+                              <td class="text-center" style="vertical-align:middle"><?=($field->is_required == 1) ? 'Yes' : 'No'?></td>
+                              <td class="text-center" style="vertical-align:middle"><?=$field->options?></td>
+                              <td class="text-center" style="vertical-align:middle">
                                  <a href="<?=base_url('custom_fields/edit/'.$field->id);?>" class="btn btn-primary btn-xs btn-mini">Edit</a>
                                  <a href="<?=base_url('custom_fields/delete/'.$field->id);?>" class="btn btn-danger btn-xs btn-mini" onclick="return confirm('Are you sure you want to delete this custom field?');">Delete</a>
                               </td>

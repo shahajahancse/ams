@@ -106,7 +106,7 @@
                 <?php $units = $this->db->get('units')->result(); ?>
                 <div class='col-md-3'>
                     <label>Select Branch</label>
-                    <select name="unit_id" id="unit_id" class="form-control" onchange="ajax_get_data()">
+                    <select name="unit_id" id="unit_id" class="form-control form-sm" onchange="ajax_get_data()">
                         <option value=""> Select Branch </option>
                         <?php foreach ($units as $unit) { ?>
                             <option value="<?=$unit->id?>"><?=$unit->name_en?></option>
@@ -480,6 +480,19 @@
         </div>
     </div>
 </div>
+
+<script>
+    $(document).ready(function () {
+        $('#unit_id').select2({
+            placeholder: "Select Branch",
+            allowClear: true,
+            width: '100%',
+            containerCss: {
+                padding: '0px'
+            }
+        });
+    })
+</script>
 
 
 <script>

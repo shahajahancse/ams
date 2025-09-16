@@ -15,7 +15,7 @@
                 <a href="<?=base_url('general_setting/proficiency_badge')?>" class="btn btn-info btn-success btn-xs btn-mini"> Proficiency Badge List</a>  
               </div>
              </div>
-             <div class="grid-body">
+             <div class="grid-body" style="overflow-x: hidden;"> 
               <!-- <form id="form_traditional_validation" action="#"> -->
               <!-- <div id="infoMessage"><?php //echo $message;?></div> -->
               <div><?php //echo validation_errors(); ?></div>

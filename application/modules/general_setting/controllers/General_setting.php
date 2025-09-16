@@ -2469,4 +2469,77 @@ public function file_check($str){
    return false;
 }
 }
+
+
+   public function depreciation(){
+      $this->data['results'] = $this->General_setting_model->get_depreciation();
+      $this->data['meta_title'] = 'Depreciation List';
+      $this->data['subview'] = 'depreciation';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function depreciation_add(){
+      $this->form_validation->set_rules('type', 'Depreciation Type', 'required|trim');
+      $this->form_validation->set_rules('status', 'Depreciation Status', 'required|trim|in_list[1,0]');
+
+         if ($this->form_validation->run() == TRUE) {
+            $form_data = array(
+               'rate'=> $this->input->post('rate'),
+               'type'=> $this->input->post('type'),
+               'status'   => $this->input->post('status')
+            );
+            if($this->Common_model->save('depreciation', $form_data)){
+                  $this->session->set_flashdata('success', 'Depreciation created successfully.');
+                  redirect('general_setting/depreciation');
+            }
+         }
+
+         // Load page
+         $this->data['meta_title'] = 'Create Depreciation';
+         $this->data['subview'] = 'depreciation_add';
+         $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function depreciation_edit($id){
+      $this->form_validation->set_rules('type', 'Depreciation Type', 'required|trim');
+      $this->form_validation->set_rules('status', 'Depreciation Status', 'required|trim|in_list[1,0]');
+
+         if ($this->form_validation->run() == TRUE) {
+            $form_data = array(
+               'rate'=> $this->input->post('rate'),
+               'type'=> $this->input->post('type'),
+               'status'   => $this->input->post('status')
+            );
+            $this->db->where('id', $id);
+            if($this->db->update('depreciation', $form_data)){
+                  $this->session->set_flashdata('success', 'Depreciation updated successfully.');
+                  redirect('general_setting/depreciation');
+            }
+         }
+
+         // Load page
+         $this->data['meta_title'] = 'Edit Depreciation';
+         $this->data['subview'] = 'depreciation_edit';
+         $this->data['info'] = $this->General_setting_model->get_depreciation_by_id($id);
+         $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function depreciation_delete($id){
+      $this->db->where('id', $id);
+      $this->db->delete('depreciation');
+      $this->session->set_flashdata('error', 'Depreciation delete successfully.');
+      redirect('general_setting/depreciation');
+
+   }
+
+   public function getOptions()
+   {
+      $type = $this->input->post('type');
+      $data = $this->db->where('type', $type)->get('depreciation')->result();
+      $options = [];
+      foreach ($data as $row) {
+         $options[$row->id] = $row->rate;  // adjust column names
+      }
+      echo json_encode($options);
+   }
 }

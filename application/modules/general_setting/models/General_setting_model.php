@@ -26,6 +26,7 @@ class General_setting_model extends CI_Model {
               $query = $this->db->get()->result();
               return $query;
        }
+
        public function get_categories($id=null) {
               // result query
               $this->db->select('*');
@@ -381,5 +382,21 @@ function delete($id) {
 
  return TRUE;
 }
+
+       public function get_depreciation() {
+              // result query
+              $this->db->select('*');
+              $this->db->from('depreciation');
+              $query = $this->db->get()->result();
+              return $query;
+       }
+       public function get_depreciation_by_id($id) {
+              // result query
+              $this->db->select('*');
+              $this->db->from('depreciation');
+              $this->db->where('id', $id);
+              $query = $this->db->get()->row();
+              return $query;
+       }
 
 }

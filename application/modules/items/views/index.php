@@ -31,22 +31,18 @@
                      </div>
                   <?php endif; ?>
 
-                  <table class="table table-hover dataTable table-condensed">
+                  <table class="table table-bordered dataTable table-condensed">
                      <thead>
                         <tr>
-                           <th style="width:2%"> SL </th>
-                           <th style="width:12%">Division</th>
-                           <th style="width:12%">Category</th>
-                           <th style="width:12%">Sub Category</th>
-                           <th style="width:20%">Item Name</th>
-                           <th style="width:8%">Unit</th>
-                           <th style="width:10%">Order Level</th>
-                           <th style="width:8%">Status</th>
-                           <th style="width:12%" class="text-center">Action</th>
-                           <th style="width:10%" class="text-center">Depreciation</th>
-                           <th style="width:10%" class="text-center">Disposal</th>
-                           <th style="width:10%" class="text-center">Movement</th>
-                           <th style="width:10%" class="text-center">QR Code</th>
+                           <th style="vertical-align:middle" class="text-center"> SL </th>
+                           <th style="vertical-align:middle" class="text-center">Branch</th>
+                           <th style="vertical-align:middle" class="text-center">Category</th>
+                           <th style="vertical-align:middle" class="text-center">Sub Category</th>
+                           <th style="vertical-align:middle" class="text-center">Item Name</th>
+                           <th style="vertical-align:middle" class="text-center">Unit</th>
+                           <th style="vertical-align:middle" class="text-center">Status</th>
+                           <th style="vertical-align:middle" class="text-center">QR Code</th>
+                           <th style="vertical-align:middle" class="text-center">Action</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -60,29 +56,21 @@
                            }
                            ?>
                            <tr>
-                              <td class="v-align-middle"><?=++$i?>.</td>
-                              <td class="v-align-middle"><?=$row->division_name?></td>
-                              <td class="v-align-middle"><?=$row->category_name?></td>
-                              <td class="v-align-middle"><?=$row->sub_cate_name?></td>
-                              <td class="v-align-middle"><strong><?=$row->item_name?></strong></td>
-                              <td class="v-align-middle"><?=$row->unit_name?></td>
-                              <!-- <td class="v-align-middle"><strong><?=$row->quantity?></strong></td> -->
-                              <td class="v-align-middle"><?=$row->order_level?></td>
-                              <td class="v-align-middle"><?=$status?></td>
-                              <td class="text-center">
-                                 <a href="<?=base_url('items/edit/'.encrypt_url($row->id));?>" class="btn btn-primary btn-xs btn-mini">Edit</a>
+                              <td style="vertical-align:middle" class="text-center"><?=++$i?>.</td>
+                              <td style="vertical-align:middle" class="text-center"><?=$row->division_name?></td>
+                              <td style="vertical-align:middle" class="text-center"><?=$row->category_name?></td>
+                              <td style="vertical-align:middle" class="text-center"><?=$row->sub_cate_name?></td>
+                              <td style="vertical-align:middle" class="text-center"><strong><?=$row->item_name?></strong></td>
+                              <td style="vertical-align:middle" class="text-center"><?=$row->unit_name?></td>
+                              <td style="vertical-align:middle">
+                                 <span class="badge <?= ($status == 'Active') ? 'badge-success' : 'badge-danger'?>"><?= $status ?></span>
+                              </td>
+                              <td style="vertical-align:middle" class="text-center">
+                                 <a href="<?=base_url('items/generate_qr_code/'.encrypt_url($row->id));?>" class="btn btn-info btn-xs btn-mini" target="_blank"><i class="fa fa-qrcode"></i> QR</a>
                               </td>
                               <td class="text-center">
-                                 <a href="<?=base_url('depreciation/add/'.$row->id);?>" class="btn btn-info btn-xs btn-mini">Depreciation</a>
-                              </td>
-                              <td class="text-center">
-                                 <a href="<?=base_url('disposal/record/'.$row->id);?>" class="btn btn-danger btn-xs btn-mini">Disposal</a>
-                              </td>
-                              <td class="text-center">
-                                 <a href="<?=base_url('asset_movement/record/'.$row->id);?>" class="btn btn-warning btn-xs btn-mini">Movement</a>
-                              </td>
-                              <td class="text-center">
-                                 <a href="<?=base_url('items/generate_qr_code/'.encrypt_url($row->id));?>" class="btn btn-default btn-xs btn-mini" target="_blank">Generate QR</a>
+                                 <a href="<?=base_url('items/edit/'.encrypt_url($row->id));?>" class="btn btn-primary btn-xs btn-mini"><i class="fa fa-edit"></i></a>
+                                 <a href="<?=base_url('items/edit/'.encrypt_url($row->id));?>" class="btn btn-danger btn-xs btn-mini"><i class="fa fa-trash-o"></i></a>
                               </td>
                            </tr>
                            <?php } ?>

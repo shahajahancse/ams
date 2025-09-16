@@ -7,7 +7,7 @@
     </ul>
 
     <div class="row">
-       <div class="col-md-9">
+       <div class="col-md-12">
           <div class="grid simple horizontal">
              <div class="grid-title">
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
@@ -15,7 +15,7 @@
                 <a href="<?=base_url('general_setting/item_locker')?>" class="btn btn-info btn-xs btn-mini">List</a>
               </div>
              </div>
-             <div class="grid-body">
+             <div class="grid-body" style="overflow-x: hidden;"> 
               <?php
               $attributes = array('id' => 'department_validate');
               echo form_open_multipart("general_setting/item_locker_add", $attributes);?>

@@ -7,7 +7,7 @@
     </ul>
 
     <div class="row">
-       <div class="col-md-8">
+       <div class="col-md-12">
           <div class="grid simple horizontal">
              <div class="grid-title">
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
@@ -15,7 +15,7 @@
                 <a href="<?=base_url('general_setting/district')?>" class="btn btn-success btn-xs btn-mini"> District List</a>  
               </div>
              </div>
-             <div class="grid-body">
+             <div class="grid-body" style="overflow-x: hidden;">
               <!-- <form id="form_traditional_validation" action="#"> -->
               <!-- <div id="infoMessage"><?php //echo $message;?></div> -->
               <div><?php //echo validation_errors(); ?></div>
