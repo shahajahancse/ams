@@ -170,6 +170,78 @@ class General_setting extends Backend_Controller {
          redirect('general_setting/locker_setup');
       }
    }
+   public function asset_floors(){
+      $this->data['results'] = $this->db->get('asset_floors')->result();
+      $this->data['meta_title'] = 'Asset Floor List';
+      $this->data['subview'] = 'asset_floor_index';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+   public function asset_floors_add(){
+      $this->form_validation->set_rules('floor_name', 'Floor Name', 'required|trim');
+      $this->form_validation->set_rules('branch_id', 'Unit ID', 'required|trim');
+      $this->form_validation->set_rules('status', 'Status', 'required|trim');
+
+      if ($this->form_validation->run() == true){
+         $form_data = array(
+            'floor_name' => $this->input->post('floor_name'),
+            'unit_id'    => $this->input->post('branch_id'),
+            'status'     => $this->input->post('status'),
+            'created_at' => date('Y-m-d H:i:s'),
+            'updated_at' => date('Y-m-d H:i:s'),
+         );
+         if($this->Common_model->save('asset_floors', $form_data)){
+            $this->session->set_flashdata('success', 'Record Insert successfully.');
+            redirect('general_setting/asset_floors_add');
+         }
+      }
+
+      // Load page
+      $this->data['meta_title'] = 'Asset Floor Setup';
+      $this->data['subview'] = 'asset_floor_add';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+   public function asset_floors_edit($id){
+      $this->form_validation->set_rules('floor_name', 'Floor Name', 'required|trim');
+      $this->form_validation->set_rules('branch_id', 'Unit ID', 'required|trim');
+      $this->form_validation->set_rules('status', 'Status', 'required|trim');
+
+      if ($this->form_validation->run() == true){
+         $form_data = array(
+            'floor_name' => $this->input->post('floor_name'),
+            'unit_id'      => $this->input->post('branch_id'),
+            'status'       => $this->input->post('status'),
+         );
+
+         if($this->Common_model->edit('asset_floors', $id, 'id', $form_data)){
+            $this->session->set_flashdata('success', 'Information update successfully.');
+            redirect('general_setting/asset_floors');
+         }
+      }
+
+      $this->data['info'] = $this->General_setting_model->get_info('asset_floors',$id);
+
+      // Load page
+      $this->data['meta_title'] = 'Update Asset Floor';
+      $this->data['subview'] = 'asset_floor_edit';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function asset_floor_setup_delete($id){
+      if($this->Common_model->delete('asset_floors', 'id',$id )){
+         $this->session->set_flashdata('error', 'Record Delete successfully.');
+         redirect('general_setting/asset_floors');
+      }
+   }
+
+
+
+
+
+
+
+
+
+
 
    public function room_setup(){
       $this->data['results'] = $this->db->get('item_rooms')->result();
@@ -2541,5 +2613,81 @@ public function file_check($str){
          $options[$row->id] = $row->rate;  // adjust column names
       }
       echo json_encode($options);
+   }
+
+   public function supplier(){
+      $this->data['results'] = $this->db->get('suppliers')->result();
+      $this->data['meta_title'] = 'Supplier List';
+      $this->data['subview'] = 'supplier';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+   public function supplier_add(){
+      $this->form_validation->set_rules('name', 'Name', 'required|trim');
+      $this->form_validation->set_rules('phone', 'Phone', 'required|trim');
+      $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+      $this->form_validation->set_rules('address', 'Address', 'required|trim');
+
+      if ($this->form_validation->run() == true){
+         $form_data = array(
+            'name' => $this->input->post('name'),
+            'phone' => $this->input->post('phone'),
+            'email' => $this->input->post('email'),
+            'address' => $this->input->post('address'),
+            'status'  => $this->input->post('status'),
+         );
+         if($this->Common_model->save('suppliers', $form_data)){
+            $this->session->set_flashdata('success', 'Record Inserted successfully.');
+            redirect('general_setting/supplier');
+         }
+      }
+
+      // Load page
+      $this->data['meta_title'] = 'Create Supplier';
+      $this->data['subview'] = 'supplier_add';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+   public function supplier_edit($id){
+      $this->form_validation->set_rules('name', 'Name', 'required|trim');
+      $this->form_validation->set_rules('phone', 'Phone', 'required|trim');
+      $this->form_validation->set_rules('email', 'Email', 'required|trim|valid_email');
+      $this->form_validation->set_rules('address', 'Address', 'required|trim');
+      // dd($_POST);
+      if ($this->form_validation->run() == true){
+         $form_data = array(
+            'name' => $this->input->post('name'),
+            'phone' => $this->input->post('phone'),
+            'email' => $this->input->post('email'),
+            'address' => $this->input->post('address'),
+            'status'  => $this->input->post('status'),
+         );
+         if($this->Common_model->edit('suppliers', $id, 'id', $form_data)){
+            $this->session->set_flashdata('success', 'Information update successfully.');
+            redirect('general_setting/supplier');
+         }
+      }
+      // else{
+      //    dd("error");
+      // }
+      $this->data['info'] = $this->General_setting_model->get_info('suppliers',$id);
+      // Load page
+      $this->data['meta_title'] = 'Edit Supplier';
+      $this->data['subview'] = 'supplier_edit';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+
+   public function supplier_delete($id){
+      if($this->Common_model->delete('suppliers','id', $id )){
+         $this->session->set_flashdata('error', 'Record deleted successfully.');
+         redirect('general_setting/supplier');
+      }
+   }
+
+
+   // get dept by branch id 
+
+   public function getDeptByBranch(){
+      $branch_id = $this->input->post('branch_id');
+      $data = $this->db->where('branch_id', $branch_id)->get('departments')->result();
+      echo json_encode($data);
    }
 }

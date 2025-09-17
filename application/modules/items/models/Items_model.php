@@ -49,19 +49,15 @@ class Items_model extends CI_Model {
 
     public function get_items(){
         $unit_id = $this->session->userdata('unit_id');
-        $this->db->select('i.*, i.acquisition_date, i.serial_number, i.warranty_information, div.name_en as division_name, branch.unit_name as branch_name, dept.dept_name as department_name, floor.floor_name as floor_name, room.room_name as room_name, c.category_name, sc.sub_cate_name, u.unit_name, s.balance, sup.name as supplier_name, CONCAT(cust.first_name, " ", cust.last_name) as custodian_name');
+        $this->db->select('i.*, i.acquisition_date, i.serial_number, i.warranty_information, div.name_en as division_name, branch.unit_name as branch_name,   c.category_name, sc.sub_cate_name, u.unit_name, s.balance, sup.name as supplier_name');
         $this->db->from('items i');
-        $this->db->join('units div', 'div.id=i.division_id', 'LEFT');
+        $this->db->join('units div', 'div.id=i.branch_id', 'LEFT');
         $this->db->join('office_unit branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
-        $this->db->join('departments dept', 'dept.id=i.department_id', 'LEFT'); // Join for department
-        $this->db->join('asset_floors floor', 'floor.id=i.floor_id', 'LEFT'); // Join for floor
-        $this->db->join('asset_rooms room', 'room.id=i.room_id', 'LEFT'); // Join for room
         $this->db->join('item_categories c', 'c.id=i.category_id', 'LEFT');
         $this->db->join('item_sub_categories sc', 'sc.id=i.sub_cat_id', 'LEFT');
         $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
         $this->db->join('item_stocks s', 's.item_id=i.id AND s.unit_id = '.$unit_id, 'LEFT', 'LEFT');
         $this->db->join('suppliers sup', 'sup.id=i.supplier_id', 'LEFT'); // Join with suppliers table
-        $this->db->join('users cust', 'cust.id=i.custodian_id', 'LEFT'); // Join with users table for custodian
         $this->db->order_by('i.id', 'ASC');
         $this->db->group_by('i.id');
         $query = $this->db->get()->result();
@@ -76,14 +72,10 @@ class Items_model extends CI_Model {
     }
 
     public function get_info($id) {
-        $this->db->select('i.*, i.acquisition_date, i.serial_number, i.warranty_information, sup.name as supplier_name, CONCAT(cust.first_name, " ", cust.last_name) as custodian_name, branch.unit_name as branch_name, dept.dept_name as department_name, floor.floor_name as floor_name, room.room_name as room_name');
+        $this->db->select('i.*, i.acquisition_date, i.serial_number, i.warranty_information, sup.name as supplier_name,  branch.unit_name as branch_name');
         $this->db->from('items i');
         $this->db->join('suppliers sup', 'sup.id=i.supplier_id', 'LEFT'); // Join with suppliers table
-        $this->db->join('users cust', 'cust.id=i.custodian_id', 'LEFT'); // Join with users table for custodian
         $this->db->join('office_unit branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
-        $this->db->join('departments dept', 'dept.id=i.department_id', 'LEFT'); // Join for department
-        $this->db->join('asset_floors floor', 'floor.id=i.floor_id', 'LEFT'); // Join for floor
-        $this->db->join('asset_rooms room', 'room.id=i.room_id', 'LEFT'); // Join for room
         $this->db->where('i.id', $id);
         $query = $this->db->get()->row();
         return $query;
@@ -93,6 +85,14 @@ class Items_model extends CI_Model {
         $this->db->where('id', $id);
         $this->db->delete('items');
         return TRUE;
+    }
+
+
+    // supplier info 
+
+    public function get_supplier_info($id){
+        $query = $this->db->where('id', $id)->get('suppliers')->row();
+        return $query;
     }
 
 }

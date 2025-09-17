@@ -44,7 +44,7 @@ class Items_import_model extends CI_Model {
                     'supplier_id' => $rowData[0][12], 
                     'serial_number' => $rowData[0][13], 
                     'warranty_months' => $rowData[0][14], 
-                    'custodian_id' => $rowData[0][15], 
+                    // 'custodian_id' => $rowData[0][15], 
                     'asset_status' => $rowData[0][16], 
                     'branch_id' => $rowData[0][17], 
                     'department_id' => $rowData[0][18], 

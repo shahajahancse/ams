@@ -221,16 +221,15 @@
                                 <?php } ?>
 
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){
-                                    $low = $this->Common_model->count_low_stock();
+                                    $low = 0;
+                                    // $low = $this->Common_model->count_low_stock();
                                 } ?>
                                 <!-- Item Setup section -->
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
                                 <li class="start <?=backend_activate_menu_class('items')?>">
-                                    <a href="javascript:;"> <i class="fa fa-tags"></i><span class="title">Item Setup </span> <span class="selected"></span> <span class="badge badge-danger pull-right"><?=$low?></span> <span class="arrow"></span> </a>
+                                    <a href="javascript:;"> <i class="fa fa-tags"></i><span class="title">Item Setup </span> <span class="selected"></span> <span class="badge badge-danger pull-right"></span> <span class="arrow"></span> </a>
                                     <ul class="sub-menu">
                                         <li> <a href="<?=base_url('items');?>"><i class="fa fa-list"></i> Item List </a> </li>
-                                        <li> <a href="<?=base_url('items/stock');?>"><i class="fa fa-list"></i> Stock List </a> </li>
-                                        <li> <a href="<?=base_url('items/low_stock');?>"><i class="fa fa-list"></i> Low Stock <span class="badge badge-danger" style="float: right; margin-right: 10px;"><?=$low?></span></a> </li>
                                     </ul>
                                 </li>
                                 <?php } ?>
@@ -253,6 +252,8 @@
                                         <li> <a href="<?=base_url('general_setting/units');?>"><i class="fa fa-building-o"></i> Branch </a>
                                         <li> <a href="<?=base_url('general_setting/branch_type');?>"> <i class="fa fa-list-alt"></i>Branch Type </a>
                                         <li> <a href="<?=base_url('general_setting/depreciation');?>"> Depreciation</a>
+                                        </li>
+                                        <li> <a href="<?=base_url('general_setting/supplie');?>"> Supplie</a>
                                         </li>
                                         <li> 
                                             <a href="<?=base_url('custom_fields');?>"><i class="fa fa-list"></i> Custom Fields</a>

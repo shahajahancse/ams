@@ -8,7 +8,7 @@
 
       <div class="row">
          <div class="col-md-12">
-            <div class="grid simple horizontal red">
+            <div class="grid simple horizontal">
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
@@ -21,37 +21,37 @@
                         <?php echo $this->session->flashdata('success');?>
                      </div>
                   <?php endif; ?>
-                  <table class="table table-hover table-condensed" id="example">
-                     <thead>
-                        <tr>
-                           <th style="width:1%">#</th>
-                           <th style="width:20%">Floor Name</th>
-                           <th style="width:20%">Branch</th>
-                           <th style="width:10%">Status</th>
-                           <th style="width:10%">Action</th>
+                  <table class="table table-bordered" id="usersTable">
+                     <thead >
+                        <tr >
+                           <th class="text-center" style="vertical-align:middle" >SL</th>
+                           <th class="text-center" style="vertical-align:middle" >Floor Name</th>
+                           <th class="text-center" style="vertical-align:middle" >Branch</th>
+                           <th class="text-center" style="vertical-align:middle" >Status</th>
+                           <th class="text-center" style="vertical-align:middle" >Action</th>
                         </tr>
                      </thead>
                      <tbody>
                         <?php foreach ($results as $key => $row) : ?>
                            <tr>
-                              <td><?=$key+1?></td>
-                              <td><?=$row->floor_name?></td>
-                              <td>
+                              <td class="text-center" style="vertical-align:middle"><?=$key+1?></td>
+                              <td class="text-center" style="vertical-align:middle"><?=$row->floor_name?></td>
+                              <td class="text-center" style="vertical-align:middle">
                                  <?php
-                                 $branch_info = $this->General_setting_model->get_info('office_unit', $row->unit_id);
-                                 echo $branch_info ? $branch_info->unit_name : 'N/A';
+                                 $branch_info = $this->General_setting_model->get_info('branches', $row->unit_id);
+                                 echo $branch_info ? $branch_info->name_en : 'N/A';
                                  ?>
                               </td>
-                              <td>
+                              <td class="text-center" style="vertical-align:middle">
                                  <?php if($row->status == 1){ ?>
-                                    <span class="label label-success">Active</span>
+                                    <span class="badge badge-success">Active</span>
                                  <?php }else{ ?>
-                                    <span class="label label-important">Inactive</span>
+                                    <span class="badge badge-important">Inactive</span>
                                  <?php } ?>
                               </td>
-                              <td>
-                                 <?php echo anchor(base_url()."general_setting/asset_floors_edit/".$row->id, 'Edit', 'class="btn btn-mini btn-primary"') ;?>&nbsp;
-                                 <a class="btn btn-mini btn-primary" href="<?=base_url()?>general_setting/asset_floors_delete/<?=$row->id?>" onclick="return confirm('Are you sure you want to delete this Asset Floor?');">Delete</a>
+                              <td class="text-center" style="vertical-align:middle">
+                                 <?php echo anchor(base_url()."general_setting/asset_floors_edit/".$row->id, '<i class="fa fa-pencil"></i>', 'class="btn btn-mini btn-primary"') ;?>&nbsp;
+                                 <a class="btn btn-mini btn-danger" href="<?=base_url()?>general_setting/asset_floors_delete/<?=$row->id?>" onclick="return confirm('Are you sure you want to delete this Asset Floor?');"><i class="fa fa-trash-o"></i></a>
                               </td>
                            </tr>
                         <?php endforeach; ?>

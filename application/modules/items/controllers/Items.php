@@ -29,106 +29,49 @@ class Items extends Backend_Controller {
       $this->form_validation->set_rules('cat_id', 'select category', 'required|trim');
       $this->form_validation->set_rules('sub_cat_id', 'select sub category', 'required|trim');
       $this->form_validation->set_rules('item_name', 'item name', 'required|trim');
-      // $this->form_validation->set_rules('unit_id', 'select unit', 'required|trim');
-      // $this->form_validation->set_rules('order_level', 'order level', 'required|trim');
-      // New fields validation
-      // $this->form_validation->set_rules('acquisition_date', 'acquisition date', 'trim');
-      // $this->form_validation->set_rules('cost', 'cost', 'numeric|trim');
-      // $this->form_validation->set_rules('supplier_id', 'supplier', 'trim');
-      // $this->form_validation->set_rules('serial_number', 'serial number', 'trim');
-      // $this->form_validation->set_rules('warranty_months', 'warranty months', 'integer|trim');
-      // $this->form_validation->set_rules('custodian_id', 'custodian', 'trim');
-      // $this->form_validation->set_rules('asset_status', 'asset status', 'trim');
-      // $this->form_validation->set_rules('branch_id', 'branch', 'trim');
-      // $this->form_validation->set_rules('department_id', 'department', 'trim');
-      // $this->form_validation->set_rules('floor_id', 'floor', 'trim');
-      // $this->form_validation->set_rules('room_id', 'room', 'trim');
-
-      // $this->form_validation->set_rules('depreciation_method', 'depreciation method', 'trim');
-      // $this->form_validation->set_rules('useful_life', 'useful life', 'integer|trim');
-      // $this->form_validation->set_rules('salvage_value', 'salvage value', 'numeric|trim');
 
 
       //Validate and input data
       if ($this->form_validation->run() == true){
          $form_data = array(
-            'division_id'   => $this->input->post('division_id'),
-            'category_id'        => $this->input->post('cat_id'),
-            'sub_cat_id'    => $this->input->post('sub_cat_id'),
-            'item_name'     => $this->input->post('item_name'),
-            'unit_id'       => $this->input->post('unit_id'),
-            'type'          => $this->input->post('type'),
-            'order_level'   => 10,
-            'status'        => $this->input->post('status'),
-            'description'   => $this->input->post('description'),
-            // New fields
+            'branch_id'        => $this->input->post('branch_id'),
+            'category_id'      => $this->input->post('cat_id'),
+            'sub_cat_id'       => $this->input->post('sub_cat_id'),
+            'item_name'        => $this->input->post('item_name'),
+            'description'      => $this->input->post('description'),
+            'unit_id'          => $this->input->post('unit_id'),
+            'type'             => $this->input->post('type'),
+            'status'           => $this->input->post('status'),
             'acquisition_date' => $this->input->post('acquisition_date'),
-            'cost'             => $this->input->post('cost'),
-            // 'book_value'       => $this->input->post('cost'),
-            // 'supplier_id'      => $this->input->post('supplier_id'),
             'serial_number'    => $this->input->post('serial_number'),
             'warranty_months'  => $this->input->post('warranty_months'),
-            // 'custodian_id'     => $this->input->post('custodian_id'),
             'asset_status'     => $this->input->post('asset_status'),
-            // 'branch_id'        => $this->input->post('branch_id'),
-            // 'department_id'    => $this->input->post('department_id'),
-            // 'floor_id'         => $this->input->post('floor_id'),
-            // 'room_id'          => $this->input->post('room_id'),
-            // 'depreciation_method' => $this->input->post('depreciation_method'),
-            // 'useful_life' => $this->input->post('useful_life'),
-            // 'salvage_value' => $this->input->post('salvage_value')
+            'supplier_id'      => $this->input->post('supplier_id'),
+            'original_cost'    => $this->input->post('original_cost'),
+            'capitalized_cost' => $this->input->post('capitalized_cost'),
          );
 
          if($this->Common_model->save('items', $form_data)){
             $insert_id = $this->db->insert_id();
             $this->cbs_model->generate_capitalization_journal_entry($insert_id);
-            if ($this->ion_auth->in_group(array('do', 'sm'))) {
-               $data = array(
-                  'unit_id'        => $this->session->userdata('unit_id'),
-                  'item_id'        => $insert_id,
-                  'cat_id'         => $this->input->post('cat_id'),
-                  'sub_cat_id'     => $this->input->post('sub_cat_id'),
-                  'order_level'    => 12,
-                  // 'order_level'    => $this->input->post('order_level'),
-               );
-               $this->Common_model->save('item_stocks', $data);
-            } else {
-               $units = $this->db->get('units')->result();
-               foreach ($units as $key => $v) {
-                  $data = array(
-                     'unit_id'     => $v->id,
-                     'item_id'     => $insert_id,
-                     'cat_id'      => $this->input->post('cat_id'),
-                     'sub_cat_id'  => $this->input->post('sub_cat_id'),
-                     'order_level' => 12,
-                     // 'order_level'    => $this->input->post('order_level'),
-                  );
-                  $this->Common_model->save('item_stocks', $data);
-               }
-            }
             // Save custom field values
             $custom_fields_definitions = $this->custom_fields_model->get_custom_fields();
             foreach ($custom_fields_definitions as $field) {
-                $field_name = 'custom_field_' . $field->id;
-                $field_value = $this->input->post($field_name);
-                if ($field_value !== null) { // Only save if the field was submitted
-                    $this->custom_fields_model->save_asset_custom_field_value($insert_id, $field->id, $field_value);
-                }
+               $field_name = 'custom_field_' . $field->id;
+               $field_value = $this->input->post($field_name);
+               if ($field_value !== null) { 
+               $this->custom_fields_model->save_asset_custom_field_value($insert_id, $field->id, $field_value);
+               }
             }
-
             $this->session->set_flashdata('success', 'Item created successfully.');
             redirect('items');
          }
       }
       //Dropdown
-      $this->data['units'] = $this->Common_model->get_units();
-      $this->data['suppliers'] = $this->db->get('suppliers')->result(); // Fetch suppliers
-      $this->data['custodians'] = $this->ion_auth->users()->result(); // Fetch users for custodians
-      $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
-      $this->data['departments'] = $this->Common_model->get_dropdown('departments', 'dept_name', 'id');
-      $this->data['floors'] = $this->Common_model->get_dropdown('asset_floors', 'floor_name', 'id');
-      $this->data['rooms'] = $this->Common_model->get_dropdown('asset_rooms', 'room_name', 'id');
-
+      $this->data['units']      = $this->Common_model->get_units();
+      $this->data['suppliers']  = $this->db->get('suppliers')->result(); 
+      $this->data['custodians'] = $this->ion_auth->users()->result();
+      $this->data['branches']   = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
       $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
 
       // Load page
@@ -179,89 +122,49 @@ class Items extends Backend_Controller {
       }
 
       //Validation
-      $this->form_validation->set_rules('division_id', 'select division', 'required|trim');
+      $this->form_validation->set_rules('branch_id', 'select branch', 'required|trim');
       $this->form_validation->set_rules('cat_id', 'select category', 'required|trim');
       $this->form_validation->set_rules('sub_cat_id', 'select sub category', 'required|trim');
       $this->form_validation->set_rules('item_name', 'item name', 'required|trim');
       $this->form_validation->set_rules('unit_id', 'select unit', 'required|trim');
-      $this->form_validation->set_rules('order_level', 'order level', 'required|trim');
       // New fields validation
       $this->form_validation->set_rules('acquisition_date', 'acquisition date', 'trim');
-      $this->form_validation->set_rules('cost', 'cost', 'numeric|trim');
       $this->form_validation->set_rules('supplier_id', 'supplier', 'trim');
       $this->form_validation->set_rules('serial_number', 'serial number', 'trim');
       $this->form_validation->set_rules('warranty_months', 'warranty months', 'integer|trim');
-      $this->form_validation->set_rules('custodian_id', 'custodian', 'trim');
       $this->form_validation->set_rules('asset_status', 'asset status', 'trim');
-      $this->form_validation->set_rules('branch_id', 'branch', 'trim');
-      $this->form_validation->set_rules('department_id', 'department', 'trim');
-      $this->form_validation->set_rules('floor_id', 'floor', 'trim');
-      $this->form_validation->set_rules('room_id', 'room', 'trim');
-      $this->form_validation->set_rules('depreciation_method', 'depreciation method', 'trim');
-      $this->form_validation->set_rules('useful_life', 'useful life', 'integer|trim');
-      $this->form_validation->set_rules('salvage_value', 'salvage value', 'numeric|trim');
 
 
       if ($this->form_validation->run() == true){
          $form_data = array(
-            'division_id'   => $this->input->post('division_id'),
-            'cat_id'        => $this->input->post('cat_id'),
-            'sub_cat_id'    => $this->input->post('sub_cat_id'),
-            'item_name'     => $this->input->post('item_name'),
-            'unit_id'       => $this->input->post('unit_id'),
-            'type'          => $this->input->post('type'),
-            'order_level'   => $this->input->post('order_level'),
-            'status'        => $this->input->post('status'),
-            'description'   => $this->input->post('description'),
-            // New fields
-            'acquisition_date' => $this->input->post('acquisition_date'),
-            'cost'             => $this->input->post('cost'),
-            'book_value'       => $this->input->post('cost'),
-            'supplier_id'      => $this->input->post('supplier_id'),
-            'serial_number'    => $this->input->post('serial_number'),
-            'warranty_months'  => $this->input->post('warranty_months'),
-            'custodian_id'     => $this->input->post('custodian_id'),
-            'asset_status'     => $this->input->post('asset_status'),
-            'branch_id'        => $this->input->post('branch_id'),
-            'department_id'    => $this->input->post('department_id'),
-            'floor_id'         => $this->input->post('floor_id'),
-            'room_id'          => $this->input->post('room_id'),
-            'depreciation_method' => $this->input->post('depreciation_method'),
-            'useful_life' => $this->input->post('useful_life'),
-            'salvage_value' => $this->input->post('salvage_value')
+            'cat_id'          => $this->input->post('cat_id'),
+            'sub_cat_id'      => $this->input->post('sub_cat_id'),
+            'item_name'       => $this->input->post('item_name'),
+            'unit_id'         => $this->input->post('unit_id'),
+            'type'            => $this->input->post('type'),
+            'order_level'     => $this->input->post('order_level'),
+            'status'          => $this->input->post('status'),
+            'description'     => $this->input->post('description'),
+            'acquisition_date'=> $this->input->post('acquisition_date'),
+            'cost'            => $this->input->post('cost'),
+            'supplier_id'     => $this->input->post('supplier_id'),
+            'serial_number'   => $this->input->post('serial_number'),
+            'warranty_months' => $this->input->post('warranty_months'),
+            'asset_status'    => $this->input->post('asset_status'),
+            'branch_id'       => $this->input->post('branch_id'),
          );
 
          if($this->Common_model->edit('items', $dataID, 'id', $form_data)){
             $unit_id = $this->session->userdata('unit_id');
-            if ($this->ion_auth->in_group(array('do', 'sm'))) {
-               $data = array(
-                  'cat_id'         => $this->input->post('cat_id'),
-                  'sub_cat_id'     => $this->input->post('sub_cat_id'),
-                  'order_level'    => $this->input->post('order_level'),
-               );
-               $this->db->where('unit_id', $unit_id)->where('item_id', $dataID)->update('item_stocks', $data);
-            } else {
-               $units = $this->db->get('units')->result();
-               foreach ($units as $key => $v) {
-                  $data = array(
-                     'cat_id'         => $this->input->post('cat_id'),
-                     'sub_cat_id'     => $this->input->post('sub_cat_id'),
-                     'order_level'    => $this->input->post('order_level'),
-                  );
-                  $this->db->where('unit_id', $v->id)->where('item_id', $dataID)->update('item_stocks', $data);
-               }
-            }
             // Save custom field values
             $custom_fields_definitions = $this->custom_fields_model->get_custom_fields();
             foreach ($custom_fields_definitions as $field) {
-                $field_name = 'custom_field_' . $field->id;
-                $field_value = $this->input->post($field_name);
-                // Only save if the field was submitted or if it's an existing field that needs to be cleared
-                if ($field_value !== null || $this->custom_fields_model->get_asset_custom_field_value($dataID, $field->id)) {
-                    $this->custom_fields_model->save_asset_custom_field_value($dataID, $field->id, $field_value);
-                }
+               $field_name = 'custom_field_' . $field->id;
+               $field_value = $this->input->post($field_name);
+               if ($field_value !== null || $this->custom_fields_model->get_asset_custom_field_value($dataID, $field->id)) {
+                  $this->custom_fields_model->save_asset_custom_field_value($dataID, $field->id, $field_value);
+               }
             }
-
             $this->session->set_flashdata('success', 'Informatioin update successfully.');
             redirect('items');
          }
@@ -273,11 +176,7 @@ class Items extends Backend_Controller {
       $this->data['units'] = $this->Common_model->get_units();
       $this->data['info'] = $this->Items_model->get_info($dataID);
       $this->data['suppliers'] = $this->db->get('suppliers')->result(); // Fetch suppliers
-      $this->data['custodians'] = $this->ion_auth->users()->result(); // Fetch users for custodians
       $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
-      $this->data['departments'] = $this->Common_model->get_dropdown('departments', 'dept_name', 'id');
-      $this->data['floors'] = $this->Common_model->get_dropdown('asset_floors', 'floor_name', 'id');
-      $this->data['rooms'] = $this->Common_model->get_dropdown('asset_rooms', 'room_name', 'id');
 
       $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
       $this->data['asset_custom_field_values'] = $this->custom_fields_model->get_asset_custom_field_values($dataID);
@@ -577,6 +476,7 @@ class Items extends Backend_Controller {
 
       $asset_id = (int) decrypt_url($id); // Decrypt asset ID if needed
       $asset_info = $this->Items_model->get_info($asset_id);
+      // dd($asset_info);
 
       if (!$asset_info) {
          show_404();
@@ -675,30 +575,18 @@ class Items extends Backend_Controller {
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->id);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->item_name);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->description);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->division_id);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->cat_id);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->sub_cat_id);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->unit_id);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->type);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->order_level);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->status);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->acquisition_date);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->cost);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->supplier_id);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->serial_number);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->warranty_months);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->custodian_id);
+            // $sheet->setCellValueByColumnAndRow($col++, $row, $asset->custodian_id);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->asset_status);
             $sheet->setCellValueByColumnAndRow($col++, $row, $asset->branch_id);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->department_id);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->floor_id);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->room_id);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->depreciation_method);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->useful_life);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->salvage_value);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->disposal_date);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->disposal_type);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->sale_proceeds);
             $row++;
         }
 
@@ -713,5 +601,14 @@ class Items extends Backend_Controller {
         $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
         $objWriter->save('php://output');
         exit;
+    }
+
+
+    // get supplier info with ajax 
+
+    public function get_supplier_info(){
+        $id = $this->input->post('id');
+        $supplier = $this->Items_model->get_supplier_info($id);
+        echo json_encode($supplier);
     }
 }

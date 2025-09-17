@@ -88,7 +88,12 @@ class Common_model extends CI_Model {
       if (!empty($unit_id)) {
          $this->db->where('unit_id', $unit_id);
       }
-      $query = $this->db->get()->row()->count;
+      $result = $this->db->get()->row();
+      if (is_object($result) && property_exists($result, 'count')) {
+         $query = $result->count;
+      } else {
+         $query = 0;
+      }
       return $query;
    }
 
