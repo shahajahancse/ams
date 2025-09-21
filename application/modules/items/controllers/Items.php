@@ -1,5 +1,8 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
+
 class Items extends Backend_Controller {
 
    public function __construct(){
@@ -13,6 +16,7 @@ class Items extends Backend_Controller {
       $this->load->model('Items_model');
       $this->load->model('custom_fields/custom_fields_model');
       $this->load->model('cbs_integration/Cbs_integration_model', 'cbs_model');
+      $this->load->library('php_spreadsheet');
    }
 
    public function index(){
@@ -597,110 +601,209 @@ class Items extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
 
-    public function bulk_import() {
-        $this->data['meta_title'] = 'Bulk Import Assets';
-        $this->data['subview'] = 'bulk_import'; // View for the upload form
+   public function bulk_import() {
+      if ($this->input->post('submit')) {
+         $config['upload_path'] = './uploads/';
+         $config['allowed_types'] = 'xls|xlsx|csv';
+         $config['max_size'] = 2048; // 2MB
+         $config['encrypt_name'] = TRUE;
 
-        if ($this->input->post('submit')) {
-            $config['upload_path'] = './uploads/';
-            $config['allowed_types'] = 'xls|xlsx|csv';
-            $config['max_size'] = 2048; // 2MB
-            $config['encrypt_name'] = TRUE;
+         $this->load->library('upload', $config);
 
-            $this->load->library('upload', $config);
+         if (!$this->upload->do_upload('asset_file')) {
+            $this->data['error'] = $this->upload->display_errors();
+         } else {
+            $upload_data = $this->upload->data();
+            $file_path = $upload_data['full_path'];
 
-            if (!$this->upload->do_upload('asset_file')) {
-                $this->data['error'] = $this->upload->display_errors();
-            } else {
-                $upload_data = $this->upload->data();
-                $file_path = $upload_data['full_path'];
+            try {
 
-                $this->load->model('Items_import_model'); // Load the new import model
-                $import_result = $this->Items_import_model->import_assets($file_path);
+               $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file_path);
+               $sheet = $spreadsheet->getActiveSheet();
+               $highestRow = $sheet->getHighestRow();
+               $highestColumn = $sheet->getHighestColumn();
 
-                if ($import_result['status'] == 'success') {
-                    $this->session->set_flashdata('success', $import_result['message']);
-                    redirect('items');
-                } else {
-                    $this->data['error'] = $import_result['message'];
-                }
+               $this->db->trans_start(); // Start transaction
+
+               for ($row = 2; $row <= $highestRow; $row++) { // Assuming header is in row 1
+                  $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
+
+                  $category_id = $this->get_category_id(trim($rowData[0][0]));
+                  $sub_cat_id = $this->get_sub_category_id($category_id, trim($rowData[0][1]));
+                  $type = $this->get_type(trim($rowData[0][4]));
+
+                  if ($rowData[0][5] == 'Amount') {
+                     $value_type = 1;
+                  } else {
+                     $value_type = 2;
+                  }
+
+                  $item_data = array(
+                     'category_id' => $category_id,
+                     'sub_cat_id' => $sub_cat_id,
+                     'item_name' => $rowData[0][2],
+                     'unit_id' => $this->get_unit_id($rowData[0][3]),
+                     'type' => $type,         // 1=depriciation, 2=non-depriciation, 3=fixed
+                     'value_type' => $value_type,  // amount or percentage
+                     'rate' => $this->get_rate_id($value_type, $rowData[0][5]),
+                     'description' => $rowData[0][12],
+                     'acquisition_date' => $this->get_date_format($rowData[0][7]),
+                     'manufacture_date' => $this->get_date_format($rowData[0][8]),
+                     'original_cost' => $rowData[0][9],
+                     'capitalized_cost' => $rowData[0][10],
+                     'serial_number' => $rowData[0][11],
+                     'asset_status' => 5, // 5 = In Stock
+                     'asset_image' => 'default.jpg', // Default image
+                     'created_at' => date('Y-m-d H:i:s'),
+                     'updated_at' => date('Y-m-d H:i:s'),
+                  );
+                  $this->db->insert('items', $item_data);
+               }
+
+               $this->db->trans_complete(); // Complete transaction
+
+               if ($this->db->trans_status() === FALSE) {
+                  $this->data['error'] = 'Database transaction failed.';
+               } else {
+                  $this->session->set_flashdata('success', 'Assets imported successfully.');
+                  redirect('items');
+               }
+
+            } catch (Exception $e) {
+               $this->data['error'] = 'Error loading file: ' . $e->getMessage();
             }
-        }
+         }
+      }
 
-        $this->load->view('backend/_layout_main', $this->data);
-    }
+      $this->data['meta_title'] = 'Bulk Import Assets';
+      $this->data['subview'] = 'bulk_import'; // View for the upload form
+      $this->load->view('backend/_layout_main', $this->data);
+   }
 
-    public function bulk_export() {
-        $this->load->library('excel'); // Load PHPExcel library
-        $this->load->helper('download'); // For force_download
+   function get_category_id($name) {
+      $query = $this->db->from('item_categories')->like('category_name', trim($name))->db->get();
+      if (!empty($query)) {
+         return $query->row()->id;
+      } else {
+         $this->db->insert('item_categories', array('category_name' => trim($name)));
+         return $this->db->insert_id();
+      }
+   }
 
-        $assets = $this->Items_model->get_items(); // Fetch all asset data
+   function get_sub_category_id($id, $name) {
+      $query=$this->db->from('item_sub_categories')->where('cate_id', $id)->like('sub_cate_name', trim($name))->db->get();
+      if (!empty($query)) {
+         return $query->row()->id;
+      } else {
+         $this->db->insert('item_sub_categories', array('cate_id' => $id, 'sub_cate_name' => trim($name)));
+         return $this->db->insert_id();
+      }
+   }
 
-        if (empty($assets)) {
-            $this->session->set_flashdata('error', 'No assets found to export.');
-            redirect('items');
-        }
+   function get_unit_id($name) {
+      $query = $this->db->from('item_unit')->like('unit_name', trim($name))->db->get();
+      if (!empty($query)) {
+         return $query->row()->id;
+      } else {
+         $this->db->insert('item_unit', array('unit_name' => trim($name)));
+         return $this->db->insert_id();
+      }
+   }
 
-        // Create new PHPExcel object
-        $objPHPExcel = new PHPExcel();
-        $objPHPExcel->setActiveSheetIndex(0);
-        $sheet = $objPHPExcel->getActiveSheet();
+   function get_type($name) {
+      if (trim($name) == 'Fixed') {
+         return 3;
+      } else if (trim($name) == 'Depreciation') {
+         return 1;
+      } else {
+         return 2;
+      }
+   }
 
-        // Set headers
-        $headers = [
-            'ID', 'Item Name', 'Description', 'Division ID', 'Category ID', 'Sub Category ID',
-            'Unit ID', 'Type', 'Order Level', 'Status', 'Acquisition Date', 'Cost', 'Book Value',
-            'Supplier ID', 'Serial Number', 'Warranty Months', 'Custodian ID',
-            'Asset Status', 'Branch ID', 'Department ID', 'Floor ID', 'Room ID',
-            'Depreciation Method', 'Useful Life', 'Salvage Value', 'Disposal Date', 'Disposal Type', 'Sale Proceeds'
-        ];
-        $col = 0;
-        foreach ($headers as $header) {
-            $sheet->setCellValueByColumnAndRow($col, 1, $header);
-            $col++;
-        }
+   function get_rate_id($type, $amt)
+   {
+      $query=$this->db->from('depreciation')->where('type', $type)->like('rate', trim($amt))->db->get();
+      if (!empty($query)) {
+         return $query->row()->id;
+      } else {
+         $this->db->insert('depreciation', array('type' => $type, 'rate' => trim($amt)));
+         return $this->db->insert_id();
+      }
+   }
 
-        // Add data
-        $row = 2;
-        foreach ($assets as $asset) {
-            $col = 0;
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->id);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->item_name);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->description);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->cat_id);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->sub_cat_id);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->unit_id);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->type);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->status);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->acquisition_date);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->supplier_id);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->serial_number);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->warranty_months);
-            // $sheet->setCellValueByColumnAndRow($col++, $row, $asset->custodian_id);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->asset_status);
-            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->branch_id);
-            $row++;
-        }
+   function get_date_format($number) {
+      $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(trim($number));
+      return $date->format('Y-m-d'); // Output: 2024-11-14
+   }
 
-        // Set active sheet index to the first sheet, so Excel opens this sheet first
-        $objPHPExcel->setActiveSheetIndex(0);
+   public function bulk_export() {
+      $this->load->helper('download'); // For force_download
 
-        // Redirect output to a client’s web browser (Excel2007)
-        header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-        header('Content-Disposition: attachment;filename="assets_export_' . date('YmdHis') . '.xlsx"');
-        header('Cache-Control: max-age=0');
+      $assets = $this->Items_model->get_items(); // Fetch all asset data
 
-        $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
-        $objWriter->save('php://output');
-        exit;
-    }
+      if (empty($assets)) {
+         $this->session->set_flashdata('error', 'No assets found to export.');
+         redirect('items');
+      }
+
+      $spreadsheet = new Spreadsheet();
+      $sheet = $spreadsheet->getActiveSheet();
+
+      // Set headers
+      $headers = [
+         'ID', 'Item Name', 'Description', 'Division ID', 'Category ID', 'Sub Category ID',
+         'Unit ID', 'Type', 'Order Level', 'Status', 'Acquisition Date', 'Cost', 'Book Value',
+         'Supplier ID', 'Serial Number', 'Warranty Months', 'Custodian ID',
+         'Asset Status', 'Branch ID', 'Department ID', 'Floor ID', 'Room ID',
+         'Depreciation Method', 'Useful Life', 'Salvage Value', 'Disposal Date', 'Disposal Type', 'Sale Proceeds'
+      ];
+      $col = 1;
+      foreach ($headers as $header) {
+         $sheet->setCellValueByColumnAndRow($col, 1, $header);
+         $col++;
+      }
+
+      // Add data
+      $row = 2;
+      foreach ($assets as $asset) {
+         $col = 1;
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->id);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->item_name);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->description);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->cat_id);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->sub_cat_id);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->unit_id);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->type);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->status);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->acquisition_date);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->supplier_id);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->serial_number);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->warranty_months);
+         // $sheet->setCellValueByColumnAndRow($col++, $row, $asset->custodian_id);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->asset_status);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->branch_id);
+         $row++;
+      }
+
+      // Set active sheet index to the first sheet, so Excel opens this sheet first
+      $spreadsheet->setActiveSheetIndex(0);
+
+      // Redirect output to a client’s web browser (Xlsx)
+      header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
+      header('Content-Disposition: attachment;filename="assets_export_' . date('YmdHis') . '.xlsx"');
+      header('Cache-Control: max-age=0');
+
+      $writer = new Xlsx($spreadsheet);
+      $writer->save('php://output');
+      exit;
+   }
 
 
-    // get supplier info with ajax 
+    // get supplier info with ajax
 
-    public function get_supplier_info(){
+   public function get_supplier_info(){
         $id = $this->input->post('id');
         $supplier = $this->Items_model->get_supplier_info($id);
         echo json_encode($supplier);
-    }
+   }
 }
