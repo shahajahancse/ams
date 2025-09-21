@@ -2,7 +2,7 @@
 
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
-
+require_once APPPATH . "libraries/PHPExcel.php";
 class Items extends Backend_Controller {
 
    public function __construct(){
@@ -166,6 +166,99 @@ class Items extends Backend_Controller {
       $this->data['subview'] = 'create';
       $this->load->view('backend/_layout_main', $this->data);
    }
+   public function edit($id){
+      $dataID = (int) decrypt_url($id); //exit;
+      // dd($dataID);
+      if (!$this->Common_model->exists('items', 'id', $dataID)) {
+         show_404('items - edit - exitsts', TRUE);
+      }
+
+      //Validation
+      $this->form_validation->set_rules('category_id', 'Select category', 'required|trim');
+      $this->form_validation->set_rules('sub_cat_id', 'Select sub category', 'required|trim');
+      $this->form_validation->set_rules('type', 'Select type', 'required|trim');
+      $this->form_validation->set_rules('value_type', 'Select value type', 'required|trim');
+      $this->form_validation->set_rules('rate', 'Enter rate', 'required|trim|numeric');
+      $this->form_validation->set_rules('item_name', 'Item name', 'required|trim');
+      $this->form_validation->set_rules('unit_id', 'Select unit', 'required|trim');
+      $this->form_validation->set_rules('asset_image', 'Item image', 'trim');
+      $this->form_validation->set_rules('description', 'Item description', 'trim');
+      $this->form_validation->set_rules('acquisition_date', 'Acquisition date', 'trim');
+      $this->form_validation->set_rules('manufacture_date', 'Manufacture date', 'trim');
+      $this->form_validation->set_rules('original_cost', 'Original cost', 'trim|numeric');
+      $this->form_validation->set_rules('capitalized_cost', 'Capitalized cost', 'trim|numeric');
+      $this->form_validation->set_rules('serial_number', 'Serial number', 'trim');
+      $this->form_validation->set_rules('warranty_months', 'Warranty months', 'trim');
+      $this->form_validation->set_rules('asset_status', 'Asset status', 'trim');
+      $this->form_validation->set_rules('supplier_id', 'Supplier', 'trim');
+      $status = $this->input->post('asset_status');
+      if ($status == 1 || $status == 2) {
+         $this->form_validation->set_rules('branch_id', 'Branch', 'required');
+         $this->form_validation->set_rules('dept_id', 'Department', 'required');
+         $this->form_validation->set_rules('floor_id', 'Floor', 'required');
+         $this->form_validation->set_rules('room_id', 'Room', 'required');
+         $this->form_validation->set_rules('user_id', 'User', 'required');
+      }
+
+
+      if ($this->form_validation->run() == true){
+         $form_data = array(
+            'category_id'      => $this->input->post('category_id'),
+            'sub_cat_id'       => $this->input->post('sub_cat_id'),
+            'type'             => $this->input->post('type'),
+            'value_type'       => $this->input->post('value_type'),
+            'rate'             => $this->input->post('rate'),
+            'item_name'        => $this->input->post('item_name'),
+            'unit_id'          => $this->input->post('unit_id'),
+            'asset_image'      => $asset_image,
+            'warranty_months'  => $warranty_month,
+            'description'      => $this->input->post('description'),
+            'acquisition_date' => $this->input->post('acquisition_date'),
+            'manufacture_date' => $this->input->post('manufacture_date'),
+            'original_cost'    => $this->input->post('original_cost'),
+            'capitalized_cost' => $this->input->post('capitalized_cost'),
+            'serial_number'    => $this->input->post('serial_number'),
+            'asset_status'     => $this->input->post('asset_status'),
+            'supplier_id'      => $this->input->post('supplier_id'),
+         );
+         if ($status == 1 || $status == 2) {
+            $form_data = array_merge($form_data, array(
+               'branch_id' => $this->input->post('branch_id'),
+               'dept_id'   => $this->input->post('dept_id'),
+               'floor_id'  => $this->input->post('floor_id'),
+               'room_id'   => $this->input->post('room_id'),
+               'user_id'   => $this->input->post('user_id'),
+            ));
+         }
+
+         if($this->Common_model->edit('items', $dataID, 'id', $form_data)){
+            $unit_id = $this->session->userdata('unit_id');
+            // Save custom field values
+            $custom_fields_definitions = $this->custom_fields_model->get_custom_fields();
+            foreach ($custom_fields_definitions as $field) {
+               $field_name = 'custom_field_' . $field->id;
+               $field_value = $this->input->post($field_name);
+               if ($field_value !== null || $this->custom_fields_model->get_asset_custom_field_value($dataID, $field->id)) {
+                  $this->custom_fields_model->save_asset_custom_field_value($dataID, $field->id, $field_value);
+               }
+            }
+            $this->session->set_flashdata('success', 'Informatioin update successfully.');
+            redirect('items');
+         }
+      }
+
+      //Dropdown
+      $this->data['units'] = $this->Common_model->get_units();
+      $this->data['suppliers'] = $this->db->get('suppliers')->result();
+      $this->data['custodians'] = $this->ion_auth->users()->result();
+      $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
+      $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
+
+      // Load page
+      $this->data['meta_title'] = 'Edit Asset Form';
+      $this->data['subview'] = 'edit';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
 
    public function get_sub_category_by_category(){
       $this->db->where('cate_id', $_POST['id']);
@@ -200,78 +293,6 @@ class Items extends Backend_Controller {
       $this->db->where('floor_id', $floor_id);
       $query = $this->db->get('asset_rooms');
       echo json_encode($query->result());
-   }
-
-   public function edit($id){
-      $dataID = (int) decrypt_url($id); //exit;
-      if (!$this->Common_model->exists('items', 'id', $dataID)) {
-         show_404('items - edit - exitsts', TRUE);
-      }
-
-      //Validation
-      $this->form_validation->set_rules('branch_id', 'select branch', 'required|trim');
-      $this->form_validation->set_rules('cat_id', 'select category', 'required|trim');
-      $this->form_validation->set_rules('sub_cat_id', 'select sub category', 'required|trim');
-      $this->form_validation->set_rules('item_name', 'item name', 'required|trim');
-      $this->form_validation->set_rules('unit_id', 'select unit', 'required|trim');
-      // New fields validation
-      $this->form_validation->set_rules('acquisition_date', 'acquisition date', 'trim');
-      $this->form_validation->set_rules('supplier_id', 'supplier', 'trim');
-      $this->form_validation->set_rules('serial_number', 'serial number', 'trim');
-      $this->form_validation->set_rules('warranty_months', 'warranty months', 'integer|trim');
-      $this->form_validation->set_rules('asset_status', 'asset status', 'trim');
-
-
-      if ($this->form_validation->run() == true){
-         $form_data = array(
-            'cat_id'          => $this->input->post('cat_id'),
-            'sub_cat_id'      => $this->input->post('sub_cat_id'),
-            'item_name'       => $this->input->post('item_name'),
-            'unit_id'         => $this->input->post('unit_id'),
-            'type'            => $this->input->post('type'),
-            'order_level'     => $this->input->post('order_level'),
-            'status'          => $this->input->post('status'),
-            'description'     => $this->input->post('description'),
-            'acquisition_date'=> $this->input->post('acquisition_date'),
-            'cost'            => $this->input->post('cost'),
-            'supplier_id'     => $this->input->post('supplier_id'),
-            'serial_number'   => $this->input->post('serial_number'),
-            'warranty_months' => $this->input->post('warranty_months'),
-            'asset_status'    => $this->input->post('asset_status'),
-            'branch_id'       => $this->input->post('branch_id'),
-         );
-
-         if($this->Common_model->edit('items', $dataID, 'id', $form_data)){
-            $unit_id = $this->session->userdata('unit_id');
-            // Save custom field values
-            $custom_fields_definitions = $this->custom_fields_model->get_custom_fields();
-            foreach ($custom_fields_definitions as $field) {
-               $field_name = 'custom_field_' . $field->id;
-               $field_value = $this->input->post($field_name);
-               if ($field_value !== null || $this->custom_fields_model->get_asset_custom_field_value($dataID, $field->id)) {
-                  $this->custom_fields_model->save_asset_custom_field_value($dataID, $field->id, $field_value);
-               }
-            }
-            $this->session->set_flashdata('success', 'Informatioin update successfully.');
-            redirect('items');
-         }
-      }
-
-      //Dropdown
-      $this->data['categories'] = $this->Common_model->get_categories();
-      $this->data['sub_categories'] = $this->Common_model->get_sub_categories();
-      $this->data['units'] = $this->Common_model->get_units();
-      $this->data['info'] = $this->Items_model->get_info($dataID);
-      $this->data['suppliers'] = $this->db->get('suppliers')->result(); // Fetch suppliers
-      $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
-
-      $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
-      $this->data['asset_custom_field_values'] = $this->custom_fields_model->get_asset_custom_field_values($dataID);
-
-      // Load page
-      $this->data['meta_title'] = 'Edit Item Form';
-      $this->data['subview'] = 'edit';
-      $this->load->view('backend/_layout_main', $this->data);
    }
 
    function delete($id) {
@@ -509,54 +530,7 @@ class Items extends Backend_Controller {
       //download it for 'D'.
       $mpdf->Output($file_name, "D");
    }
-   /*************details_pdf function pdf End**************/
 
-   // public function generate_qr_code($id) {
-   //    $this->load->library('ciqrcode'); // Load the Ciqrcode library
-
-   //    $asset_id = (int) decrypt_url($id); // Decrypt the asset ID
-
-   //    // Fetch asset information
-   //    $asset_info = $this->Items_model->get_info($asset_id);
-
-   //    if (!$asset_info) {
-   //       show_404(); // Asset not found
-   //    }
-
-   //    // Prepare data for QR code
-   //    // You can customize this string to include more asset information
-   //    $qr_data = "Asset ID: " . $asset_info->id . "\n";
-   //    $qr_data .= "Name: " . $asset_info->item_name . "\n";
-   //    $qr_data .= "Serial: " . $asset_info->serial_number . "\n";
-   //    $qr_data .= "Location: " . $asset_info->branch_name . ", " . $asset_info->department_name . ", " . $asset_info->floor_name . ", " . $asset_info->room_name . "\n";
-   //    $qr_data .= "Status: " . $asset_info->asset_status . "\n";
-   //    $qr_data .= "Cost: " . $asset_info->cost . "\n";
-   //    $qr_data .= "Acquisition Date: " . $asset_info->acquisition_date . "\n";
-   //    $qr_data .= "Supplier: " . $asset_info->supplier_name . "\n";
-   //    $qr_data .= "Custodian: " . $asset_info->custodian_name . "\n";
-   //    $qr_data .= "Warranty (Months): " . $asset_info->warranty_months . "\n";
-
-
-   //    // QR code generation parameters
-   //    $params['data'] = $qr_data;
-   //    $params['level'] = 'H'; // Error correction level: L, M, Q, H
-   //    $params['size'] = 10; // Size of the QR code (1-10)
-   //    $params['savename'] = FCPATH . 'qrcode_img/' . $asset_info->id . '_qrcode.png'; // Save to qrcode_img directory
-
-   //    // Ensure the qrcode_img directory exists
-   //    if (!is_dir(FCPATH . 'qrcode_img')) {
-   //       mkdir(FCPATH . 'qrcode_img', 0777, TRUE);
-   //    }
-
-   //    $this->ciqrcode->generate($params);
-
-   //    // Redirect to display the QR code or download it
-   //    // For now, let's redirect to a simple view that displays the image
-   //    $this->data['qr_code_path'] = base_url('qrcode_img/' . $asset_info->id . '_qrcode.png');
-   //    $this->data['meta_title'] = 'Asset QR Code';
-   //    $this->data['subview'] = 'qr_code_display'; // A new view to create
-   //    $this->load->view('backend/_layout_main', $this->data);
-   // }
    public function generate_qr_code($id)
    {
       $this->load->library('ciqrcode'); // Load QR library
@@ -736,74 +710,138 @@ class Items extends Backend_Controller {
       return $date->format('Y-m-d'); // Output: 2024-11-14
    }
 
-   public function bulk_export() {
-      $this->load->helper('download'); // For force_download
+   public function bulk_export()
+   {
+      // Load PHPExcel library wrapper
+      $this->load->library('excel');
 
-      $assets = $this->Items_model->get_items(); // Fetch all asset data
+      $assets = $this->Items_model->get_items();
 
       if (empty($assets)) {
          $this->session->set_flashdata('error', 'No assets found to export.');
          redirect('items');
       }
 
-      $spreadsheet = new Spreadsheet();
-      $sheet = $spreadsheet->getActiveSheet();
+      // Create new PHPExcel object
+      $objPHPExcel = new PHPExcel();
+      $sheet = $objPHPExcel->setActiveSheetIndex(0);
 
-      // Set headers
+      // Define headers
       $headers = [
-         'ID', 'Item Name', 'Description', 'Division ID', 'Category ID', 'Sub Category ID',
-         'Unit ID', 'Type', 'Order Level', 'Status', 'Acquisition Date', 'Cost', 'Book Value',
-         'Supplier ID', 'Serial Number', 'Warranty Months', 'Custodian ID',
-         'Asset Status', 'Branch ID', 'Department ID', 'Floor ID', 'Room ID',
-         'Depreciation Method', 'Useful Life', 'Salvage Value', 'Disposal Date', 'Disposal Type', 'Sale Proceeds'
+         'Branch Name','Department Name','Floor Name','Room Name','Custodian','Category Name','Sub Category Name','Item Name','Unit Name',
+         'Acquisition Date','Manufacturer Date','Original Cost','Capitalized Cost','Serial/Batch Number','Asset Type','Value Type', 'Amount/Percentage','Description','Supplier Name', 'Asset Status'
       ];
-      $col = 1;
+      $col = 0;
       foreach ($headers as $header) {
          $sheet->setCellValueByColumnAndRow($col, 1, $header);
          $col++;
       }
-
       // Add data
       $row = 2;
       foreach ($assets as $asset) {
-         $col = 1;
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->id);
+         $col = 0;
+         switch ($asset->type) {
+            case 1:
+               $type = 'Depreciation';
+               break;
+            case 2:
+               $type = 'Non-Depreciation';
+               break;
+            case 3:
+               $type = 'Fixed';
+               break;
+            default:
+               $type = '';
+         }
+         switch ($asset->value_type){
+            case 1:
+               $value_type = 'Amount';
+               break;
+            case 2:
+               $value_type = 'Percentage';
+               break;
+            default:
+               $value_type = '';
+         }
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->branch_name);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->dept_name);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->floor_name);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->room_name);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->user_name);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->category_name);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->sub_cate_name);
          $sheet->setCellValueByColumnAndRow($col++, $row, $asset->item_name);
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->description);
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->cat_id);
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->sub_cat_id);
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->unit_id);
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->type);
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->status);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->unit_name);
          $sheet->setCellValueByColumnAndRow($col++, $row, $asset->acquisition_date);
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->supplier_id);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->manufacture_date);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->original_cost);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->capitalized_cost);
          $sheet->setCellValueByColumnAndRow($col++, $row, $asset->serial_number);
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->warranty_months);
-         // $sheet->setCellValueByColumnAndRow($col++, $row, $asset->custodian_id);
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->asset_status);
-         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->branch_id);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $type);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $value_type);
+         if ($asset->value_type == 1) {
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->rate . ' Tk');
+         } else {
+            $sheet->setCellValueByColumnAndRow($col++, $row, $asset->rate . ' %');
+         }
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->description);
+         $sheet->setCellValueByColumnAndRow($col++, $row, $asset->supplier_name);
+         switch ($asset->asset_status) {
+            case 1:
+               $sheet->setCellValueByColumnAndRow($col++, $row, 'In Use');
+               break;
+            case 2:
+               $sheet->setCellValueByColumnAndRow($col++, $row, 'Maintenance');
+               break;
+            case 3:
+               $sheet->setCellValueByColumnAndRow($col++, $row, 'Disposed');
+               break;
+            case 4:
+               $sheet->setCellValueByColumnAndRow($col++, $row, 'Retired');
+               break;
+
+            default:
+               $sheet->setCellValueByColumnAndRow($col++, $row, '');
+         }
          $row++;
       }
-
-      // Set active sheet index to the first sheet, so Excel opens this sheet first
-      $spreadsheet->setActiveSheetIndex(0);
-
-      // Redirect output to a client’s web browser (Xlsx)
+      // ===== Add Borders =====
+      $lastCol = PHPExcel_Cell::stringFromColumnIndex(count($headers) - 1);
+      $lastRow = $row - 1;
+      $styleArray = [
+         'borders' => [
+            'allborders' => [
+               'style' => PHPExcel_Style_Border::BORDER_THIN,
+               'color' => ['argb' => 'FF000000'],
+            ],
+         ],
+      ];
+      $sheet->getStyle("A1:{$lastCol}{$lastRow}")->applyFromArray($styleArray);
+      // ===== Clear Buffer =====
+      while (ob_get_level() > 0) {
+         ob_end_clean();
+      }
+      // File name
+      $filename = "assets_export_" . date('YmdHis') . ".xlsx";
+      // Headers for download
       header('Content-Type: application/vnd.openxmlformats-officedocument.spreadsheetml.sheet');
-      header('Content-Disposition: attachment;filename="assets_export_' . date('YmdHis') . '.xlsx"');
+      header("Content-Disposition: attachment;filename=\"$filename\"");
       header('Cache-Control: max-age=0');
+      header('Expires: Mon, 26 Jul 1997 05:00:00 GMT');
+      header('Last-Modified: ' . gmdate('D, d M Y H:i:s') . ' GMT');
+      header('Cache-Control: cache, must-revalidate');
+      header('Pragma: public');
 
-      $writer = new Xlsx($spreadsheet);
-      $writer->save('php://output');
+      // Save file to output
+      $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
+      $objWriter->save('php://output');
       exit;
    }
-
-
     // get supplier info with ajax
 
    public function get_supplier_info(){
-        $id = $this->input->post('id');
-        $supplier = $this->Items_model->get_supplier_info($id);
-        echo json_encode($supplier);
+      $id = $this->input->post('id');
+      $supplier = $this->Items_model->get_supplier_info($id);
+      echo json_encode($supplier);
    }
 }

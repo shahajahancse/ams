@@ -49,15 +49,35 @@ class Items_model extends CI_Model {
 
     public function get_items(){
         $unit_id = $this->session->userdata('unit_id');
-        $this->db->select('i.*, i.acquisition_date, i.serial_number,  div.name_en as division_name, branch.name_en as branch_name,   c.category_name, sc.sub_cate_name, u.unit_name, s.balance, sup.name as supplier_name');
+        $this->db->select('i.*, i.acquisition_date, i.serial_number, branch.name_en as branch_name,   c.category_name, sc.sub_cate_name, u.unit_name, sup.name as supplier_name,users.first_name as user_name, asset_floors.floor_name, item_rooms.name_en as room_name,');
         $this->db->from('items i');
-        $this->db->join('units div', 'div.id=i.branch_id', 'LEFT');
         $this->db->join('units branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
         $this->db->join('item_categories c', 'c.id=i.category_id', 'LEFT');
         $this->db->join('item_sub_categories sc', 'sc.id=i.sub_cat_id', 'LEFT');
-        $this->db->join('item_unit u', 'u.id=i.unit_id', 'LEFT');
-        $this->db->join('item_stocks s', 's.item_id=i.id AND s.unit_id = '.$unit_id, 'LEFT', 'LEFT');
+        $this->db->join('item_unit u', 'u.id = i.unit_id', 'LEFT');
+        $this->db->join('users', 'users.id = i.user_id', 'LEFT');
+        $this->db->join('asset_floors', 'asset_floors.id = i.floor_id', 'LEFT');
+        $this->db->join('item_rooms', 'item_rooms.id = i.room_id', 'LEFT');
         $this->db->join('suppliers sup', 'sup.id=i.supplier_id', 'LEFT'); // Join with suppliers table
+        $this->db->order_by('i.id', 'ASC');
+        $this->db->group_by('i.id');
+        $query = $this->db->get()->result();
+        // dd($query);
+        return $query;
+    }
+    public function get_item($id){
+        $unit_id = $this->session->userdata('unit_id');
+        $this->db->select('i.*, i.acquisition_date, i.serial_number, branch.name_en as branch_name,   c.category_name, sc.sub_cate_name, u.unit_name, sup.name as supplier_name,users.first_name as user_name, asset_floors.floor_name, item_rooms.name_en as room_name,');
+        $this->db->from('items i');
+        $this->db->join('units branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
+        $this->db->join('item_categories c', 'c.id=i.category_id', 'LEFT');
+        $this->db->join('item_sub_categories sc', 'sc.id=i.sub_cat_id', 'LEFT');
+        $this->db->join('item_unit u', 'u.id = i.unit_id', 'LEFT');
+        $this->db->join('users', 'users.id = i.user_id', 'LEFT');
+        $this->db->join('asset_floors', 'asset_floors.id = i.floor_id', 'LEFT');
+        $this->db->join('item_rooms', 'item_rooms.id = i.room_id', 'LEFT');
+        $this->db->join('suppliers sup', 'sup.id=i.supplier_id', 'LEFT'); // Join with suppliers table
+        $this->db->where('i.id', $id);
         $this->db->order_by('i.id', 'ASC');
         $this->db->group_by('i.id');
         $query = $this->db->get()->result();

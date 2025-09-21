@@ -4724,7 +4724,7 @@ class otl
 					$gpos = $chunkOTLdata['GPOSinfo'][$i];
 				} else
 					$gpos = '';
-				$chardata[] = array('char' => $chunkOTLdata['char_data'][$i]['uni'], 'level' => $cel, 'type' => $chardir, 'group' => $chunkOTLdata['group']{$i}, 'GPOSinfo' => $gpos);
+				$chardata[] = array('char' => $chunkOTLdata['char_data'][$i]['uni'], 'level' => $cel, 'type' => $chardir, 'group' => $chunkOTLdata['group'][$i], 'GPOSinfo' => $gpos);
 			}
 		}
 
@@ -5633,7 +5633,7 @@ class otl
 				if (isset($cOTLdata[$nc]['char_data'][$i]['orig_type'])) {
 					$carac['orig_type'] = $cOTLdata[$nc]['char_data'][$i]['orig_type'];
 				}
-				$carac['group'] = $cOTLdata[$nc]['group']{$i};
+				$carac['group'] = $cOTLdata[$nc]['group'][$i];
 				$carac['chunkid'] = $chunkorder[$nc]; // gives font id and/or object ID
 
 				$maxlevel = max((isset($carac['level']) ? $carac['level'] : 0), $maxlevel);
