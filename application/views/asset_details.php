@@ -34,7 +34,8 @@
   height: 200px;
   object-fit: cover;
   border-radius: 12px;
-  border: 1px solid #ddd;
+  border: 1px solid #6e6e6eff;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
 }
 
 .asset-details {
@@ -103,102 +104,132 @@
       <div class="asset-body">
         <!-- Left: Image -->
         <div class="asset-image">
-          <img src="<?= base_url('uploads/items/' . ($asset->asset_image ?? 'default-image.png')); ?>" alt="<?= $asset->item_image; ?>">
+          <img src="<?= base_url('uploads/items/' . ($asset->asset_image ?? 'default-image.png')); ?>" alt="<?= $asset->item_image; ?>" />
           <div style="margin-top: 10px;text-align: center;"><?= $asset->item_name; ?></div>
         </div>
         <!-- Right: Details -->
         <div class="asset-details">
-          <table>
-            <tbody>
-              <tr>
-                <th>ID</th>
-                <td> <?php echo $unique_asset_id.'-'.$asset->id; ?> </td>
+          <table class="table" style="width:100%; border-collapse: collapse;border: 1px solid #000000ff;">
+            <tbody >
+              <tr >
+                <th style="border: 1px solid #000000ff;text-align: center;">ID</th>
+                <td style="border: 1px solid #000000ff;" > <?php echo $unique_asset_id.'-'.$asset->id; ?> </td>
+              </tr>
+              <tr style="border: 1px solid #000000ff;">
+                <th style="border: 1px solid #000000ff;text-align: center;">Name</th>
+                <td style="border: 1px solid #000000ff;"><?= $asset->item_name; ?></td>
               </tr>
               <tr>
-                <th>Name</th>
-                <td><?= $asset->item_name; ?></td>
+                <th style="border: 1px solid #000000ff;text-align: center;">Category</th>
+                <td style="border: 1px solid #000000ff;"><?= $asset->category_name; ?></td>
               </tr>
               <tr>
-                <th>Category</th>
-                <td><?= $asset->category_name; ?></td>
-              </tr>
-              <tr>
-                <th>Sub Category</th>
-                <td><?= $asset->sub_cate_name; ?></td>
+                <th style="border: 1px solid #000000ff;text-align: center;">Sub Category</th>
+                <td style="border: 1px solid #000000ff;"><?= $asset->sub_cate_name; ?></td>
               </tr>
 
               <tr>
-                <th>Serial</th>
-                <td><?= $asset->serial_number ?: 'N/A'; ?></td>
+                <th style="border: 1px solid #000000ff;text-align: center;">Serial</th>
+                <td style="border: 1px solid #000000ff;"><?= $asset->serial_number ?: 'N/A'; ?></td>
               </tr>
               <tr>
-                <th>Location</th>
-                <td>
-                  Branch: <?= $asset->branch_name ?? 'None'; ?> ,
-                  Department: <?= $asset->department_name ?? 'None'; ?>,<br>
-                  Floor: <?= $asset->floor_name ?? 'None'; ?> ,
-                  Room: <?= $asset->room_name ?? 'None'; ?>,
-                </td>
-              </tr>
-              <tr>
-                <th>Status</th>
-                <td>
-                  <span class="status-badge 
-                    <?= $asset->asset_status == '1' ? 'in-use' : 
-                      ($asset->asset_status == '2' ? 'maintenance' : 
-                      ($asset->asset_status == '3' ? 'disposed' : 
-                      ($asset->asset_status == '4' ? 'retired' : 'other'))); ?>">
-                    <?= $asset->asset_status == '1' ? 'In Use' : 
-                      ($asset->asset_status == '2' ? 'Maintenance' : 
-                      ($asset->asset_status == '3' ? 'Disposed' : 
-                      ($asset->asset_status == '4' ? 'Retired' : 'Other'))); ?>
-                </span>
-
-
-                </td>
-              </tr>
-              <tr>
-                <th>Cost</th>
-                <td>
-                  Original Cost: <?= number_format($asset->original_cost,2); ?> BDT, 
-                  Capitalized Cost: <?= number_format($asset->capitalized_cost,2); ?> BDT
-                </td>
-              </tr>
-              <tr>
-                <th> Date</th>
-                <td>Acquisition Date: <?= date('d M, Y', strtotime($asset->acquisition_date)); ?> <br>
-                Manufacture Date: <?= date('d M, Y', strtotime($asset->manufacture_date)); ?></td>
-              </tr>
-              <tr>
-                <th>Supplier</th>
-                <td>
-                  <table style="border: 1px solid #e1e4e8;">
+                <th style="border: 1px solid #000000ff;text-align: center;">Location</th>
+                <td style="padding: 0;border: 1px solid #000000ff;">
+                  <table>
                     <tr>
-                      <th>Name</th>
-                      <td><?= $asset->name   ? : 'N/A'; ?></td>
+                      <th style="background-color: #fffcfcff;text-align: center;">Branch</th>
+                      <td style="background-color: #f0f1f6;"><?= $asset->branch_name ?? 'None'; ?></td>
                     </tr>
                     <tr>
-                      <th>Phone</th>
-                      <td><?= $asset->phone  ? : 'N/A'; ?></td>
+                      <th style="background-color: #fffcfcff;text-align: center;">Department</th>
+                      <td style="background-color: #f0f1f6;"><?= $asset->department_name ?? 'None'; ?></td>
                     </tr>
                     <tr>
-                      <th>Email</th>
-                      <td><?= $asset->email  ? : 'N/A'; ?></td>
+                      <th style="background-color: #fffcfcff;text-align: center;">Floor</th>
+                      <td style="background-color: #f0f1f6;"><?= $asset->floor_name ?? 'None'; ?></td>
                     </tr>
                     <tr>
-                      <th>Address</th>
-                      <td><?= $asset->address? : 'N/A'; ?></td>
+                      <th style="background-color: #fffcfcff;text-align: center;">Room</th>
+                      <td style="background-color: #f0f1f6;"><?= $asset->room_name ?? 'None'; ?></td>
                     </tr>
                   </table>
                 </td>
               </tr>
               <tr>
-                <th>Custodian</th>
-                <td><?= $asset->custodian_name ?: 'N/A'; ?></td>
+                <th style="border: 1px solid #000000ff;text-align: center;">Status</th>
+                <td style="border: 1px solid #000000ff;text-transform: uppercase;text-align: center;">
+                  <span class="status-badge 
+                   <?= $asset->asset_status == '1' ? 'in-use' : 
+                      ($asset->asset_status == '2' ? 'maintenance' : 
+                      ($asset->asset_status == '3' ? 'disposed' : 
+                      ($asset->asset_status == '4' ? 'retired' : 'other'))); ?>">
+                   <?= $asset->asset_status == '1' ? 'In Use' : 
+                      ($asset->asset_status == '2' ? 'Maintenance' : 
+                      ($asset->asset_status == '3' ? 'Disposed' : 
+                      ($asset->asset_status == '4' ? 'Retired' : 'Other'))); ?>
+                </span>
+
+                </td>
               </tr>
               <tr>
-                <th>Warranty</th>
-                <td><?= $asset->warranty_months; ?> months</td>
+                <th style="border: 1px solid #000000ff;text-align: center;">Cost</th>
+                <td style="padding: 0;border: 1px solid #000000ff;padding:0;border: 1px solid #000000ff;">
+                  <table>
+                    <tr>
+                      <th style="background-color: #fffcfcff;text-align: center;">Original Cost</th>
+                      <td style="background-color: #f0f1f6;"><?= number_format($asset->original_cost,2); ?> BDT</td>
+                    </tr>
+                    <tr>
+                      <th style="background-color: #fffcfcff;text-align: center;">Capitalized Cost</th>
+                      <td style="background-color: #f0f1f6;"><?= number_format($asset->capitalized_cost,2); ?> BDT</td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <th style="border: 1px solid #000000ff;text-align: center;"> Date</th>
+                <td style="padding:0;border: 1px solid #000000ff;">
+                  <table>
+                    <tr>
+                      <th style="background-color: #fffcfcff;text-align: center;">Acquisition Date</th>
+                      <td style="background-color: #f0f1f6;"><?= date('d M, Y', strtotime($asset->acquisition_date)); ?></td>
+                    </tr>
+                    <tr>
+                      <th style="background-color: #fffcfcff;text-align: center;">Manufacture Date</th>
+                      <td style="background-color: #f0f1f6;"><?= date('d M, Y', strtotime($asset->manufacture_date)); ?></td>
+                    </tr>
+                  </table>
+              </tr>
+              <tr>
+                <th style="border: 1px solid #000000ff;text-align: center;">Supplier</th>
+                <td style="padding: 0;border: 1px solid #000000ff;">
+                  <table style="border: 1px solid #ffffffff;" style="margin:0px" cellspacing="0">
+                    <tr>
+                      <th style="background-color: #fffcfcff;text-align: center;">Name</th>
+                      <td style="background-color: #f0f1f6;"><?= $asset->name   ? : 'N/A'; ?></td>
+                    </tr>
+                    <tr>
+                      <th style="background-color: #fffcfcff; text-align: center;">Phone</th>
+                      <td style="background-color: #f0f1f6;"><?= $asset->phone  ? : 'N/A'; ?></td>
+                    </tr>
+                    <tr>
+                      <th style="background-color: #fffcfcff;text-align: center;">Email</th>
+                      <td style="background-color: #f0f1f6;"><?= $asset->email  ? : 'N/A'; ?></td>
+                    </tr>
+                    <tr>
+                      <th style="background-color: #fffcfcff;text-align: center;">Address</th>
+                      <td style="background-color: #f0f1f6;"><?= $asset->address? : 'N/A'; ?></td>
+                    </tr>
+                  </table>
+                </td>
+              </tr>
+              <tr>
+                <th style="border: 1px solid #000000ff;text-align: center;">Custodian</th>
+                <td style="border: 1px solid #000000ff;"><?= $asset->custodian_name ?: 'N/A'; ?></td>
+              </tr>
+              <tr>
+                <th style="border: 1px solid #000000ff;text-align: center;">Warranty</th>
+                <td style="border: 1px solid #000000ff;"><?= $asset->warranty_months; ?> months</td>
               </tr>
             </tbody>
           </table>
