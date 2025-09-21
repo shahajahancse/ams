@@ -46,10 +46,10 @@
                      <hr>
                   </div>
                   <div class="row form-row">
-                     <div class="col-md-2">
-                        <label class="form-label">Select Category <span class="required">*</span></label>
+                     <div class="col-md-3">
+                        <label class="form-label">Select Category <span  class="required">*</span></label>
                         <?php $cat = $this->db->get('item_categories')->result(); ?>
-                        <select name="cat_id" onchange="getSubCategory(this.value)" class="form-control input-sm" required>
+                        <select name="category_id" onchange="getSubCategory(this.value)" class="form-control input-sm"  >
                            <option value="">-- Select One --</option>
                            <?php foreach ($cat as $key => $value) { ?>
                               <option value="<?=$value->id?>"><?=$value->category_name?></option>
@@ -57,14 +57,14 @@
                         </select>
                      </div>
                      <div class="col-md-3">
-                        <label class="form-label">Select Sub Category <span class="required">*</span></label>
+                        <label class="form-label">Select Sub Category <span  class="required">*</span></label>
                         <?php echo form_error('sub_cat_id'); ?>
-                        <select name="sub_cat_id" class="sub_category_val form-control input-sm" id="sub_category" required>
+                        <select name="sub_cat_id" class="sub_category_val form-control input-sm" id="sub_category"  >
                            <option value="">-- Select One --</option>
                         </select>
                      </div>
                      <div class="col-md-2">
-                        <label class="form-label">Asset Type<span class="required">*</span></label>
+                        <label class="form-label">Asset Type<span  class="required">*</span></label>
                         <?php echo form_error('type'); ?>
                         <select name="type" id="type" class="form-control input-sm">
                            <option value="">--Select Type--</option>
@@ -74,16 +74,16 @@
                         </select>
                      </div>
                      <div class="col-md-2">
-                        <label class="form-label">Value Type <span class="required">*</span></label>
-                        <select name="depreciation_type" id="depreciation_type" class="form-control input-sm" required>
+                        <label class="form-label">Value Type <span  class="required">*</span></label>
+                        <select name="value_type" id="value_type" class="form-control input-sm"  >
                            <option value="">-- Select Type --</option>
                            <option value="1">Amount</option>
                            <option value="2">Percentage</option>
                         </select>
                      </div>
                      <div class="col-md-2">
-                        <label class="form-label">Amount/Percentage <span class="required">*</span></label>
-                        <select name="rate" id="rate" class="form-control input-sm" required>
+                        <label class="form-label">Amount/Percentage <span  class="required">*</span></label>
+                        <select name="rate" id="rate" class="form-control input-sm"  >
                            <option value="">-- Select --</option>
                         </select>
                      </div>
@@ -93,62 +93,71 @@
 
 
                      <div class="col-md-4">
-                        <label class="form-label">Item Name <span class="required">*</span></label>
+                        <label class="form-label">Item Name <span  class="required">*</span></label>
                         <?php echo form_error('item_name'); ?>
                         <input name="item_name" id="item_name" type="text" value="<?=set_value('item_name')?>" class="form-control input-sm" placeholder="">
                      </div>
                      <div class="col-md-2">
-                        <label class="form-label">Select Unit <span class="required">*</span></label>
+                        <label class="form-label">Select Unit <span  class="required">*</span></label>
                         <?php echo form_error('unit_id');?>
-                        <select name="unit_id" id="unit_id" class="form-control input-sm" <?=set_select('unit_id', set_value('unit_id')) ?>>
+                        <select name="unit_id" id="unit_id" class="form-control input-sm">
                            <option value="">-- Select One --</option>
                            <?php foreach ($units as $key => $value) { ?>
-                              <option value="<?=$value->id?>" <?=set_select('unit_id', $value->id)?><?=$value->name_en?></option>
+                              <option value="<?=$value->id?>" <?= ($value->id == set_value('unit_id', '')) ? 'selected' : '' ?>><?=$value->unit_name?></option>
                            <?php } ?>
                         </select>
                      </div>
+                     <div class="col-md-3">
+                        <label class="form-label">Acquisition Date <span  class="required">*</span></label>
+                        <input name="acquisition_date" id="acquisition_date" type="date" value="<?=set_value('acquisition_date')?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-3">
+                        <label class="form-label">Manufacture Date <span  class="required">*</span></label>
+                        <input name="manufacture_date" id="manufacture_date" type="date" value="<?=set_value('manufacture_date')?>" class="form-control input-sm">
+                     </div>
                   </div>
 
                   <div class="row form-row">
-                     <div class="col-md-12">
+                     <div class="col-md-2">
+                        <label class="form-label">Orginal Cost <span  class="required">*</span></label>
+                        <input name="original_cost" id="original_cost" type="number" step="0.01" value="<?=set_value('original_cost')?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-2">
+                        <label class="form-label">Capitalized Cost <span  class="required">*</span></label>
+                        <input name="capitalized_cost" id="capitalized_cost" type="number" step="0.01" value="<?=set_value('capitalized_cost')?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-2">
+                        <label class="form-label">Serial Number <span  class="required">*</span></label>
+                        <input name="serial_number" id="serial_number" type="text" value="<?=set_value('serial_number')?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-3">
+                        <label class="form-label">Item Image <span  class="required">*</span></label>
+                        <input type="file" name="asset_image" id="asset_image" class="form-control input-sm" accept=".jpg,.jpeg,.png" />
+                     </div>
+                     <div class="col-md-3">
+                        <label class="form-label">Warranty</label>
+                        <input name="warranty_months" id="warranty_months" type="file" value="<?=set_value('warranty_months')?>" class="form-control input-sm">
+                     </div>
+                  </div>
+
+                  <div class="row form-row">
+
+                     <div class="col-md-8">
                         <label class="form-label">Asset Specification</label>
                         <textarea name="description" id="description" class="form-control input-sm" rows="3"><?=set_value('description')?></textarea>
                      </div>
-                  </div>
-
-                  <div class="row form-row">
-                     <div class="col-md-2">
-                        <label class="form-label">Acquisition Date</label>
-                        <input name="acquisition_date" id="acquisition_date" type="date" value="<?=set_value('acquisition_date')?>" class="form-control input-sm">
-                     </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Orginal Cost</label>
-                        <input name="orginal_cost" id="orginal_cost" type="number" step="0.01" value="<?=set_value('cost')?>" class="form-control input-sm">
-                     </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Capitalized Cost</label>
-                        <input name="cap_cost" id="cap_cost" type="number" step="0.01" value="<?=set_value('cost')?>" class="form-control input-sm">
-                     </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Serial Number</label>
-                        <input name="serial_number" id="serial_number" type="text" value="<?=set_value('serial_number')?>" class="form-control input-sm">
-                     </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Warranty (Months)</label>
-                        <input name="warranty_months" id="warranty_months" type="number" value="<?=set_value('warranty_months')?>" class="form-control input-sm">
-                     </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Asset Status</label>
-                        <select name="asset_status" class="form-control input-sm">
+                                          
+                     <div class="col-md-4">
+                        <label class="form-label">Asset Status <span  class="required">*</span></label>
+                        <select name="asset_status" class="form-control input-sm" id="asset_status">
+                           <option value="">-- Select One --</option>
                            <option value="1">In Use</option>
                            <option value="2">Under Maintenance</option>
                            <option value="3">Disposed</option>
                            <option value="4">Retired</option>
                         </select>
                      </div>
-
                   </div>
-
                   <div class="row form-row">
                      <div class="col-md-12">
                         <h4 class="semi-bold">Supplier Info</h4>
@@ -177,15 +186,15 @@
                      </div>
                      
                   </div>
-                  <div class="row form-row">
+                  <div class="row form-row" id="assigned_emp">
                      <div class="col-md-12">
                         <h4 class="semi-bold">Assigned Employee/Custodian</h4>
                         <hr>
                      </div>
                      <div class="col-md-3">
-                        <label class="form-label">Select Branch <span class="required">*</span></label>
+                        <label class="form-label">Branch <span  class="required">*</span></label>
                         <?php $divs = $this->db->where('status', 1)->get('units')->result(); ?>
-                        <select name="branch_id" class="form-control input-sm" required>
+                        <select name="branch_id" class="form-control input-sm"  >
                            <option value="">-- Select One --</option>
                            <?php foreach ($divs as $key => $value) { ?>
                               <option value="<?=$value->id?>"><?=$value->name_en?></option>
@@ -194,16 +203,20 @@
                         </select>
                      </div>
                      <div class="col-md-3">
-                        <label class="form-label">Department</label>
-                        <select name="dept_id" id="dept_id" class="form-control input-sm" required>
+                        <label class="form-label">Department <span  class="required">*</span></label>
+                        <select name="dept_id" id="dept_id" class="form-control input-sm"  >
+                        <?php $dept = $this->db->where('status', 1)->get('departments')->result(); ?>
                            <option value="">-- Select One --</option>
+                           <?php foreach ($dept as $key => $value) { ?>
+                              <option value="<?=$value->id?>"><?=$value->dept_name?></option>
+                           <?php } ?>
                            <option value="0">Others</option>
                         </select>
                      </div>
                      <div class="col-md-3">
-                        <label class="form-label">Floor</label>
+                        <label class="form-label">Floor <span  class="required">*</span></label>
                         <?php $floor = $this->db->where('status', 1)->get('asset_floors')->result(); ?> 
-                        <select name="folor_id" id="folor_id" class="form-control input-sm" required>
+                        <select name="floor_id" id="floor_id" class="form-control input-sm"  >
                            <option value="">-- Select One --</option>
                            <?php foreach ($floor as $key => $value) { ?>
                               <option value="<?=$value->id?>"><?=$value->floor_name?></option>
@@ -212,9 +225,9 @@
                         </select>
                      </div>
                      <div class="col-md-3">
-                        <label class="form-label">Room</label>
+                        <label class="form-label">Room <span  class="required">*</span></label>
                         <?php $rooms = $this->db->where('status', 1)->get('item_rooms')->result(); ?> 
-                        <select name="room_id" id="room_id" class="form-control input-sm" required>
+                        <select name="room_id" id="room_id" class="form-control input-sm"  >
                            <option value="">-- Select One --</option>
                            <?php foreach ($rooms as $key => $value) { ?>
                               <option value="<?=$value->id?>"> <?=$value->name_en ?> </option>
@@ -223,9 +236,9 @@
                         </select>
                      </div>
                      <div class="col-md-3">
-                        <label class="form-label">Assigned Employee/Custodian</label>
+                        <label class="form-label">Assigned Employee/Custodian <span  class="required">*</span></label>
                         <?php $users = $this->db->where('status', 1)->get('users')->result(); ?> 
-                        <select name="user_id" id="user_id" class="form-control input-sm" required>
+                        <select name="user_id" id="user_id" class="form-control input-sm"  >
                            <option value="">-- Select One --</option>
                            <?php foreach ($users as $key => $value) { ?>
                               <option value="<?=$value->id?>"> <?=$value->first_name ?> </option>
@@ -237,28 +250,28 @@
 
                   <div class="row form-row">
                      <div class="col-md-12">
-                        <h4 class="semi-bold">Custom Fields</h4>
+                        <h4 class="semi-bold">Custom Fields </h4>
                      </div>
                   </div>
                   <?php foreach ($custom_fields as $field): ?>
                   <div class="row form-row">
-                     <div class="col-md-6">
-                        <label class="form-label"><?=$field->field_name?> <?=($field->is_required == 1) ? '<span class="required">*</span>' : ''?></label>
+                     <div class="col-md-4">
+                        <label class="form-label"><?=$field->field_name?> <?=($field->is_  == 1) ? '<span  class="required">*</span>' : ''?> <span  class="required">*</span></label>
                         <?php
                         $field_name = 'custom_field_' . $field->id;
                         $field_value = set_value($field_name); // For validation errors
                         switch ($field->field_type) {
                             case 'text':
-                                echo '<input name="'.$field_name.'" type="text" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                echo '<input name="'.$field_name.'" type="text" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
                                 break;
                             case 'number':
-                                echo '<input name="'.$field_name.'" type="number" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                echo '<input name="'.$field_name.'" type="number" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
                                 break;
                             case 'date':
-                                echo '<input name="'.$field_name.'" type="date" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                echo '<input name="'.$field_name.'" type="date" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
                                 break;
                             case 'dropdown':
-                                echo '<select name="'.$field_name.'" class="form-control input-sm" '. (($field->is_required == 1) ? 'required' : '') .'>';
+                                echo '<select name="'.$field_name.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
                                 echo '<option value="">-- Select --</option>';
                                 $options = explode(',', $field->options);
                                 foreach ($options as $option) {
@@ -268,7 +281,7 @@
                                 echo '</select>';
                                 break;
                             case 'textarea':
-                                echo '<textarea name="'.$field_name.'" class="form-control input-sm" rows="3" '. (($field->is_required == 1) ? 'required' : '') .'>'.$field_value.'</textarea>';
+                                echo '<textarea name="'.$field_name.'" class="form-control input-sm" rows="3" '. (($field->is_  == 1) ? ' ' : '') .'>'.$field_value.'</textarea>';
                                 break;
                         }
                         ?>
@@ -298,13 +311,11 @@
       $('#validate').validate({
       ignore: "",
       rules: {
-         cat_id: { required: true },
-         sub_cat_id: { required: true },
-         item_name: { required: true },
-         unit_id: { required: true },
-         order_level: { order_level: true },
-         type: { required: true },
-         status: { required: true },
+         category_id: {  : true },
+         sub_cat_id: {  : true },
+         item_name: {  : true },
+         unit_id: {  : true },
+         type: {  : true },
       }
    });
    });
@@ -378,7 +389,7 @@
 
 <script>
    $(document).ready(function () {
-      $('#depreciation_type').on('change', function () {
+      $('#value_type').on('change', function () {
          let type = $(this).val();
          if (type !== '') {
             $.ajax({
@@ -446,6 +457,22 @@
             });
          } else {
             $('#dept_id').html('<option value="">-- Select oned --</option>');
+         }
+      });
+   });
+</script>
+<script>
+   $(document).ready(function () {
+      $('#asset_status').on('change', function () {
+         let id = $(this).val();
+         if (id == 3 || id == 4) {
+            $('#assigned_emp').slideUp(1000,function(){
+               $(this).hide();
+            });
+         }else{
+            $('#assigned_emp').slideDown(1000,function(){
+               $(this).show();
+            });
          }
       });
    });

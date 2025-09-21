@@ -4,16 +4,20 @@ class Assets extends CI_Controller {
 
     public function view($id)
     {
-        $asset_id = (int) $id;
-        $this->db->select('i.*, i.acquisition_date, i.serial_number, i.warranty_information, sup.name as supplier_name, branch.unit_name as branch_name ');
+        $asset_id = (int) decrypt_url($id);
+        // dd($asset_id);
+        $this->db->select('i.*,unit.unit_name,room.name_en as room_name, floor.floor_name as floor_name,sup.*, branch.name_en as branch_name ,cust.first_name as first_name, cust.last_name as last_name, dept.dept_name, cat.category_name, sub_cat.sub_cate_name');
         $this->db->from('items i');
-        $this->db->join('suppliers sup', 'sup.id=i.supplier_id', 'LEFT'); // Join with suppliers table
-        // $this->db->join('users cust', 'cust.id=i.custodian_id', 'LEFT'); // Join with users table for custodian
-        $this->db->join('office_unit branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
-        // $this->db->join('departments dept', 'dept.id=i.department_id', 'LEFT'); // Join for department
-        // $this->db->join('asset_floors floor', 'floor.id=i.floor_id', 'LEFT'); // Join for floor
-        // $this->db->join('asset_rooms room', 'room.id=i.room_id', 'LEFT'); // Join for room
-        $this->db->where('i.id', $id);
+        $this->db->join('item_categories cat', 'cat.id = i.category_id', 'LEFT'); 
+        $this->db->join('item_sub_categories sub_cat', 'sub_cat.id    = i.sub_cat_id', 'LEFT'); 
+        $this->db->join('suppliers sup',   'sup.id    = i.supplier_id', 'LEFT'); 
+        $this->db->join('users cust',      'cust.id   = i.user_id','LEFT');        
+        $this->db->join('item_unit unit',  'unit.id   = i.unit_id',     'LEFT'); 
+        $this->db->join('units branch',    'branch.id = i.branch_id',   'LEFT'); 
+        $this->db->join('departments dept','dept.id   = i.dept_id',     'LEFT'); 
+        $this->db->join('asset_floors floor', 'floor.id  = i.floor_id',    'LEFT'); 
+        $this->db->join('item_rooms room',    'room.id   = i.room_id',     'LEFT'); 
+        $this->db->where('i.id', $asset_id);
         $asset_info = $this->db->get()->row();
         // dd($asset_info);
 
@@ -23,8 +27,8 @@ class Assets extends CI_Controller {
 
         $data['asset'] = $asset_info;
         $data['meta_title'] = 'Asset Details';
-        $data['subview'] = 'asset_details';
-        $this->load->view('backend/_layout_main', $data);
+        $this->load->view('asset_details', $data);
+
     }
 
 }

@@ -23,55 +23,138 @@ class Items extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
 
-   public function create(){
-      //Validation
-      // $this->form_validation->set_rules('division_id', 'select division', 'required|trim');
-      $this->form_validation->set_rules('cat_id', 'select category', 'required|trim');
-      $this->form_validation->set_rules('sub_cat_id', 'select sub category', 'required|trim');
-      $this->form_validation->set_rules('item_name', 'item name', 'required|trim');
+   public function create() {
+      // dd($_POST);
+      // Validation rules
+      $this->form_validation->set_rules('category_id', 'Select category', 'required|trim');
+      $this->form_validation->set_rules('sub_cat_id', 'Select sub category', 'required|trim');
+      $this->form_validation->set_rules('type', 'Select type', 'required|trim');
+      $this->form_validation->set_rules('value_type', 'Select value type', 'required|trim');
+      $this->form_validation->set_rules('rate', 'Enter rate', 'required|trim|numeric');
+      $this->form_validation->set_rules('item_name', 'Item name', 'required|trim');
+      $this->form_validation->set_rules('unit_id', 'Select unit', 'required|trim');
+      $this->form_validation->set_rules('asset_image', 'Item image', 'trim');
+      $this->form_validation->set_rules('description', 'Item description', 'trim');
+      $this->form_validation->set_rules('acquisition_date', 'Acquisition date', 'trim');
+      $this->form_validation->set_rules('manufacture_date', 'Manufacture date', 'trim');
+      $this->form_validation->set_rules('original_cost', 'Original cost', 'trim|numeric');
+      $this->form_validation->set_rules('capitalized_cost', 'Capitalized cost', 'trim|numeric');
+      $this->form_validation->set_rules('serial_number', 'Serial number', 'trim');
+      $this->form_validation->set_rules('warranty_months', 'Warranty months', 'trim');
+      $this->form_validation->set_rules('asset_status', 'Asset status', 'trim');
+      $this->form_validation->set_rules('supplier_id', 'Supplier', 'trim');
+      $status = $this->input->post('asset_status');
+      if ($status == 1 || $status == 2) {
+         $this->form_validation->set_rules('branch_id', 'Branch', 'required');
+         $this->form_validation->set_rules('dept_id', 'Department', 'required');
+         $this->form_validation->set_rules('floor_id', 'Floor', 'required');
+         $this->form_validation->set_rules('room_id', 'Room', 'required');
+         $this->form_validation->set_rules('user_id', 'User', 'required');
+      }
+      if ($this->form_validation->run() == true) {
+         // Upload image if exists
+         $asset_image = null;
+         $warranty_months = null;
+         if (!empty($_FILES['asset_image']['name'])) {
+            $upload_path = './uploads/items/';
+            if (!file_exists($upload_path)) {
+               mkdir($upload_path, 0777, true);
+            }
+            $config['upload_path'] = $upload_path;
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['max_size']      = 2048; // 2MB
+            $config['file_name']     = time() . '_' . $_FILES['asset_image']['name'];
+            // dd($config);
+            $this->load->library('upload', $config);
 
+            if (!$this->upload->do_upload('asset_image')) {
+               $this->session->set_flashdata('error', $this->upload->display_errors());
+               redirect('items/create');
+            } else {
+               $upload_data = $this->upload->data();
+               $asset_image = $upload_data['file_name'];
+            }
+         }
+         if (!empty($_FILES['warranty_months']['name'])) {
+            $upload_path = './uploads/items/';
+            if (!file_exists($upload_path)) {
+               mkdir($upload_path, 0777, true);
+            }
+            $config['upload_path'] = $upload_path;
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['max_size']      = 2048; // 2MB
+            $config['file_name']     = time() . '_' . $_FILES['warranty_months']['name'];
+            // dd($config);
+            $this->load->library('upload', $config);
 
-      //Validate and input data
-      if ($this->form_validation->run() == true){
+            if (!$this->upload->do_upload('warranty_months')) {
+               $this->session->set_flashdata('error', $this->upload->display_errors());
+               redirect('items/create');
+            } else {
+               $upload_data = $this->upload->data();
+               $form_data['warranty_months'] = $upload_data['file_name'];
+            }
+         }
+         // Prepare form data
          $form_data = array(
-            'branch_id'        => $this->input->post('branch_id'),
-            'category_id'      => $this->input->post('cat_id'),
+            'category_id'      => $this->input->post('category_id'),
             'sub_cat_id'       => $this->input->post('sub_cat_id'),
-            'item_name'        => $this->input->post('item_name'),
-            'description'      => $this->input->post('description'),
-            'unit_id'          => $this->input->post('unit_id'),
             'type'             => $this->input->post('type'),
-            'status'           => $this->input->post('status'),
+            'value_type'       => $this->input->post('value_type'),
+            'rate'             => $this->input->post('rate'),
+            'item_name'        => $this->input->post('item_name'),
+            'unit_id'          => $this->input->post('unit_id'),
+            'asset_image'      => $asset_image,
+            'warranty_months'   => $warranty_month,
+            'description'      => $this->input->post('description'),
             'acquisition_date' => $this->input->post('acquisition_date'),
-            'serial_number'    => $this->input->post('serial_number'),
-            'warranty_months'  => $this->input->post('warranty_months'),
-            'asset_status'     => $this->input->post('asset_status'),
-            'supplier_id'      => $this->input->post('supplier_id'),
+            'manufacture_date' => $this->input->post('manufacture_date'),
             'original_cost'    => $this->input->post('original_cost'),
             'capitalized_cost' => $this->input->post('capitalized_cost'),
+            'serial_number'    => $this->input->post('serial_number'),
+            'asset_status'     => $this->input->post('asset_status'),
+            'supplier_id'      => $this->input->post('supplier_id'),
          );
+         if ($status == 1 || $status == 2) {
+            $form_data = array_merge($form_data, array(
+               'branch_id' => $this->input->post('branch_id'),
+               'dept_id'   => $this->input->post('dept_id'),
+               'floor_id'  => $this->input->post('floor_id'),
+               'room_id'   => $this->input->post('room_id'),
+               'user_id'   => $this->input->post('user_id'),
+            ));
+         }
 
-         if($this->Common_model->save('items', $form_data)){
+         // dd($form_data);
+         // Save data
+         if ($this->Common_model->save('items', $form_data)) {
             $insert_id = $this->db->insert_id();
+
+            // Generate journal entry
             $this->cbs_model->generate_capitalization_journal_entry($insert_id);
-            // Save custom field values
+
+            // Save custom fields
             $custom_fields_definitions = $this->custom_fields_model->get_custom_fields();
             foreach ($custom_fields_definitions as $field) {
                $field_name = 'custom_field_' . $field->id;
                $field_value = $this->input->post($field_name);
-               if ($field_value !== null) { 
-               $this->custom_fields_model->save_asset_custom_field_value($insert_id, $field->id, $field_value);
+               if ($field_value !== null) {
+                  $this->custom_fields_model->save_asset_custom_field_value($insert_id, $field->id, $field_value);
                }
             }
             $this->session->set_flashdata('success', 'Item created successfully.');
             redirect('items');
          }
       }
-      //Dropdown
-      $this->data['units']      = $this->Common_model->get_units();
-      $this->data['suppliers']  = $this->db->get('suppliers')->result(); 
+      // else{
+      //    dd($_POST);
+      // }
+
+      // Dropdowns
+      $this->data['units'] = $this->Common_model->get_units();
+      $this->data['suppliers'] = $this->db->get('suppliers')->result();
       $this->data['custodians'] = $this->ion_auth->users()->result();
-      $this->data['branches']   = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
+      $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
       $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
 
       // Load page
@@ -481,9 +564,18 @@ class Items extends Backend_Controller {
       if (!$asset_info) {
          show_404();
       }
+      if ($_SERVER['HTTP_HOST'] === 'localhost') {
+         $base = 'http://192.168.0.220/ams/';
+      } else {
+         $base = base_url();
+      }
+      // $base = base_url();
 
-      // QR code should contain a URL (link to details page)
-      $qr_data = base_url('assets/view/' . $asset_info->id);
+
+      // Full URL
+      $qr_data = $base . 'assets/view/' . $id;
+
+      // dd($qr_data);
 
       // Ensure the directory exists
       if (!is_dir(FCPATH . 'qrcode_img')) {

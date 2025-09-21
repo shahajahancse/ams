@@ -49,21 +49,50 @@
                         <?php
                         $i=0;
                         foreach ($results as $row) {
-                           if($row->status == 1){
-                              $status = 'Active';
-                           }else{
-                              $status = 'Inactive';
+                           $status_classes = [
+                              1 => 'badge-success',
+                              2 => 'badge-warning',
+                              3 => 'badge-danger',
+                              4 => 'badge-info'
+                           ];
+
+                           $status_labels = [
+                              1 => 'In Use',
+                              2 => 'Under Maintenance',
+                              3 => 'Disposed',
+                              4 => 'Retired'
+                           ];
+
+                           $status_class = isset($status_classes[$row->asset_status]) ? $status_classes[$row->asset_status] : 'badge-secondary';
+                           $status_label = isset($status_labels[$row->asset_status]) ? $status_labels[$row->asset_status] : 'Unknown';
+
+                           // dd($row);
+                           switch ($row->asset_status) {
+                              case 1:
+                                 $status = 'In Use';
+                                 break;
+                              case 2:
+                                 $status = 'Under Maintenance';
+                                 break;
+                              case 3:
+                                 $status = 'Disposed';
+                                 break;
+                              case 4:
+                                 $status = 'Retired';
+                                 break;
+                              default:
+                                 $status = 'Inactive';
                            }
                            ?>
                            <tr>
                               <td style="vertical-align:middle" class="text-center"><?=++$i?>.</td>
-                              <td style="vertical-align:middle" class="text-center"><?=$row->division_name?></td>
+                              <td style="vertical-align:middle" class="text-center"><?=$row->branch_name?></td>
                               <td style="vertical-align:middle" class="text-center"><?=$row->category_name?></td>
                               <td style="vertical-align:middle" class="text-center"><?=$row->sub_cate_name?></td>
                               <td style="vertical-align:middle" class="text-center"><strong><?=$row->item_name?></strong></td>
                               <td style="vertical-align:middle" class="text-center"><?=$row->unit_name?></td>
                               <td style="vertical-align:middle">
-                                 <span class="badge <?= ($status == 'Active') ? 'badge-success' : 'badge-danger'?>"><?= $status ?></span>
+                                 <span class="badge <?= $status_class ?>"><?= $status_label ?></span>
                               </td>
                               <td style="vertical-align:middle" class="text-center">
                                  <a href="<?=base_url('items/generate_qr_code/'.encrypt_url($row->id));?>" class="btn btn-info btn-xs btn-mini" target="_blank"><i class="fa fa-qrcode"></i> QR</a>

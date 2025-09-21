@@ -415,12 +415,12 @@ public function get_units(){
    $data[''] = '-- Select Unit --';
    $this->db->select('id, unit_name');
    $this->db->from('item_unit');
-   $query = $this->db->get();
+   $query = $this->db->get()->result();
 
-   foreach ($query->result_array() AS $rows) {
-      $data[$rows['id']] = $rows['unit_name'];
-   }
-   return $data;
+   // foreach ($query->result_array() AS $rows) {
+   //    $data[$rows['id']] = $rows['unit_name'];
+   // }
+   return $query;
 }
 
 public function get_dropdown_office($table, $field, $where, $id){
