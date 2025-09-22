@@ -1,4 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
+
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Writer\Xlsx;
 require_once APPPATH . "libraries/PHPExcel.php";
 class Items extends Backend_Controller {
 
@@ -13,6 +16,7 @@ class Items extends Backend_Controller {
       $this->load->model('Items_model');
       $this->load->model('custom_fields/custom_fields_model');
       $this->load->model('cbs_integration/Cbs_integration_model', 'cbs_model');
+      $this->load->library('php_spreadsheet');
    }
 
    public function index(){
@@ -286,8 +290,6 @@ class Items extends Backend_Controller {
       echo json_encode($query->result());
    }
 
-
-
    function delete($id) {
       if(!$this->ion_auth->is_admin()){
          redirect('dashboard');
@@ -523,54 +525,7 @@ class Items extends Backend_Controller {
       //download it for 'D'.
       $mpdf->Output($file_name, "D");
    }
-   /*************details_pdf function pdf End**************/
 
-   // public function generate_qr_code($id) {
-   //    $this->load->library('ciqrcode'); // Load the Ciqrcode library
-
-   //    $asset_id = (int) decrypt_url($id); // Decrypt the asset ID
-
-   //    // Fetch asset information
-   //    $asset_info = $this->Items_model->get_info($asset_id);
-
-   //    if (!$asset_info) {
-   //       show_404(); // Asset not found
-   //    }
-
-   //    // Prepare data for QR code
-   //    // You can customize this string to include more asset information
-   //    $qr_data = "Asset ID: " . $asset_info->id . "\n";
-   //    $qr_data .= "Name: " . $asset_info->item_name . "\n";
-   //    $qr_data .= "Serial: " . $asset_info->serial_number . "\n";
-   //    $qr_data .= "Location: " . $asset_info->branch_name . ", " . $asset_info->department_name . ", " . $asset_info->floor_name . ", " . $asset_info->room_name . "\n";
-   //    $qr_data .= "Status: " . $asset_info->asset_status . "\n";
-   //    $qr_data .= "Cost: " . $asset_info->cost . "\n";
-   //    $qr_data .= "Acquisition Date: " . $asset_info->acquisition_date . "\n";
-   //    $qr_data .= "Supplier: " . $asset_info->supplier_name . "\n";
-   //    $qr_data .= "Custodian: " . $asset_info->custodian_name . "\n";
-   //    $qr_data .= "Warranty (Months): " . $asset_info->warranty_months . "\n";
-
-
-   //    // QR code generation parameters
-   //    $params['data'] = $qr_data;
-   //    $params['level'] = 'H'; // Error correction level: L, M, Q, H
-   //    $params['size'] = 10; // Size of the QR code (1-10)
-   //    $params['savename'] = FCPATH . 'qrcode_img/' . $asset_info->id . '_qrcode.png'; // Save to qrcode_img directory
-
-   //    // Ensure the qrcode_img directory exists
-   //    if (!is_dir(FCPATH . 'qrcode_img')) {
-   //       mkdir(FCPATH . 'qrcode_img', 0777, TRUE);
-   //    }
-
-   //    $this->ciqrcode->generate($params);
-
-   //    // Redirect to display the QR code or download it
-   //    // For now, let's redirect to a simple view that displays the image
-   //    $this->data['qr_code_path'] = base_url('qrcode_img/' . $asset_info->id . '_qrcode.png');
-   //    $this->data['meta_title'] = 'Asset QR Code';
-   //    $this->data['subview'] = 'qr_code_display'; // A new view to create
-   //    $this->load->view('backend/_layout_main', $this->data);
-   // }
    public function generate_qr_code($id)
    {
       $this->load->library('ciqrcode'); // Load QR library
@@ -616,9 +571,6 @@ class Items extends Backend_Controller {
    }
 
    public function bulk_import() {
-      $this->data['meta_title'] = 'Bulk Import Assets';
-      $this->data['subview'] = 'bulk_import'; // View for the upload form
-
       if ($this->input->post('submit')) {
          $config['upload_path'] = './uploads/';
          $config['allowed_types'] = 'xls|xlsx|csv';
@@ -628,32 +580,135 @@ class Items extends Backend_Controller {
          $this->load->library('upload', $config);
 
          if (!$this->upload->do_upload('asset_file')) {
-               $this->data['error'] = $this->upload->display_errors();
+            $this->data['error'] = $this->upload->display_errors();
          } else {
-               $upload_data = $this->upload->data();
-               $file_path = $upload_data['full_path'];
+            $upload_data = $this->upload->data();
+            $file_path = $upload_data['full_path'];
 
-               $this->load->model('Items_import_model'); // Load the new import model
-               $import_result = $this->Items_import_model->import_assets($file_path);
+            try {
 
-               if ($import_result['status'] == 'success') {
-                  $this->session->set_flashdata('success', $import_result['message']);
-                  redirect('items');
-               } else {
-                  $this->data['error'] = $import_result['message'];
+               $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file_path);
+               $sheet = $spreadsheet->getActiveSheet();
+               $highestRow = $sheet->getHighestRow();
+               $highestColumn = $sheet->getHighestColumn();
+
+               $this->db->trans_start(); // Start transaction
+
+               for ($row = 2; $row <= $highestRow; $row++) { // Assuming header is in row 1
+                  $rowData = $sheet->rangeToArray('A' . $row . ':' . $highestColumn . $row, NULL, TRUE, FALSE);
+
+                  $category_id = $this->get_category_id(trim($rowData[0][0]));
+                  $sub_cat_id = $this->get_sub_category_id($category_id, trim($rowData[0][1]));
+                  $type = $this->get_type(trim($rowData[0][4]));
+
+                  if ($rowData[0][5] == 'Amount') {
+                     $value_type = 1;
+                  } else {
+                     $value_type = 2;
+                  }
+
+                  $item_data = array(
+                     'category_id' => $category_id,
+                     'sub_cat_id' => $sub_cat_id,
+                     'item_name' => $rowData[0][2],
+                     'unit_id' => $this->get_unit_id($rowData[0][3]),
+                     'type' => $type,         // 1=depriciation, 2=non-depriciation, 3=fixed
+                     'value_type' => $value_type,  // amount or percentage
+                     'rate' => $this->get_rate_id($value_type, $rowData[0][5]),
+                     'description' => $rowData[0][12],
+                     'acquisition_date' => $this->get_date_format($rowData[0][7]),
+                     'manufacture_date' => $this->get_date_format($rowData[0][8]),
+                     'original_cost' => $rowData[0][9],
+                     'capitalized_cost' => $rowData[0][10],
+                     'serial_number' => $rowData[0][11],
+                     'asset_status' => 5, // 5 = In Stock
+                     'asset_image' => 'default.jpg', // Default image
+                     'created_at' => date('Y-m-d H:i:s'),
+                     'updated_at' => date('Y-m-d H:i:s'),
+                  );
+                  $this->db->insert('items', $item_data);
                }
+
+               $this->db->trans_complete(); // Complete transaction
+
+               if ($this->db->trans_status() === FALSE) {
+                  $this->data['error'] = 'Database transaction failed.';
+               } else {
+                  $this->session->set_flashdata('success', 'Assets imported successfully.');
+                  redirect('items');
+               }
+
+            } catch (Exception $e) {
+               $this->data['error'] = 'Error loading file: ' . $e->getMessage();
+            }
          }
       }
 
+      $this->data['meta_title'] = 'Bulk Import Assets';
+      $this->data['subview'] = 'bulk_import'; // View for the upload form
       $this->load->view('backend/_layout_main', $this->data);
    }
 
+   function get_category_id($name) {
+      $query = $this->db->from('item_categories')->like('category_name', trim($name))->db->get();
+      if (!empty($query)) {
+         return $query->row()->id;
+      } else {
+         $this->db->insert('item_categories', array('category_name' => trim($name)));
+         return $this->db->insert_id();
+      }
+   }
 
+   function get_sub_category_id($id, $name) {
+      $query=$this->db->from('item_sub_categories')->where('cate_id', $id)->like('sub_cate_name', trim($name))->db->get();
+      if (!empty($query)) {
+         return $query->row()->id;
+      } else {
+         $this->db->insert('item_sub_categories', array('cate_id' => $id, 'sub_cate_name' => trim($name)));
+         return $this->db->insert_id();
+      }
+   }
+
+   function get_unit_id($name) {
+      $query = $this->db->from('item_unit')->like('unit_name', trim($name))->db->get();
+      if (!empty($query)) {
+         return $query->row()->id;
+      } else {
+         $this->db->insert('item_unit', array('unit_name' => trim($name)));
+         return $this->db->insert_id();
+      }
+   }
+
+   function get_type($name) {
+      if (trim($name) == 'Fixed') {
+         return 3;
+      } else if (trim($name) == 'Depreciation') {
+         return 1;
+      } else {
+         return 2;
+      }
+   }
+
+   function get_rate_id($type, $amt)
+   {
+      $query=$this->db->from('depreciation')->where('type', $type)->like('rate', trim($amt))->db->get();
+      if (!empty($query)) {
+         return $query->row()->id;
+      } else {
+         $this->db->insert('depreciation', array('type' => $type, 'rate' => trim($amt)));
+         return $this->db->insert_id();
+      }
+   }
+
+   function get_date_format($number) {
+      $date = \PhpOffice\PhpSpreadsheet\Shared\Date::excelToDateTimeObject(trim($number));
+      return $date->format('Y-m-d'); // Output: 2024-11-14
+   }
 
    public function bulk_export()
    {
       // Load PHPExcel library wrapper
-      $this->load->library('excel'); 
+      $this->load->library('excel');
 
       $assets = $this->Items_model->get_items();
 
@@ -739,7 +794,7 @@ class Items extends Backend_Controller {
             case 4:
                $sheet->setCellValueByColumnAndRow($col++, $row, 'Retired');
                break;
-            
+
             default:
                $sheet->setCellValueByColumnAndRow($col++, $row, '');
          }
@@ -775,13 +830,9 @@ class Items extends Backend_Controller {
       // Save file to output
       $objWriter = PHPExcel_IOFactory::createWriter($objPHPExcel, 'Excel2007');
       $objWriter->save('php://output');
-      exit; 
+      exit;
    }
-
-
-
-
-    // get supplier info with ajax 
+    // get supplier info with ajax
 
    public function get_supplier_info(){
       $id = $this->input->post('id');
