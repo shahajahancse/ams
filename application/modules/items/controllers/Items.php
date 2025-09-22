@@ -168,7 +168,6 @@ class Items extends Backend_Controller {
       if (!$this->Common_model->exists('items', 'id', $dataID)) {
          show_404('items - edit - exitsts', TRUE);
       }
-
       //Validation
       $this->form_validation->set_rules('category_id', 'Select category', 'required|trim');
       $this->form_validation->set_rules('sub_cat_id', 'Select sub category', 'required|trim');
@@ -195,8 +194,6 @@ class Items extends Backend_Controller {
          $this->form_validation->set_rules('room_id', 'Room', 'required');
          $this->form_validation->set_rules('user_id', 'User', 'required');
       }
-
-
       if ($this->form_validation->run() == true){
          $form_data = array(
             'category_id'      => $this->input->post('category_id'),
@@ -242,14 +239,12 @@ class Items extends Backend_Controller {
             redirect('items');
          }
       }
-
       //Dropdown
       $this->data['units'] = $this->Common_model->get_units();
       $this->data['suppliers'] = $this->db->get('suppliers')->result();
       $this->data['custodians'] = $this->ion_auth->users()->result();
       $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
       $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
-
       // Load page
       $this->data['meta_title'] = 'Edit Asset Form';
       $this->data['subview'] = 'edit';
