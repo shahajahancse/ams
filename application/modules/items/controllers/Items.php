@@ -167,11 +167,11 @@ class Items extends Backend_Controller {
       $this->load->view('backend/_layout_main', $this->data);
    }
    public function edit($id){
-      $dataID = (int) decrypt_url($id); //exit;
-      // dd($dataID);
+      $dataID = (int) decrypt_url($id);
       if (!$this->Common_model->exists('items', 'id', $dataID)) {
          show_404('items - edit - exitsts', TRUE);
       }
+
       //Validation
       $this->form_validation->set_rules('category_id', 'Select category', 'required|trim');
       $this->form_validation->set_rules('sub_cat_id', 'Select sub category', 'required|trim');
@@ -199,6 +199,46 @@ class Items extends Backend_Controller {
          $this->form_validation->set_rules('user_id', 'User', 'required');
       }
       if ($this->form_validation->run() == true){
+         if (!empty($_FILES['asset_image']['name'])) {
+            $upload_path = './uploads/items/';
+            if (!file_exists($upload_path)) {
+               mkdir($upload_path, 0777, true);
+            }
+            $config['upload_path'] = $upload_path;
+            $config['allowed_types'] = 'jpg|jpeg|png';
+            $config['max_size']      = 2048; // 2MB
+            $config['file_name']     = time() . '_' . $_FILES['asset_image']['name'];
+            // dd($config);
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('asset_image')) {
+               $this->session->set_flashdata('error', $this->upload->display_errors());
+               redirect('items/create');
+            } else {
+               $upload_data = $this->upload->data();
+               $asset_image = $upload_data['file_name'];
+            }
+         }
+         if (!empty($_FILES['warranty_months']['name'])) {
+            $upload_path = './uploads/items/';
+            if (!file_exists($upload_path)) {
+               mkdir($upload_path, 0777, true);
+            }
+            $config['upload_path'] = $upload_path;
+            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
+            $config['max_size']      = 2048; // 2MB
+            $config['file_name']     = time() . '_' . $_FILES['warranty_months']['name'];
+            // dd($config);
+            $this->load->library('upload', $config);
+
+            if (!$this->upload->do_upload('warranty_months')) {
+               $this->session->set_flashdata('error', $this->upload->display_errors());
+               redirect('items/edit');
+            } else {
+               $upload_data = $this->upload->data();
+               $form_data['warranty_months'] = $upload_data['file_name'];
+               }
+         }
          $form_data = array(
             'category_id'      => $this->input->post('category_id'),
             'sub_cat_id'       => $this->input->post('sub_cat_id'),
@@ -244,11 +284,13 @@ class Items extends Backend_Controller {
          }
       }
       //Dropdown
+      $this->data['asset'] = $this->Items_model->get_item($dataID);
       $this->data['units'] = $this->Common_model->get_units();
       $this->data['suppliers'] = $this->db->get('suppliers')->result();
       $this->data['custodians'] = $this->ion_auth->users()->result();
       $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
       $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
+      $this->data['id'] = $dataID;
       // Load page
       $this->data['meta_title'] = 'Edit Asset Form';
       $this->data['subview'] = 'edit';

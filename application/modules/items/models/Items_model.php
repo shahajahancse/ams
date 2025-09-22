@@ -82,7 +82,7 @@ class Items_model extends CI_Model {
         $this->db->group_by('i.id');
         $query = $this->db->get()->result();
         // dd($query);
-        return $query;
+        return $query[0];
     }
 
     public function get_data() {

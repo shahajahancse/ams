@@ -225,11 +225,11 @@
               </tr>
               <tr>
                 <th style="border: 1px solid #000000ff;text-align: center;">Custodian</th>
-                <td style="border: 1px solid #000000ff;"><?= $asset->custodian_name ?: 'N/A'; ?></td>
+                <td style="border: 1px solid #000000ff;"><?= $asset->first_name ? : 'N/A'; ?></td>
               </tr>
               <tr>
                 <th style="border: 1px solid #000000ff;text-align: center;">Warranty</th>
-                <td style="border: 1px solid #000000ff;"><?= $asset->warranty_months; ?> months</td>
+                <td style="border: 1px solid #000000ff;"><img src="<?= base_url('uploads/items/'.$asset->warranty_months.'') ?>" alt="warranty" width="50" height="50"></td>
               </tr>
             </tbody>
           </table>

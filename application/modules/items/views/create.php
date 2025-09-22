@@ -311,11 +311,11 @@
       $('#validate').validate({
       ignore: "",
       rules: {
-         category_id: {  : true },
-         sub_cat_id: {  : true },
-         item_name: {  : true },
-         unit_id: {  : true },
-         type: {  : true },
+         category_id: {  required: true },
+         sub_cat_id: {  required: true },
+         item_name: {  required: true },
+         unit_id: { required : true },
+         type: { required : true },
       }
    });
    });
@@ -432,11 +432,7 @@
    });
 </script>
 
-
-
 <!-- // get  dept by branch -->
-
-
 <script>
    $(document).ready(function () {
       $('#branch_id').on('change', function () {
