@@ -132,7 +132,7 @@
             <!-- record -->
             <div id="divView">
                 <div class='col-md-12'>
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="d_card" style="background: aliceblue;color: #683091;">
                             <h4>Requisition</h4>
                             <div class="row">
@@ -181,9 +181,9 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
 
-                    <div class="col-md-6">
+                    <!-- <div class="col-md-6">
                         <div class="d_card" style="background: aliceblue;color: #683091;">
                             <h4>Purchase</h4>
                             <div class="row">
@@ -234,7 +234,7 @@
                         </div>
                     </div>
 
-                    <?php
+                    < ?php
                         if ($total_data != 0) {
                             $percent_pending = ($total_pending / $total_data) * 100;
                             $percent_approve = ($total_approve / $total_data) * 100;
@@ -336,7 +336,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div style="margin-left:15px; margin-right:15px;">
@@ -439,21 +439,33 @@
                     </div>
                 </div>
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                     <div class="d_card" style="background: #e0f2f7; color: #006064;">
                         <h4>Recently Acquired Assets (Last 30 Days)</h4>
                         <div class="row">
                             <div class="col-md-12">
                                 <?php if (!empty($recently_acquired_disposed_assets['acquired'])): ?>
-                                    <ul>
-                                        <?php foreach ($recently_acquired_disposed_assets['acquired'] as $acq): ?>
-                                            <li><?=$acq->item_name?> (<?=$acq->acquisition_date?>)</li>
-                                        <?php endforeach; ?>
-                                    </ul>
+                                    <table class="table table-striped" id="usersTable">
+                                        <thead>
+                                            <tr>
+                                                <th>Sl. No.</th>
+                                                <th>Item Name</th>
+                                                <th>Acquisition Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <?php foreach ($recently_acquired_disposed_assets['acquired'] as $acq): ?>
+                                                <tr>
+                                                    <td><?= @$i = $i +1?></td>
+                                                    <td><?=$acq->item_name?></td>
+                                                    <td><?=date('d M, Y', strtotime($acq->acquisition_date))?></td>
+                                                </tr>
+                                            <?php endforeach; ?>
+                                        </tbody>
+                                    </table>
                                 <?php else: ?>
                                     <p>No recently acquired assets.</p>
                                 <?php endif; ?>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -558,5 +570,9 @@
             }
         });
     }
+
+    $(document).ready(function() {
+        // $('#usersTable').DataTable({});
+    });
 </script>
 

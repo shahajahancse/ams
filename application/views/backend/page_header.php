@@ -241,9 +241,9 @@
                                             Setting</span> <span class="selected"></span> <span class="arrow"></span>
                                     </a>
                                     <ul class="sub-menu">
-                                        <li> <a href="<?=base_url('general_setting/item_locker');?>"><i class="fa fa-file"></i> Item Locker</a></li>
-                                        <li> <a href="<?=base_url('general_setting/locker_setup');?>"><i class="fa fa-lock"></i> Locker Setup</a></li>
-                                        <li> <a href="<?=base_url('general_setting/room_setup');?>"> <i class="fa fa-home"></i> Room Setup</a></li>
+                                        <!-- <li> <a href="< ?=base_url('general_setting/item_locker');?>"><i class="fa fa-file"></i> Item Locker</a></li>
+                                        <li> <a href="< ?=base_url('general_setting/locker_setup');?>"><i class="fa fa-lock"></i> Locker Setup</a></li>
+                                        <li> <a href="< ?=base_url('general_setting/room_setup');?>"> <i class="fa fa-home"></i> Room Setup</a></li> -->
                                         <li> <a href="<?=base_url('general_setting/categories');?>"> <i class="fa fa-bars"></i> Categories</a></li>
                                         <li> <a href="<?=base_url('general_setting/sub_categories');?>"> <i class="fa fa-list"></i> Sub Categories</a></li>
                                         <li> <a href="<?=base_url('general_setting/item_unit');?>"><i class="fa fa-th-list"></i> Item Unit</a></li>
