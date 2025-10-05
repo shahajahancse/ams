@@ -93,7 +93,7 @@
 
 
                      <div class="col-md-4">
-                        <label class="form-label">Item Name <span  class="required">*</span></label>
+                        <label class="form-label">Asset Name <span  class="required">*</span></label>
                         <?php echo form_error('item_name'); ?>
                         <input name="item_name" id="item_name" type="text" value="<?=set_value('item_name')?>" class="form-control input-sm" placeholder="">
                      </div>
@@ -131,7 +131,7 @@
                         <input name="serial_number" id="serial_number" type="text" value="<?=set_value('serial_number')?>" class="form-control input-sm">
                      </div>
                      <div class="col-md-3">
-                        <label class="form-label">Item Image <span  class="required">*</span></label>
+                        <label class="form-label">Asset Image <span  class="required">*</span></label>
                         <input type="file" name="asset_image" id="asset_image" class="form-control input-sm" accept=".jpg,.jpeg,.png" />
                      </div>
                      <div class="col-md-3">
@@ -469,6 +469,26 @@
             $('#assigned_emp').slideDown(1000,function(){
                $(this).show();
             });
+         }
+      });
+   });
+</script>
+
+<script>
+   $(document).ready(function () {
+      $('#type').on('change',function(){
+         type = $(this).val();
+         value_type = "<?php echo $asset->value_type ?>";
+         rate = "<?php echo $asset->rate ?>";
+         if(type == 3){
+            $('#value_type').append('<option value="0" selected>0</option>');
+            $('#rate').append('<option value="0" selected>0</option>');
+         }else{
+            $('#value_type').val(value_type);
+            setTimeout(function(){ $('#rate').val(rate); }, 1000);
+            $('#value_type').change();
+            $('#value_type option[value="0"]').remove();
+            $('#rate option[value="0"]').remove();
          }
       });
    });

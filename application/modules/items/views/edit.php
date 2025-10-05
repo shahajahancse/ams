@@ -308,9 +308,6 @@
 <script>
 
    $(document).ready(function() {
-
-
-
       $('#category_id').on('change', function () {
          let id = $(this).val();
          if (id !== '') {
@@ -319,6 +316,7 @@
                type: "POST",
                data: { id: id },
                dataType: "json",
+               timeout: 3000,
                success: function (response) {
                   $('#sub_category').empty().append('<option value="">-- Select Sub Category --</option>');
                   $.each(response, function (i, item) {
@@ -330,7 +328,8 @@
             $('#sub_category').html('<option value="">-- Select Sub Category --</option>');
          }
       });      
-      $('#category_id').change();
+
+      // setTimeout(function(){ $('#category_id').change(); }, 1000);
 
       let selectedCategory = "<?= $asset->category_id ?>";
       let selectedSubCat   = "<?= $asset->sub_cat_id ?>";
@@ -455,7 +454,7 @@
       //    var branch_id = $(this).val();
       //    if (branch_id) {
       //       $.ajax({
-      //          url: '<?=base_url('items/get_floors_by_branch/');?>',
+      //          url: '< ?=base_url('items/get_floors_by_branch/');?>',
       //          data: {id: branch_id},
       //          type: 'POST',
       //          dataType: 'json',
@@ -479,7 +478,7 @@
       //    var floor_id = $(this).val();
       //    if (floor_id) {
       //       $.ajax({
-      //          url: '<?=base_url('items/get_rooms_by_floor/');?>',
+      //          url: '< ?=base_url('items/get_rooms_by_floor/');?>',
       //          data: {id: floor_id},
       //          type: 'POST',
       //          dataType: 'json',
@@ -500,5 +499,3 @@
       $('#asset_status').change();
    });
 </script>
-
-

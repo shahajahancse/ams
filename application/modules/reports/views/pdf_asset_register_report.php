@@ -15,35 +15,38 @@
         <h2><?=$headding?></h2>
     </div>
     <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Item Name</th>
-                <th>Category</th>
-                <th>Acquisition Date</th>
-                <th>Cost</th>
-                <th>Accumulated Depreciation</th>
-                <th>Net Book Value</th>
-                <th>Serial Number</th>
-                <th>Custodian</th>
-                <th>Branch</th>
-                <th>Department</th>
+        <thead >
+            <tr >
+                <th style="font-size: 11px;">Sl</th>
+                <th style="font-size: 11px;">Branch</th>
+                <th style="font-size: 11px;">Department</th>
+                <th style="font-size: 11px;">Category</th>
+                <th style="font-size: 11px;">Sub Category</th>
+                <th style="font-size: 11px;">Item Name</th>
+                <th style="font-size: 11px;">Acquisition Date</th>
+                <th style="font-size: 11px;">Original Cost</th>
+                <th style="font-size: 11px;">Accumulated Depreciation</th>
+                <th style="font-size: 11px;">Net Book Value</th>
+                <th style="font-size: 11px;">Serial Number</th>
+                <th style="font-size: 11px;">Custodian</th>
+
             </tr>
         </thead>
         <tbody>
             <?php foreach ($results as $row): ?>
             <tr>
-                <td><?=$row->id?></td>
-                <td><?=$row->item_name?></td>
-                <td><?=$row->category_name?></td>
-                <td><?=$row->acquisition_date?></td>
-                <td><?=number_format($row->cost, 2)?></td>
-                <td><?=number_format($row->accumulated_depreciation, 2)?></td>
-                <td><?=number_format($row->net_book_value, 2)?></td>
-                <td><?=$row->serial_number?></td>
-                <td><?=$row->custodian_first_name . ' ' . $row->custodian_last_name?></td>
-                <td><?=$row->branch_name?></td>
-                <td><?=$row->department_name?></td>
+                <td style="font-size: 11px;"><?= $i = $i + 1?></td>
+                <td style="font-size: 11px;"><?= $row->branch_name?></td>
+                <td style="font-size: 11px;"><?= $row->dept_name?></td>
+                <td style="font-size: 11px;"><?= $row->category_name?></td>
+                <td style="font-size: 11px;"><?= $row->sub_cate_name?></td>
+                <td style="font-size: 11px;"><?= $row->item_name?></td>
+                <td style="font-size: 11px;"><?= $row->acquisition_date?></td>
+                <td style="font-size: 11px;"><?= number_format($row->original_cost, 2)?></td>
+                <td style="font-size: 11px;"><?= number_format($row->accumulated_depreciation, 2)?></td>
+                <td style="font-size: 11px;"><?= number_format($row->net_book_value, 2)?></td>
+                <td style="font-size: 11px;"><?= $row->serial_number?></td>
+                <td style="font-size: 11px;"><?= $row->custodian_first_name . ' ' . $row->custodian_last_name?></td>
             </tr>
             <?php endforeach; ?>
         </tbody>

@@ -764,50 +764,53 @@ public function get_scout_group_committee($region_id=NULL, $sc_district_id=NULL,
 
          return $result;
        }
-       public function get_member_count_year_wise_groupby_sc_section_id($sc_section_id) {
-        // count query
-        $this->db->select('
-         COUNT(CASE WHEN YEAR(u.join_date)=date("Y") THEN u.id END ) as count_now,
-         COUNT(CASE WHEN YEAR(u.join_date)="2016" THEN u.id END ) as count_prev,
-         bt.badge_type_name_bn');
-        $this->db->from('users u');
-        $this->db->join('scout_badge sb', 'u.sc_badge_id =sb.id', 'LEFT');
-        $this->db->join('badge_type bt', 'sb.badge_type_id = bt.id', 'LEFT');
-        $this->db->where('u.sc_section_id',$sc_section_id);
-        //$this->db->where('sb.section_id',$sc_section_id);
-        $this->db->group_by('u.sc_badge_id');
-        $q = $this->db->get()->result();
+  public function get_member_count_year_wise_groupby_sc_section_id($sc_section_id) {
+    // count query
+    $this->db->select('
+    COUNT(CASE WHEN YEAR(u.join_date)=date("Y") THEN u.id END ) as count_now,
+    COUNT(CASE WHEN YEAR(u.join_date)="2016" THEN u.id END ) as count_prev,
+    bt.badge_type_name_bn');
+    $this->db->from('users u');
+    $this->db->join('scout_badge sb', 'u.sc_badge_id =sb.id', 'LEFT');
+    $this->db->join('badge_type bt', 'sb.badge_type_id = bt.id', 'LEFT');
+    $this->db->where('u.sc_section_id',$sc_section_id);
+    //$this->db->where('sb.section_id',$sc_section_id);
+    $this->db->group_by('u.sc_badge_id');
+    $q = $this->db->get()->result();
 
-        $result = array();
-        $result = $q;
-      /* echo '<pre>';
-         print_r($result);
-         exit;*/
-     //  $result['gender'] = $result['gender'];
-        //$result['count'] = $result[0]->count;
+    $result = array();
+    $result = $q;
+    /* echo '<pre>';
+      print_r($result);
+      exit;*/
+    //  $result['gender'] = $result['gender'];
+      //$result['count'] = $result[0]->count;
 
-         return $result;
-       }
+    return $result;
+  }
 
     public function get_custom_asset_report_data($selected_columns) {
-        $this->db->select(implode(', ', $selected_columns));
-        return $this->db->get('items')->result_array();
+      $this->db->select(implode(', ', $selected_columns));
+      return $this->db->get('items')->result_array();
     }
     public function get_all_movements() {
-        $this->db->select('am.*, i.item_name, u.first_name as moved_by_user');
-        $this->db->from('asset_movements am'); // Assuming 'asset_movements' table
-        $this->db->join('items i', 'i.id = am.asset_id', 'left'); // Assuming 'items' table for asset details
-        $this->db->join('users u', 'u.id = am.user_id', 'left'); // Assuming 'users' table for user details
-        $this->db->order_by('am.movement_date', 'DESC');
-        return $this->db->get()->result();
+      $this->db->select('am.*, i.item_name, u.first_name as moved_by_user');
+      $this->db->from('asset_movements am'); // Assuming 'asset_movements' table
+      $this->db->join('items i', 'i.id = am.asset_id', 'left'); // Assuming 'items' table for asset details
+      $this->db->join('users u', 'u.id = am.to_custodian', 'left'); // Assuming 'users' table for user details
+      $this->db->order_by('am.movement_date', 'DESC');
+      return $this->db->get()->result();
     }
 
     public function get_asset_register_data() {
-        $this->db->select('i.*, c.category_name, u.unit_name');
-        $this->db->from('items i');
-        $this->db->join('item_categories c', 'c.id = i.category_id', 'left');
-        $this->db->join('item_unit u', 'u.id = i.unit_id', 'left');
-        $this->db->order_by('i.item_name', 'ASC');
-        return $this->db->get()->result();
+      $this->db->select('i.*, c.category_name, sc.sub_cate_name, u.unit_name, d.dept_name,branch.name_en as branch_name');
+      $this->db->from('items i');
+      $this->db->join('item_categories c', 'c.id = i.category_id', 'left');
+      $this->db->join('item_sub_categories sc', 'sc.id = i.sub_cat_id', 'left');
+      $this->db->join('item_unit u', 'u.id = i.unit_id', 'left');
+      $this->db->join('units branch', 'branch.id = i.branch_id', 'left');
+      $this->db->join('departments d', 'd.id = i.dept_id', 'left');
+      $this->db->order_by('i.item_name', 'ASC');
+      return $this->db->get()->result();
     }
 }

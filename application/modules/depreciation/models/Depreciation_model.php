@@ -21,7 +21,7 @@ class Depreciation_model extends CI_Model {
 
             $monthly_depreciation = 0;
             if ($asset->depreciation_method == 'straight-line') {
-                $yearly_depreciation = ($asset->cost - $asset->salvage_value) / $asset->useful_life;
+                $yearly_depreciation = ($asset->original_cost - $asset->salvage_value) / $asset->useful_life;
                 $monthly_depreciation = $yearly_depreciation / 12;
             } elseif ($asset->depreciation_method == 'wdv') {
                 // Assuming a depreciation rate of 20% for WDV
@@ -105,18 +105,19 @@ class Depreciation_model extends CI_Model {
 
     public function get_depreciation_schedule($asset_id) {
         $asset = $this->db->get_where('items', array('id' => $asset_id))->row();
+        // dd($asset);
         if (!$asset) {
             return [];
         }
 
         $schedule = [];
-        $remaining_cost = $asset->cost;
+        $remaining_cost = $asset->original_cost;
         $accumulated_depreciation = 0;
 
         for ($month = 1; $month <= ($asset->useful_life * 12); $month++) {
             $monthly_depreciation = 0;
             if ($asset->depreciation_method == 'straight-line') {
-                $yearly_depreciation = ($asset->cost - $asset->salvage_value) / $asset->useful_life;
+                $yearly_depreciation = ($asset->original_cost - $asset->salvage_value) / $asset->useful_life;
                 $monthly_depreciation = $yearly_depreciation / 12;
             } elseif ($asset->depreciation_method == 'wdv') {
                 // Assuming a fixed depreciation rate for WDV for simplicity
@@ -140,6 +141,8 @@ class Depreciation_model extends CI_Model {
                 'net_book_value' => $remaining_cost
             ];
 
+       
+
             if ($remaining_cost <= $asset->salvage_value) {
                 break; // Asset fully depreciated
             }
@@ -148,7 +151,7 @@ class Depreciation_model extends CI_Model {
     }
 
     public function get_all_depreciation_parameters() {
-        $this->db->select('id, item_name, cost, useful_life, salvage_value, depreciation_method, acquisition_date');
+        $this->db->select('*');
         return $this->db->get('items')->result();
     }
 

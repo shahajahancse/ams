@@ -11,7 +11,7 @@ class Items extends Backend_Controller {
          redirect('login');
       endif;
 
-      $this->data['module_title'] = 'Items';
+      $this->data['module_title'] = 'Assets';
       $this->load->model('Common_model');
       $this->load->model('Items_model');
       $this->load->model('custom_fields/custom_fields_model');
@@ -146,7 +146,7 @@ class Items extends Backend_Controller {
                   $this->custom_fields_model->save_asset_custom_field_value($insert_id, $field->id, $field_value);
                }
             }
-            $this->session->set_flashdata('success', 'Item created successfully.');
+            $this->session->set_flashdata('success', 'Asset added successfully.');
             redirect('items');
          }
       }
@@ -191,13 +191,13 @@ class Items extends Backend_Controller {
       $this->form_validation->set_rules('asset_status', 'Asset status', 'trim');
       $this->form_validation->set_rules('supplier_id', 'Supplier', 'trim');
       $status = $this->input->post('asset_status');
-      if ($status == 1 || $status == 2) {
-         $this->form_validation->set_rules('branch_id', 'Branch', 'required');
-         $this->form_validation->set_rules('dept_id', 'Department', 'required');
-         $this->form_validation->set_rules('floor_id', 'Floor', 'required');
-         $this->form_validation->set_rules('room_id', 'Room', 'required');
-         $this->form_validation->set_rules('user_id', 'User', 'required');
-      }
+      // if ($status == 1 || $status == 2) {
+      //    $this->form_validation->set_rules('branch_id', 'Branch', 'required');
+      //    $this->form_validation->set_rules('dept_id', 'Department', 'required');
+      //    $this->form_validation->set_rules('floor_id', 'Floor', 'required');
+      //    $this->form_validation->set_rules('room_id', 'Room', 'required');
+      //    $this->form_validation->set_rules('user_id', 'User', 'required');
+      // }
       if ($this->form_validation->run() == true){
          if (!empty($_FILES['asset_image']['name'])) {
             $upload_path = './uploads/items/';
@@ -279,10 +279,13 @@ class Items extends Backend_Controller {
                   $this->custom_fields_model->save_asset_custom_field_value($dataID, $field->id, $field_value);
                }
             }
-            $this->session->set_flashdata('success', 'Informatioin update successfully.');
+            $this->session->set_flashdata('success', 'Asset updated successfully.');
             redirect('items');
          }
       }
+      // else{
+      //    dd($_POST);
+      // }
       //Dropdown
       $this->data['asset'] = $this->Items_model->get_item($dataID);
       $this->data['units'] = $this->Common_model->get_units();

@@ -109,7 +109,7 @@ class Disposal_model extends CI_Model {
     }
 
     public function get_all_disposals() {
-        $this->db->select('id, item_name, cost, book_value, disposal_date, disposal_type, sale_proceeds, category_id');
+        $this->db->select('id, item_name, original_cost,capitalized_cost,  category_id');
         $this->db->where('asset_status', 'Disposed');
         return $this->db->get('items')->result();
     }

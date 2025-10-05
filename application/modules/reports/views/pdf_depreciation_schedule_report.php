@@ -1,3 +1,9 @@
+<?php 
+
+// dd($results);
+
+?>
+
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,11 +26,11 @@
         <?php foreach ($results as $report_item): ?>
             <div class="asset-details">
                 <h3>Asset: <?=$report_item['asset_info']->item_name?> (ID: <?=$report_item['asset_info']->id?>)</h3>
-                <p>Cost: <?=number_format($report_item['asset_info']->cost, 2)?></p>
+                <p>Cost: <?=number_format($report_item['asset_info']->original_cost, 2)?></p>
                 <p>Salvage Value: <?=number_format($report_item['asset_info']->salvage_value, 2)?></p>
                 <p>Useful Life: <?=$report_item['asset_info']->useful_life?> years</p>
                 <p>Depreciation Method: <?=$report_item['asset_info']->depreciation_method?></p>
-                <p>Acquisition Date: <?=$report_item['asset_info']->acquisition_date?></p>
+                <p>Acquisition Date: <?= date('d M, Y',strtotime($report_item['asset_info']->acquisition_date))?></p>
             </div>
 
             <?php if (!empty($report_item['schedule'])): ?>

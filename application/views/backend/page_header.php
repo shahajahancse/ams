@@ -211,11 +211,11 @@
                                     </li>
                                     <li class="start <?=backend_activate_menu_class('reports')?>"> <a href="javascript:;"> <i class="fa fa-th"></i><span class="title">Reports</span> <span class="selected"></span> <span class="arrow"></span> </a>
                                         <ul class="sub-menu">
-                                            <li> <a href="<?=base_url('reports/asset_register_report');?>"><i class="fa fa-file-text"></i> Asset Register Report </a> </li>
-                                            <li> <a href="<?=base_url('reports/depreciation_schedule_report');?>"><i class="fa fa-file-text"></i> Depreciation Schedule Report </a> </li>
-                                            <li> <a href="<?=base_url('reports/disposal_gain_loss_report');?>"> <i class="fa fa-file-text"></i> Disposal Gain/Loss Report </a> </li>
-                                            <li> <a href="<?=base_url('reports/asset_movement_history_report');?>"> <i class="fa fa-file-text"></i> Asset Movement History Report </a> </li>
-                                            <li> <a href="<?=base_url('reports/custom_asset_report');?>"> <i class="fa fa-file-text"></i> Custom Asset Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/asset_register_report');?>" target="_blank"><i class="fa fa-file-text"></i> Asset Register Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/depreciation_schedule_report');?>" target="_blank"><i class="fa fa-file-text"></i> Depreciation Schedule Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/disposal_gain_loss_report');?>" target="_blank"> <i class="fa fa-file-text"></i> Disposal Gain/Loss Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/asset_movement_history_report');?>" target="_blank"> <i class="fa fa-file-text"></i> Asset Movement History Report </a> </li>
+                                            <li> <a href="<?=base_url('reports/custom_asset_report');?>" target="_blank"> <i class="fa fa-file-text"></i> Custom Asset Report </a> </li>
                                         </ul>
                                     </li>
                                 <?php } ?>

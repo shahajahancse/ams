@@ -28,7 +28,7 @@
                      <div class="col-md-6">
                         <label class="form-label">Asset Name</label>
                         <input type="hidden" name="asset_id" value="<?=set_value('asset_id', $asset_info->id)?>">
-                        <input type="text" class="form-control input-sm" value="<?=set_value('asset_name', $asset_info->item_name)?>" readonly>
+                        <input type="text" class="form-control input-sm" value="<?=set_value('asset_name', $asset_info->item_name)?>" >
                      </div>
                      <div class="col-md-6">
                         <label class="form-label">Movement Date <span class="required">*</span></label>

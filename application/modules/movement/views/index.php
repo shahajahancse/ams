@@ -66,8 +66,8 @@
    </div>
 </div>
 
-<script type="text/javascript">
+<!-- <script type="text/javascript">
    $(document).ready(function() {
       $('#example2').DataTable();
    });
-</script>
+</script> -->
