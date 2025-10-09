@@ -631,7 +631,6 @@ class Items extends Backend_Controller {
             $file_path = $upload_data['full_path'];
 
             try {
-
                $spreadsheet = \PhpOffice\PhpSpreadsheet\IOFactory::load($file_path);
                $sheet = $spreadsheet->getActiveSheet();
                $highestRow = $sheet->getHighestRow();
@@ -644,28 +643,25 @@ class Items extends Backend_Controller {
 
                   $category_id = $this->get_category_id(trim($rowData[0][0]));
                   $sub_cat_id = $this->get_sub_category_id($category_id, trim($rowData[0][1]));
-                  $type = $this->get_type(trim($rowData[0][4]));
-
-                  if ($rowData[0][5] == 'Amount') {
-                     $value_type = 1;
-                  } else {
-                     $value_type = 2;
-                  }
+                  $type = $this->get_type(trim($rowData[0][6]));
+                  $method_type = $this->get_method_type(trim($rowData[0][7]));
 
                   $item_data = array(
                      'category_id' => $category_id,
                      'sub_cat_id' => $sub_cat_id,
                      'item_name' => $rowData[0][2],
                      'unit_id' => $this->get_unit_id($rowData[0][3]),
-                     'type' => $type,         // 1=depriciation, 2=non-depriciation, 3=fixed
-                     'value_type' => $value_type,  // amount or percentage
-                     'rate' => $this->get_rate_id($value_type, $rowData[0][5]),
-                     'description' => $rowData[0][12],
-                     'acquisition_date' => $this->get_date_format($rowData[0][7]),
-                     'manufacture_date' => $this->get_date_format($rowData[0][8]),
-                     'original_cost' => $rowData[0][9],
-                     'capitalized_cost' => $rowData[0][10],
-                     'serial_number' => $rowData[0][11],
+                     'original_cost' => empty($rowData[0][4]) ? 0 : $rowData[0][4],
+                     'capitalized_cost' => empty($rowData[0][5]) ? 0 : $rowData[0][5],
+                     'type' => $type,         // 1=Depreciation, 2=Appreciation, 3=fixed, 4=Other
+                     'method_type' => $method_type,  // 1=slm, 2=wdv, 3=fixed, 4=other
+                     'residual_cost' => empty($rowData[0][8]) ? 0 : $rowData[0][8],
+                     'life_year' => empty($rowData[0][9]) ? 0 : $rowData[0][9],
+                     'acquisition_date' => empty($rowData[0][10]) ? NULL : $this->get_date_format($rowData[0][10]),
+                     'manufacture_date' => empty($rowData[0][11]) ? NULL : $this->get_date_format($rowData[0][11]),
+                     'serial_number' => empty($rowData[0][12]) ? NULL : $rowData[0][12],
+                     'description' => empty($rowData[0][13]) ? NULL : $rowData[0][13],
+                     'warranty_months' => empty($rowData[0][14]) ? 0 : $rowData[0][14],
                      'asset_status' => 5, // 5 = In Stock
                      'asset_image' => 'default.jpg', // Default image
                      'created_at' => date('Y-m-d H:i:s'),
@@ -675,7 +671,6 @@ class Items extends Backend_Controller {
                }
 
                $this->db->trans_complete(); // Complete transaction
-
                if ($this->db->trans_status() === FALSE) {
                   $this->data['error'] = 'Database transaction failed.';
                } else {
@@ -695,19 +690,27 @@ class Items extends Backend_Controller {
    }
 
    function get_category_id($name) {
-      $query = $this->db->from('item_categories')->like('category_name', trim($name))->db->get();
-      if (!empty($query)) {
-         return $query->row()->id;
+      $query = $this->db->from('item_categories')->like('category_name', $name);
+      $result = $query->get()->row();
+      // dd($result);
+      if (!empty($result)) {
+         return $result->id;
       } else {
-         $this->db->insert('item_categories', array('category_name' => trim($name)));
-         return $this->db->insert_id();
+         $ins = array(
+            'category_name' => $name,
+            'status' => 'Enable'
+         );
+         $this->db->insert('item_categories', $ins);
+         $row = $this->db->insert_id();
+         return $row;
       }
    }
 
    function get_sub_category_id($id, $name) {
-      $query=$this->db->from('item_sub_categories')->where('cate_id', $id)->like('sub_cate_name', trim($name))->db->get();
-      if (!empty($query)) {
-         return $query->row()->id;
+      $query=$this->db->from('item_sub_categories')->where('cate_id', $id)->like('sub_cate_name', trim($name));
+      $result = $query->get()->row();
+      if (!empty($result)) {
+         return $result->id;
       } else {
          $this->db->insert('item_sub_categories', array('cate_id' => $id, 'sub_cate_name' => trim($name)));
          return $this->db->insert_id();
@@ -715,9 +718,10 @@ class Items extends Backend_Controller {
    }
 
    function get_unit_id($name) {
-      $query = $this->db->from('item_unit')->like('unit_name', trim($name))->db->get();
-      if (!empty($query)) {
-         return $query->row()->id;
+      $query = $this->db->from('item_unit')->like('unit_name', trim($name));
+      $result = $query->get()->row();
+      if (!empty($result)) {
+         return $result->id;
       } else {
          $this->db->insert('item_unit', array('unit_name' => trim($name)));
          return $this->db->insert_id();
@@ -729,19 +733,23 @@ class Items extends Backend_Controller {
          return 3;
       } else if (trim($name) == 'Depreciation') {
          return 1;
-      } else {
+      } else if (trim($name) == 'Appreciation') {
          return 2;
+      } else {
+         return 4;
       }
    }
 
-   function get_rate_id($type, $amt)
+   function get_method_type($name)
    {
-      $query=$this->db->from('depreciation')->where('type', $type)->like('rate', trim($amt))->db->get();
-      if (!empty($query)) {
-         return $query->row()->id;
+      if (trim($name) == 'slm') {
+         return 1;
+      } else if (trim($name) == 'wdv') {
+         return 2;
+      } else if (trim($name) == 'fixed') {
+         return 3;
       } else {
-         $this->db->insert('depreciation', array('type' => $type, 'rate' => trim($amt)));
-         return $this->db->insert_id();
+         return 4;
       }
    }
 
