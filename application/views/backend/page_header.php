@@ -92,7 +92,7 @@
                         </li>
                     </ul>
 
-                    <a href="<?=base_url('dashboard')?>"> <img style="height: 60px;width: 250px;" src="<?=base_url('awedget/assets/img/bfri.png')?>" alt=""></a>
+                    <a href="<?=base_url('dashboard')?>" style="font-size: 20px;color: #f8f8f8ff !important;margin:0px auto !important"> AMS</a>
                     <ul class="nav pull-right notifcation-center">
                         <li class="dropdown" id="header_task_bar"> </li>
                     </ul>
@@ -227,9 +227,10 @@
                                 <!-- Item Setup section -->
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
                                 <li class="start <?=backend_activate_menu_class('items')?>">
-                                    <a href="javascript:;"> <i class="fa fa-tags"></i><span class="title">Item Setup </span> <span class="selected"></span> <span class="badge badge-danger pull-right"></span> <span class="arrow"></span> </a>
+                                    <a href="javascript:;"> <i class="fa fa-tags"></i><span class="title">Asset Setup </span> <span class="selected"></span> <span class="badge badge-danger pull-right"></span> <span class="arrow"></span> </a>
                                     <ul class="sub-menu">
-                                        <li> <a href="<?=base_url('items');?>"><i class="fa fa-list"></i> Item List </a> </li>
+                                        <li> <a href="<?=base_url('items');?>"><i class="fa fa-list"></i> Asset List </a> </li>
+                                        <li> <a href="<?=base_url('items/assigned_emp');?>"><i class="fa fa-user"></i> Assigned Employee </a> </li>
                                     </ul>
                                 </li>
                                 <?php } ?>
@@ -242,8 +243,8 @@
                                     </a>
                                     <ul class="sub-menu">
                                         <!-- <li> <a href="< ?=base_url('general_setting/item_locker');?>"><i class="fa fa-file"></i> Item Locker</a></li>
-                                        <li> <a href="< ?=base_url('general_setting/locker_setup');?>"><i class="fa fa-lock"></i> Locker Setup</a></li>
-                                        <li> <a href="< ?=base_url('general_setting/room_setup');?>"> <i class="fa fa-home"></i> Room Setup</a></li> -->
+                                        <li> <a href="< ?=base_url('general_setting/locker_setup');?>"><i class="fa fa-lock"></i> Locker Setup</a></li>-->
+                                        <li> <a href="<?=base_url('general_setting/room_setup');?>"> <i class="fa fa-home"></i> Room Setup</a></li> 
                                         <li> <a href="<?=base_url('general_setting/categories');?>"> <i class="fa fa-bars"></i> Categories</a></li>
                                         <li> <a href="<?=base_url('general_setting/sub_categories');?>"> <i class="fa fa-list"></i> Sub Categories</a></li>
                                         <li> <a href="<?=base_url('general_setting/item_unit');?>"><i class="fa fa-th-list"></i> Item Unit</a></li>
