@@ -210,16 +210,109 @@ class Acl_model extends CI_Model {
         return $query;
     }
 
-    // public function get_members_count() {
-    //     // count query
-    //     $this->db->select('COUNT(*) as count');
-    //     $this->db->from('members');
-    //     $q = $this->db->get()->result();
+    public function get_approver_user_roles($limit = 1000, $offset = 0) {
+        $this->db->select('*');
+        $this->db->from('approver_user_role');
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('id', 'ASC');
+        $result['rows'] = $this->db->get()->result();
 
-    //     $tmp = $q;
-    //     $ret['num_rows'] = $tmp[0]->count;
+        $q = $this->db->select('COUNT(*) as count');
+        $this->db->from('approver_user_role');
+        $tmp = $this->db->get()->result();
+        $result['num_rows'] = $tmp[0]->count;
+        return $result;
+    }
 
-    //     return $ret;
-    // }
+    public function get_approver_user_role_info($id) {
+        $query = $this->db->from('approver_user_role')->where('id', $id)->get()->row();
+        return $query;
+    }
+
+    public function get_approval_role_manages($limit = 1000, $offset = 0) {
+        $this->db->select('arm.*, u.first_name, aur.name as role_name, afbt.name as fb_type_name');
+        $this->db->from('approval_role_manage arm');
+        $this->db->join('users u', 'u.id = arm.user_id');
+        $this->db->join('approver_user_role aur', 'aur.id = arm.role_id');
+        $this->db->join('approve_forward_backward_type afbt', 'afbt.id = arm.fb_type_id');
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('arm.id', 'ASC');
+        $result['rows'] = $this->db->get()->result();
+
+        $q = $this->db->select('COUNT(*) as count');
+        $this->db->from('approval_role_manage');
+        $tmp = $this->db->get()->result();
+        $result['num_rows'] = $tmp[0]->count;
+        return $result;
+    }
+
+    public function get_approval_role_manage_info($id) {
+        $query = $this->db->from('approval_role_manage')->where('id', $id)->get()->row();
+        return $query;
+    }
+
+    public function get_users_for_dropdown(){
+        $data[''] = 'Select User';
+        $this->db->select('id, first_name');
+        $this->db->from('users');
+        $this->db->order_by('first_name', 'ASC');
+        $query = $this->db->get();
+
+         foreach ($query->result_array() AS $rows) {
+            $data[$rows['id']] = $rows['first_name'];
+        }
+
+        return $data;
+    }
+
+    public function get_approver_roles_for_dropdown(){
+        $data[''] = 'Select Role';
+        $this->db->select('id, name');
+        $this->db->from('approver_user_role');
+        $this->db->order_by('name', 'ASC');
+        $query = $this->db->get();
+
+         foreach ($query->result_array() AS $rows) {
+            $data[$rows['id']] = $rows['name'];
+        }
+
+        return $data;
+    }
+
+    public function get_approve_forward_backward_types($limit = 1000, $offset = 0) {
+        $this->db->select('*');
+        $this->db->from('approve_forward_backward_type');
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('id', 'ASC');
+        $result['rows'] = $this->db->get()->result();
+
+        $q = $this->db->select('COUNT(*) as count');
+        $this->db->from('approve_forward_backward_type');
+        $tmp = $this->db->get()->result();
+        $result['num_rows'] = $tmp[0]->count;
+        return $result;
+    }
+
+    public function get_approve_forward_backward_type_info($id) {
+        $query = $this->db->from('approve_forward_backward_type')->where('id', $id)->get()->row();
+        return $query;
+    }
+
+    public function get_approve_forward_backward_type_for_dropdown(){
+        $data[''] = 'Select Type';
+        $this->db->select('id, name');
+        $this->db->from('approve_forward_backward_type');
+        $this->db->order_by('name', 'ASC');
+        $query = $this->db->get();
+
+         foreach ($query->result_array() AS $rows) {
+            $data[$rows['id']] = $rows['name'];
+        }
+
+        return $data;
+    }
 
 }

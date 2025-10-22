@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS approver_user_role (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(100) NOT NULL,
+  type ENUM('approver','reviewer','verifier') DEFAULT 'approver',
+  sl INT DEFAULT 1,
+  status TINYINT(1) DEFAULT 1,
+  remarks VARCHAR(255) DEFAULT NULL
+);
+
+CREATE TABLE IF NOT EXISTS approve_forward_backward_type (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  name VARCHAR(255) NOT NULL COMMENT 'define url name',
+  forward_type ENUM('only_forward','forward_backward','multi_forward', 'multi_forward_backward') DEFAULT 'only_forward',
+  fb_url VARCHAR(255) DEFAULT NULL COMMENT 'fb_url = forward and backward url',
+  status TINYINT(1) DEFAULT 1 COMMENT '1 = active, 0 = inactive',
+  remarks VARCHAR(255) DEFAULT NULL
+);
+
+
+CREATE TABLE IF NOT EXISTS approval_role_manage (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  user_id INT NOT NULL COMMENT 'user id',
+  role_id INT NOT NULL COMMENT 'approver_user_role table role id',
+  fb_type_id INT NOT NULL COMMENT 'approve_forward_backward_type table role id',
+  type ENUM('approver','reviewer','verifier') DEFAULT 'approver',
+  user_ordering INT DEFAULT NULL COMMENT 'approver forward/backward ordering',
+  access_forward VARCHAR(255) DEFAULT NULL COMMENT 'approver forward user id',
+  access_backward VARCHAR(255) DEFAULT NULL COMMENT 'approver backward user id',
+  INDEX idx_user (user_id),
+  INDEX idx_role (role_id),
+  INDEX idx_fb_type (fb_type_id)
+);

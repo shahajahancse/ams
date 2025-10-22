@@ -69,7 +69,7 @@
     .select2-container{
         display: inline-table !important;
     }
-    .dataTable td, 
+    .dataTable td,
     .dataTable th {
         padding: 6px 10px !important; /* top/bottom - left/right */
     }
@@ -255,7 +255,7 @@
                                         </li>
                                         <li> <a href="<?=base_url('general_setting/supplie');?>"> Supplie</a>
                                         </li>
-                                        <li> 
+                                        <li>
                                             <a href="<?=base_url('custom_fields');?>"><i class="fa fa-list"></i> Custom Fields</a>
                                         </li>
                                     </ul>
@@ -269,6 +269,9 @@
                                             class="selected"></span> <span class="arrow"></span> </a>
                                     <ul class="sub-menu">
                                         <li> <a href="<?=base_url('acl');?>"> User List </a> </li>
+                                        <li> <a href="<?=base_url('acl/approver_user_role');?>"> Approver User Role </a> </li>
+                                        <li> <a href="<?=base_url('acl/create_approval_type');?>"> Create Approval Type </a> </li>
+                                        <li> <a href="<?=base_url('acl/approval_role_manage');?>"> Approval Role Manage </a> </li>
                                     </ul>
                                 </li>
                                 <?php } ?>

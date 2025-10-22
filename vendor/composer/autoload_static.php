@@ -65,6 +65,7 @@ class ComposerStaticInit2a632a09a4ed0e37772fdb9a825fc38a
         '8d37dad4703fab45bfec9dd0bbf3278e' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operations/multiply.php',
         '4888a6f58c08148ebe17682f9ce9b2a8' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operations/divideby.php',
         'eef6fa3879d3efa347cd24d5eb348f85' => __DIR__ . '/..' . '/markbaker/matrix/classes/src/Operations/divideinto.php',
+        'faac64f27734edf9e7cd2373b18ae287' => __DIR__ . '/..' . '/shahajahan/approval-flow/src/Helpers/helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
@@ -80,6 +81,10 @@ class ComposerStaticInit2a632a09a4ed0e37772fdb9a825fc38a
         'C' => 
         array (
             'Complex\\' => 8,
+        ),
+        'A' => 
+        array (
+            'ApprovalFlow\\' => 13,
         ),
     );
 
@@ -99,6 +104,10 @@ class ComposerStaticInit2a632a09a4ed0e37772fdb9a825fc38a
         'Complex\\' => 
         array (
             0 => __DIR__ . '/..' . '/markbaker/complex/classes/src',
+        ),
+        'ApprovalFlow\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/shahajahan/approval-flow/src',
         ),
     );
 
