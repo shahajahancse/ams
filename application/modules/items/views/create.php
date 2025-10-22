@@ -186,7 +186,7 @@
                      </div>
                      
                   </div>
-                  <div class="row form-row" id="assigned_emp">
+                  <!-- <div class="row form-row" id="assigned_emp">
                      <div class="col-md-12">
                         <h4 class="semi-bold">Assigned Employee/Custodian</h4>
                         <hr>
@@ -246,8 +246,8 @@
                            <option value="0">Others</option>
                         </select>
                      </div>
-                  </div>
-                                    <div class="row form-row">
+                  </div> -->
+                  <div class="row form-row">
                      <div class="col-md-12">
                         <h4 class="semi-bold">Custom Fields </h4>
                      </div>
@@ -305,15 +305,15 @@
 <script type="text/javascript">
    $(document).ready(function() {
       $('#validate').validate({
-      ignore: "",
-      rules: {
-         category_id: {  required: true },
-         sub_cat_id: {  required: true },
-         item_name: {  required: true },
-         unit_id: { required : true },
-         type: { required : true },
-      }
-   });
+         ignore: "",
+         rules: {
+            category_id: {  required: true },
+            sub_cat_id: {  required: true },
+            item_name: {  required: true },
+            unit_id: { required : true },
+            type: { required : true },
+         }
+      });
    });
 </script>
 <script>
@@ -383,7 +383,6 @@
    });
 </script>
 
-<!-- // get  supplier info [email,phone,address] -->
 <script>
    $(document).ready(function () {
        $('#supplier_id').on('change', function () {
@@ -403,7 +402,6 @@
    });
 </script>
 
-<!-- // get  dept by branch -->
 <script>
    $(document).ready(function () {
       $('#branch_id').on('change', function () {
@@ -428,20 +426,3 @@
       });
    });
 </script>
-<script>
-   $(document).ready(function () {
-      $('#asset_status').on('change', function () {
-         let id = $(this).val();
-         if (id == 3 || id == 4) {
-            $('#assigned_emp').slideUp(1000,function(){
-               $(this).hide();
-            });
-         }else{
-            $('#assigned_emp').slideDown(1000,function(){
-               $(this).show();
-            });
-         }
-      });
-   });
-</script>
-

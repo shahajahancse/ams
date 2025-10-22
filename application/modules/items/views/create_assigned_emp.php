@@ -46,63 +46,125 @@
                         <h4 class="semi-bold">Assigned Employee/Custodian</h4>
                         <hr>
                      </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Branch <span  class="required">*</span></label>
-                        <?php $divs = $this->db->where('status', 1)->get('units')->result(); ?>
-                        <select name="branch_id" class="form-control input-sm"  >
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($divs as $key => $value) { ?>
-                              <option value="<?=$value->id?>"><?=$value->name_en?></option>
-                           <?php } ?>
-                           <option value="0">Others</option>
-                        </select>
+                     <div class="row"  style="margin-left: 0px;">
+                        <div class="col-md-4">
+                           <label class="form-label">Select Employee/Custodian <span  class="required">*</span></label>
+                           <?php $users = $this->db->where('status', 1)->get('users')->result(); ?> 
+                           <select name="user_id" id="user_id" class="select2 form-control input-sm" style="width: 100%;"  >
+                              <option value="">-- Select One --</option>
+                              <?php foreach ($users as $key => $value) { ?>
+                                 <option value="<?=$value->id?>"> <?=$value->first_name ?> </option>
+                              <?php } ?>
+                              <option value="0">Others</option>
+                           </select>
+                        </div>
                      </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Department <span  class="required">*</span></label>
-                        <select name="dept_id" id="dept_id" class="form-control input-sm"  >
-                        <?php $dept = $this->db->where('status', 1)->get('departments')->result(); ?>
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($dept as $key => $value) { ?>
-                              <option value="<?=$value->id?>"><?=$value->dept_name?></option>
-                           <?php } ?>
-                           <option value="0">Others</option>
-                        </select>
+                     <br>
+                     <div class="row" style="margin-left: 0px;">
+                        <div class="col-md-3">
+                           <label class="form-label">Branch <span  class="required">*</span></label>
+                           <?php $divs = $this->db->where('status', 1)->get('units')->result(); ?>
+                           <select name="branch_id" class="select2 form-control input-sm"  >
+                              <option value="">-- Select One --</option>
+                              <?php foreach ($divs as $key => $value) { ?>
+                                 <option value="<?=$value->id?>"><?=$value->name_en?></option>
+                              <?php } ?>
+                              <option value="0">Others</option>
+                           </select>
+                        </div>
+                        <div class="col-md-3">
+                           <label class="form-label">Department <span  class="required">*</span></label>
+                           <select name="dept_id" id="dept_id" class="select2 form-control input-sm"  >
+                           <?php $dept = $this->db->where('status', 1)->get('departments')->result(); ?>
+                              <option value="">-- Select One --</option>
+                              <?php foreach ($dept as $key => $value) { ?>
+                                 <option value="<?=$value->id?>"><?=$value->dept_name?></option>
+                              <?php } ?>
+                              <option value="0">Others</option>
+                           </select>
+                        </div>
+                        <div class="col-md-3">
+                           <label class="form-label">Floor <span  class="required">*</span></label>
+                           <?php $floor = $this->db->where('status', 1)->get('asset_floors')->result(); ?> 
+                           <select name="floor_id" id="floor_id" class="select2 form-control input-sm"  >
+                              <option value="">-- Select One --</option>
+                              <?php foreach ($floor as $key => $value) { ?>
+                                 <option value="<?=$value->id?>"><?=$value->floor_name?></option>
+                              <?php } ?>
+                              <option value="0">Others</option>
+                           </select>
+                        </div>
+                        <div class="col-md-3">
+                           <label class="form-label">Room <span  class="required">*</span></label>
+                           <?php $rooms = $this->db->where('status', 1)->get('item_rooms')->result(); ?> 
+                           <select name="room_id" id="room_id" class="select2 form-control input-sm"  >
+                              <option value="">-- Select One --</option>
+                              <?php foreach ($rooms as $key => $value) { ?>
+                                 <option value="<?=$value->id?>"> <?=$value->name_en ?> </option>
+                              <?php } ?>
+                              <option value="0">Others</option>
+                           </select>
+                        </div>
                      </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Floor <span  class="required">*</span></label>
-                        <?php $floor = $this->db->where('status', 1)->get('asset_floors')->result(); ?> 
-                        <select name="floor_id" id="floor_id" class="form-control input-sm"  >
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($floor as $key => $value) { ?>
-                              <option value="<?=$value->id?>"><?=$value->floor_name?></option>
-                           <?php } ?>
-                           <option value="0">Others</option>
-                        </select>
-                     </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Room <span  class="required">*</span></label>
-                        <?php $rooms = $this->db->where('status', 1)->get('item_rooms')->result(); ?> 
-                        <select name="room_id" id="room_id" class="form-control input-sm"  >
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($rooms as $key => $value) { ?>
-                              <option value="<?=$value->id?>"> <?=$value->name_en ?> </option>
-                           <?php } ?>
-                           <option value="0">Others</option>
-                        </select>
-                     </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Assigned Employee/Custodian <span  class="required">*</span></label>
-                        <?php $users = $this->db->where('status', 1)->get('users')->result(); ?> 
-                        <select name="user_id" id="user_id" class="form-control input-sm"  >
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($users as $key => $value) { ?>
-                              <option value="<?=$value->id?>"> <?=$value->first_name ?> </option>
-                           <?php } ?>
-                           <option value="0">Others</option>
-                        </select>
-                     </div>
-                  </div>
 
+                      <br>
+                     <div class="container mt-3">
+                        <div id="assetRows">
+                        <button type="button" class="btn btn-success btn-mini" id="addMore"><i class="fa fa-plus"></i> Add</button>
+
+                           <div class="row asset-row" style="margin-left:0px; margin-bottom:10px;">
+                              <div class="col-md-1 d-flex align-items-end">
+                                 <label class="form-label">.</label>
+                                 <button type="button" class="btn btn-danger btn-mini removeRow"><i class="fa fa-trash-o"></i></button>
+                              </div>
+                              <div class="col-md-2">
+                                 <label class="form-label">Select Category <span class="required">*</span></label>
+                                 <select name="category_id[]" class="select2 form-control input-sm">
+                                    <option value="">-- Select One --</option>
+                                    <?php $categories = $this->db->where('status', 'Enable')->get('item_categories')->result(); ?>
+                                    <?php foreach ($categories as $category) { ?>
+                                       <option value="<?=$category->id?>"><?=$category->category_name?></option>
+                                    <?php } ?>
+                                    <option value="0">Others</option>
+                                 </select>
+                              </div>
+
+                              <div class="col-md-2">
+                                 <label class="form-label">Select Sub Category <span class="required">*</span></label>
+                                 <select name="sub_category_id[]" class="select2 form-control input-sm">
+                                    <option value="">-- Select One --</option>
+                                    <?php $sub_categories = $this->db->where('status', 1)->get('item_sub_categories')->result(); ?>
+                                    <?php foreach ($sub_categories as $sub_category) { ?>
+                                       <option value="<?=$sub_category->id?>"><?=$sub_category->sub_cate_name?></option>
+                                    <?php } ?>
+                                    <option value="0">Others</option>
+                                 </select>
+                              </div>
+
+                              <div class="col-md-2">
+                                 <label class="form-label">Select Asset <span class="required">*</span></label>
+                                 <select name="asset_id[]" class="select2 form-control input-sm">
+                                    <option value="">-- Select One --</option>
+                                    <?php $assets = $this->db->where('asset_status', 1)->get('items')->result(); ?>
+                                    <?php foreach ($assets as $asset) { ?>
+                                       <option value="<?=$asset->id?>"><?=$asset->item_name?></option>
+                                    <?php } ?>
+                                    <option value="0">Others</option>
+                                 </select>
+                              </div>
+
+                              <div class="col-md-2">
+                                 <label class="form-label">Asset Tag <span class="required">*</span></label>
+                                 <input type="text" name="asset_tag[]" class="form-control input-sm" />
+                              </div>
+
+
+                           </div>
+                        </div>
+
+                     </div>
+
+                  </div>
                   <div class="form-actions">
                      <div class="pull-right">
                         <button type="submit" class="btn btn-primary btn-cons"><i class="icon-ok"></i> Save</button>
@@ -263,3 +325,26 @@
    });
 </script>
 
+
+
+
+<script>
+$(document).ready(function () {
+   // Add new row
+   $('#addMore').click(function () {
+      let newRow = $('.asset-row:first').clone();
+      newRow.find('input').val(''); // clear inputs
+      newRow.find('select').val('').trigger('change'); // reset selects
+      $('#assetRows').append(newRow);
+   });
+
+   // Remove row
+   $(document).on('click', '.removeRow', function () {
+      if ($('.asset-row').length > 1) {
+         $(this).closest('.asset-row').remove();
+      } else {
+         alert("At least one row is required.");
+      }
+   });
+});
+</script>
