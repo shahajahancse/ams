@@ -63,35 +63,6 @@
                            <option value="">-- Select One --</option>
                         </select>
                      </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Asset Type<span  class="required">*</span></label>
-                        <?php echo form_error('type'); ?>
-                        <select name="type" id="type" class="form-control input-sm">
-                           <option value="">--Select Type--</option>
-                           <option value="1">Depriciation</option>
-                           <option value="2">Non Depriciation</option>
-                           <option value="3">Fixed</option>
-                        </select>
-                     </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Value Type <span  class="required">*</span></label>
-                        <select name="value_type" id="value_type" class="form-control input-sm"  >
-                           <option value="">-- Select Type --</option>
-                           <option value="1">Amount</option>
-                           <option value="2">Percentage</option>
-                        </select>
-                     </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Amount/Percentage <span  class="required">*</span></label>
-                        <select name="rate" id="rate" class="form-control input-sm"  >
-                           <option value="">-- Select --</option>
-                        </select>
-                     </div>
-                  </div>
-
-                  <div class="row form-row">
-
-
                      <div class="col-md-4">
                         <label class="form-label">Asset Name <span  class="required">*</span></label>
                         <?php echo form_error('item_name'); ?>
@@ -107,28 +78,31 @@
                            <?php } ?>
                         </select>
                      </div>
+                  </div>
+
+                  <div class="row form-row">
+                      <div class="col-md-3">
+                        <label class="form-label">Orginal Cost <span  class="required">*</span></label>
+                        <input name="original_cost" id="original_cost" type="number" step="0.01" value="<?=set_value('original_cost')?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-3">
+                        <label class="form-label">Capitalized Cost <span  class="required">*</span></label>
+                        <input name="capitalized_cost" id="capitalized_cost" type="number" step="0.01" value="<?=set_value('capitalized_cost')?>" class="form-control input-sm">
+                     </div>
+                     <div class="col-md-3">
+                        <label class="form-label">Serial Number <span  class="required">*</span></label>
+                        <input name="serial_number" id="serial_number" type="text" value="<?=set_value('serial_number')?>" class="form-control input-sm">
+                     </div>
                      <div class="col-md-3">
                         <label class="form-label">Acquisition Date <span  class="required">*</span></label>
                         <input name="acquisition_date" id="acquisition_date" type="date" value="<?=set_value('acquisition_date')?>" class="form-control input-sm">
                      </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Manufacture Date <span  class="required">*</span></label>
-                        <input name="manufacture_date" id="manufacture_date" type="date" value="<?=set_value('manufacture_date')?>" class="form-control input-sm">
-                     </div>
                   </div>
 
                   <div class="row form-row">
-                     <div class="col-md-2">
-                        <label class="form-label">Orginal Cost <span  class="required">*</span></label>
-                        <input name="original_cost" id="original_cost" type="number" step="0.01" value="<?=set_value('original_cost')?>" class="form-control input-sm">
-                     </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Capitalized Cost <span  class="required">*</span></label>
-                        <input name="capitalized_cost" id="capitalized_cost" type="number" step="0.01" value="<?=set_value('capitalized_cost')?>" class="form-control input-sm">
-                     </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Serial Number <span  class="required">*</span></label>
-                        <input name="serial_number" id="serial_number" type="text" value="<?=set_value('serial_number')?>" class="form-control input-sm">
+                     <div class="col-md-3">
+                        <label class="form-label">Manufacture Date <span  class="required">*</span></label>
+                        <input name="manufacture_date" id="manufacture_date" type="date" value="<?=set_value('manufacture_date')?>" class="form-control input-sm">
                      </div>
                      <div class="col-md-3">
                         <label class="form-label">Asset Image <span  class="required">*</span></label>
@@ -138,26 +112,52 @@
                         <label class="form-label">Warranty</label>
                         <input name="warranty_months" id="warranty_months" type="file" value="<?=set_value('warranty_months')?>" class="form-control input-sm">
                      </div>
-                  </div>
-
-                  <div class="row form-row">
-
-                     <div class="col-md-8">
-                        <label class="form-label">Asset Specification</label>
-                        <textarea name="description" id="description" class="form-control input-sm" rows="3"><?=set_value('description')?></textarea>
-                     </div>
-                                          
-                     <div class="col-md-4">
+                                                               
+                     <div class="col-md-3">
                         <label class="form-label">Asset Status <span  class="required">*</span></label>
                         <select name="asset_status" class="form-control input-sm" id="asset_status">
                            <option value="">-- Select One --</option>
-                           <option value="1">In Use</option>
+                           <option value="1">In Stock</option>
                            <option value="2">Under Maintenance</option>
                            <option value="3">Disposed</option>
                            <option value="4">Retired</option>
                         </select>
                      </div>
                   </div>
+
+                  <div class="row form-row">
+                     <div class="col-md-6">
+                        <label class="form-label">Asset Specification</label>
+                        <textarea name="description" id="description" class="form-control input-sm" rows="3"><?=set_value('description')?></textarea>
+                     </div>
+
+                     <div class="col-md-2">
+                        <label class="form-label">Asset Type<span  class="required">*</span></label>
+                        <?php echo form_error('type'); ?>
+                        <select name="type" id="type" class="form-control input-sm">
+                           <option value="">--Select Type--</option>
+                           <option value="1">Depriciation</option>
+                           <option value="2">Non Depriciation</option>
+                           <option value="3">Fixed</option>
+                        </select>
+                     </div>
+                     <div class="col-md-2">
+                        <label class="form-label">Method <span  class="required">*</span></label>
+                        <select name="value_type" id="value_type" class="form-control input-sm"  >
+                           <option value="">-- Select Method --</option>
+                           <option value="1">Straight-Line Method (SlM)</option>
+                           <option value="2">Written Down Value (WDV)</option>
+                           <option value="3">Units of Production Method (Future)</option>
+                        </select>
+                     </div>
+                     <div class="col-md-2">
+                        <label class="form-label">Residual Cost<span  class="required">*</span></label>
+                        <input name="residual_cost" id="residual_cost" type="number" step="10" value="<?=set_value('residual_cost', 0)?>" class="form-control input-sm">
+                     </div>
+                  </div>
+
+
+                  
                   <div class="row form-row">
                      <div class="col-md-12">
                         <h4 class="semi-bold">Supplier Info</h4>
@@ -186,7 +186,7 @@
                      </div>
                      
                   </div>
-                  <div class="row form-row" id="assigned_emp">
+                  <!-- <div class="row form-row" id="assigned_emp">
                      <div class="col-md-12">
                         <h4 class="semi-bold">Assigned Employee/Custodian</h4>
                         <hr>
@@ -246,49 +246,45 @@
                            <option value="0">Others</option>
                         </select>
                      </div>
-                  </div>
-
+                  </div> -->
                   <div class="row form-row">
                      <div class="col-md-12">
                         <h4 class="semi-bold">Custom Fields </h4>
                      </div>
-                  </div>
-                  <?php foreach ($custom_fields as $field): ?>
-                  <div class="row form-row">
+                     <?php foreach ($custom_fields as $field): ?>
                      <div class="col-md-4">
                         <label class="form-label"><?=$field->field_name?> <?=($field->is_  == 1) ? '<span  class="required">*</span>' : ''?> <span  class="required">*</span></label>
                         <?php
                         $field_name = 'custom_field_' . $field->id;
                         $field_value = set_value($field_name); // For validation errors
                         switch ($field->field_type) {
-                            case 'text':
-                                echo '<input name="'.$field_name.'" type="text" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
-                                break;
-                            case 'number':
-                                echo '<input name="'.$field_name.'" type="number" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
-                                break;
-                            case 'date':
-                                echo '<input name="'.$field_name.'" type="date" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
-                                break;
-                            case 'dropdown':
-                                echo '<select name="'.$field_name.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
-                                echo '<option value="">-- Select --</option>';
-                                $options = explode(',', $field->options);
-                                foreach ($options as $option) {
-                                    $option = trim($option);
-                                    echo '<option value="'.$option.'" '.set_select($field_name, $option).'>'.$option.'</option>';
-                                }
-                                echo '</select>';
-                                break;
-                            case 'textarea':
-                                echo '<textarea name="'.$field_name.'" class="form-control input-sm" rows="3" '. (($field->is_  == 1) ? ' ' : '') .'>'.$field_value.'</textarea>';
-                                break;
+                           case 'text':
+                              echo '<input name="'.$field_name.'" type="text" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
+                              break;
+                           case 'number':
+                              echo '<input name="'.$field_name.'" type="number" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
+                              break;
+                           case 'date':
+                              echo '<input name="'.$field_name.'" type="date" value="'.$field_value.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
+                              break;
+                           case 'dropdown':
+                              echo '<select name="'.$field_name.'" class="form-control input-sm" '. (($field->is_  == 1) ? ' ' : '') .'>';
+                              echo '<option value="">-- Select --</option>';
+                              $options = explode(',', $field->options);
+                              foreach ($options as $option) {
+                                 $option = trim($option);
+                                 echo '<option value="'.$option.'" '.set_select($field_name, $option).'>'.$option.'</option>';
+                              }
+                              echo '</select>';
+                              break;
+                           case 'textarea':
+                              echo '<textarea name="'.$field_name.'" class="form-control input-sm" rows="3" '. (($field->is_  == 1) ? ' ' : '') .'>'.$field_value.'</textarea>';
+                              break;
                         }
                         ?>
                      </div>
+                     <?php endforeach; ?>
                   </div>
-                  <?php endforeach; ?>
-
                   <div class="form-actions">
                      <div class="pull-right">
                         <button type="submit" class="btn btn-primary btn-cons"><i class="icon-ok"></i> Save</button>
@@ -309,15 +305,15 @@
 <script type="text/javascript">
    $(document).ready(function() {
       $('#validate').validate({
-      ignore: "",
-      rules: {
-         category_id: {  required: true },
-         sub_cat_id: {  required: true },
-         item_name: {  required: true },
-         unit_id: { required : true },
-         type: { required : true },
-      }
-   });
+         ignore: "",
+         rules: {
+            category_id: {  required: true },
+            sub_cat_id: {  required: true },
+            item_name: {  required: true },
+            unit_id: { required : true },
+            type: { required : true },
+         }
+      });
    });
 </script>
 <script>
@@ -389,32 +385,6 @@
 
 <script>
    $(document).ready(function () {
-      $('#value_type').on('change', function () {
-         let type = $(this).val();
-         if (type !== '') {
-            $.ajax({
-               url: "<?= base_url('general_setting/getOptions') ?>",
-               type: "POST",
-               data: { type: type },
-               dataType: "json",
-               success: function (response) {
-                  $('#rate').empty();
-                  $('#rate').append('<option value="">-- Select one --</option>');
-                  $.each(response, function (key, value) {
-                     $('#rate').append('<option value="' + key + '">' + value + '</option>');
-                  });
-               }
-            });
-         } else {
-            $('#rate').html('<option value="">-- Select one--</option>');
-         }
-      });
-   });
-</script>
-
-<!-- // get  supplier info [email,phone,address] -->
-<script>
-   $(document).ready(function () {
        $('#supplier_id').on('change', function () {
          var id = $(this).val();
          $.ajax({
@@ -432,7 +402,6 @@
    });
 </script>
 
-<!-- // get  dept by branch -->
 <script>
    $(document).ready(function () {
       $('#branch_id').on('change', function () {
@@ -453,42 +422,6 @@
             });
          } else {
             $('#dept_id').html('<option value="">-- Select oned --</option>');
-         }
-      });
-   });
-</script>
-<script>
-   $(document).ready(function () {
-      $('#asset_status').on('change', function () {
-         let id = $(this).val();
-         if (id == 3 || id == 4) {
-            $('#assigned_emp').slideUp(1000,function(){
-               $(this).hide();
-            });
-         }else{
-            $('#assigned_emp').slideDown(1000,function(){
-               $(this).show();
-            });
-         }
-      });
-   });
-</script>
-
-<script>
-   $(document).ready(function () {
-      $('#type').on('change',function(){
-         type = $(this).val();
-         value_type = "<?php echo $asset->value_type ?>";
-         rate = "<?php echo $asset->rate ?>";
-         if(type == 3){
-            $('#value_type').append('<option value="0" selected>0</option>');
-            $('#rate').append('<option value="0" selected>0</option>');
-         }else{
-            $('#value_type').val(value_type);
-            setTimeout(function(){ $('#rate').val(rate); }, 1000);
-            $('#value_type').change();
-            $('#value_type option[value="0"]').remove();
-            $('#rate option[value="0"]').remove();
          }
       });
    });

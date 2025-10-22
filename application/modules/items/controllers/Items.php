@@ -892,4 +892,16 @@ class Items extends Backend_Controller {
       $supplier = $this->Items_model->get_supplier_info($id);
       echo json_encode($supplier);
    }
+
+   // assigned employees
+   public function assigned_emp(){
+      $this->data['meta_title'] = 'Assigned Employee List';
+      $this->data['subview'] = 'assigned_emp';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+   public function assigned_emp_entry_form(){
+      $this->data['meta_title'] = 'Assigned Employee Entry Form';
+      $this->data['subview'] = 'create_assigned_emp';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
 }
