@@ -204,13 +204,6 @@
 
                                 <!-- Report section -->
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
-                                    <li class="start <?=backend_activate_menu_class('cbs_integration')?>">
-                                        <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">CBS Integration</span> <span class="selected"></span> <span class="arrow"></span> </a>
-                                        <ul class="sub-menu">
-                                            <li> <a href="<?=base_url('cbs_integration/gl_account_mapping');?>"> <i class="fa fa-globe"></i> GL Account Mapping </a> </li>
-                                            <li> <a href="<?=base_url('cbs_integration/reconciliation_report');?>"> <i class="fa fa-file-text"></i> Reconciliation Report </a> </li>
-                                        </ul>
-                                    </li>
                                     <li class="start <?=backend_activate_menu_class('reports')?>"> <a href="javascript:;"> <i class="fa fa-th"></i><span class="title">Reports</span> <span class="selected"></span> <span class="arrow"></span> </a>
                                         <ul class="sub-menu">
                                             <li> <a href="<?=base_url('reports/asset_register_report');?>" target="_blank"><i class="fa fa-file-text"></i> Asset Register Report </a> </li>
@@ -218,6 +211,15 @@
                                             <li> <a href="<?=base_url('reports/disposal_gain_loss_report');?>" target="_blank"> <i class="fa fa-file-text"></i> Disposal Gain/Loss Report </a> </li>
                                             <li> <a href="<?=base_url('reports/asset_movement_history_report');?>" target="_blank"> <i class="fa fa-file-text"></i> Asset Movement History Report </a> </li>
                                             <li> <a href="<?=base_url('reports/custom_asset_report');?>" target="_blank"> <i class="fa fa-file-text"></i> Custom Asset Report </a> </li>
+                                        </ul>
+                                    </li>
+
+
+                                    <li class="start <?=backend_activate_menu_class('cbs_integration')?>">
+                                        <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">CBS Integration</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                                        <ul class="sub-menu">
+                                            <li> <a href="<?=base_url('cbs_integration/gl_account_mapping');?>"> <i class="fa fa-globe"></i> GL Account Mapping </a> </li>
+                                            <li> <a href="<?=base_url('cbs_integration/reconciliation_report');?>"> <i class="fa fa-file-text"></i> Reconciliation Report </a> </li>
                                         </ul>
                                     </li>
                                 <?php } ?>
