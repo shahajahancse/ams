@@ -191,13 +191,13 @@
                                 <li class="start <?=backend_activate_menu_class('depreciation')?> <?=backend_activate_menu_class('disposal')?> <?=backend_activate_menu_class('movement')?> <?=backend_activate_menu_class('items')?>">
                                     <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">Asset Management</span> <span class="selected"></span> <span class="arrow"></span> </a>
                                     <ul class="sub-menu">
+                                        <li> <a href="<?=base_url('items');?>"><i class="fa fa-list"></i> Asset List </a> </li>
                                         <!-- <li> <a href="<?=base_url('depreciation');?>"><i class="fa fa-info"></i> Depreciation </a> </li>
                                         <li> <a href="<?=base_url('disposal');?>"><i class="fa fa-plus-square-o"></i> Disposal </a> </li> -->
                                         <li> <a href="<?=base_url('movement');?>"> <i class="fa fa-plus-square"></i> Movement </a> </li>
                                         <!-- <li> <a href="<?=base_url('qrimages');?>"><i class="fa fa-tags"></i> Generate Asset Tags </a> </li>
                                         <li> <a href="<?=base_url('excel_import');?>"> <i class="fa fa-arrow-down"></i> Import Assets </a> </li>
                                         <li> <a href="<?=base_url('assets/export');?>"> <i class="fa fa-arrow-up"></i> Export Assets </a> </li> -->
-                                        <li> <a href="<?=base_url('items');?>"><i class="fa fa-list"></i> Asset List </a> </li>
                                         <li> <a href="<?=base_url('items/assigned_emp');?>"><i class="fa fa-user"></i> Assigned Employee </a> </li>
                                     </ul>
                                 </li>
