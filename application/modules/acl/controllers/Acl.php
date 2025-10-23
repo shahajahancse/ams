@@ -846,16 +846,58 @@ class Acl extends Backend_Controller {
         return array($key => $value);
     }
 
-public function _valid_csrf_nonce(){
-    $csrfkey = $this->input->post($this->session->flashdata('csrfkey'));
-    if ($csrfkey && $csrfkey == $this->session->flashdata('csrfvalue')){
-        return TRUE;
-    }else{
-        return FALSE;
+    public function _valid_csrf_nonce(){
+        $csrfkey = $this->input->post($this->session->flashdata('csrfkey'));
+        if ($csrfkey && $csrfkey == $this->session->flashdata('csrfvalue')){
+            return TRUE;
+        }else{
+            return FALSE;
+        }
     }
-}
 
-    /******************** Approver User Role *********************/
+    /******************** Permission *********************/
+    public function permissions($offset=0){
+        $limit = 50;
+        $results = $this->Acl_model->get_permissions($limit, $offset);
+        $this->data['results'] = $results['rows'];
+        $this->data['total_rows'] = $results['num_rows'];
+
+        //pagination
+        $this->data['pagination'] = create_pagination('acl/permissions/', $this->data['total_rows'], $limit, 3, $full_tag_wrap = true);
+        $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
+
+        //Load page
+        $this->data['meta_title'] = 'Permissions';
+        $this->data['subview'] = 'permissions';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+
+    public function create_permission(){
+        // validate form input
+        $this->form_validation->set_rules('name', 'Name', 'required');
+        $this->form_validation->set_rules('type', 'Type', 'required');
+        if ($this->form_validation->run() == true){
+            $form_data = array(
+                'name' => $this->input->post('name'),
+                'type' => $this->input->post('type'),
+                'sl' => 0,
+                'status' => 1,
+                'remarks' => $this->input->post('remarks'),
+            );
+
+            if($this->Common_model->save('permissions', $form_data)){
+                $this->session->set_flashdata('success', 'New role created successfully.');
+                redirect('acl/permissions');
+            }
+        }
+
+        $this->data['meta_title'] = 'Create Permission';
+        $this->data['subview'] = 'create_permission';
+        $this->load->view('backend/_layout_main', $this->data);
+    }
+    /******************** Permission *********************/
+
+    /******************** Role Permission *********************/
     public function approver_user_role($offset=0){
         $limit = 50;
         $results = $this->Acl_model->get_approver_user_roles($limit, $offset);
@@ -869,7 +911,7 @@ public function _valid_csrf_nonce(){
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
         //Load page
-        $this->data['meta_title'] = 'Approver User Role';
+        $this->data['meta_title'] = 'User Role';
         $this->data['subview'] = 'approver_user_role_list';
         $this->load->view('backend/_layout_main', $this->data);
     }
@@ -893,7 +935,7 @@ public function _valid_csrf_nonce(){
             }
         }
 
-        $this->data['meta_title'] = 'Create Approver User Role';
+        $this->data['meta_title'] = 'Create User Role';
         $this->data['subview'] = 'create_approver_user_role';
         $this->load->view('backend/_layout_main', $this->data);
     }
@@ -919,7 +961,7 @@ public function _valid_csrf_nonce(){
 
         $this->data['info'] = $this->Acl_model->get_approver_user_role_info($id);
 
-        $this->data['meta_title'] = 'Edit Approver User Role';
+        $this->data['meta_title'] = 'Edit User Role';
         $this->data['subview'] = 'edit_approver_user_role';
         $this->load->view('backend/_layout_main', $this->data);
     }
@@ -1040,7 +1082,7 @@ public function _valid_csrf_nonce(){
         $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
 
         //Load page
-        $this->data['meta_title'] = ' Approval Type List';
+        $this->data['meta_title'] = ' Role Permission';
         $this->data['subview'] = 'approval_type_list';
         $this->load->view('backend/_layout_main', $this->data);
     }
@@ -1049,59 +1091,44 @@ public function _valid_csrf_nonce(){
         // validate form input
         $this->form_validation->set_rules('name', 'Name', 'required');
         $this->form_validation->set_rules('forward_type', 'Forward Type', 'required');
-        $this->form_validation->set_rules('fb_url', 'URL', 'required');
-
-        // [user_id] => Array
-        //     (
-        //         [0] => 11
-        //         [1] => 10
-        //     )
-
-        // [role_id] => Array
-        //     (
-        //         [0] => 2
-        //         [1] => 1
-        //     )
-
-        // [type_id] => Array
-        //     (
-        //         [0] => reviewer
-        //         [1] => approver
-        //     )
-
-        // [user_ordering] => Array
-        //     (
-        //         [0] => 1
-        //         [1] => 2
-        //     )
-
-        // [access_forward] => Array
-        //     (
-        //         [0] => 1
-        //         [1] =>
-        //     )
-
-        // [access_backward] => Array
-        //     (
-        //         [0] => 0
-        //         [1] => 2
-        //     )
+        // $this->form_validation->set_rules('fb_url', 'URL', 'required');
         if ($this->form_validation->run() == true){
             $form_data = array(
                 'name' => $this->input->post('name'),
                 'forward_type' => $this->input->post('forward_type'),
-                'fb_url' => $this->input->post('fb_url'),
+                'fb_url' => null,
                 'status' => $this->input->post('status'),
                 'remarks' => $this->input->post('remarks'),
             );
 
             if($this->Common_model->save('approve_forward_backward_type', $form_data)){
+                $insert_id = $this->db->insert_id();
+
+                $user_id = $this->input->post('user_id');
+                $role_id = $this->input->post('role_id');
+                $type_id = $this->input->post('type_id');
+                $user_ordering = $this->input->post('user_ordering');
+                $access_forward = $this->input->post('access_forward');
+                $access_backward = $this->input->post('access_backward');
+                foreach ($user_id as $key => $value) {
+                    $form_data1 = array(
+                        'user_id' => $user_id[$key],
+                        'role_id' => $role_id[$key],
+                        'fb_type_id' => $insert_id,
+                        'type' => $type_id[$key],
+                        'user_ordering' => (empty($user_ordering[$key])) ? null : $user_ordering[$key],
+                        'access_forward' => (empty($access_forward[$key])) ? null : $access_forward[$key],
+                        'access_backward' => (empty($access_backward[$key])) ? null : $access_backward[$key],
+                    );
+                    $this->Common_model->save('approval_role_manage', $form_data1);
+                }
+
                 $this->session->set_flashdata('success', 'New type created successfully.');
                 redirect('acl/create_approval_type');
             }
         }
 
-        $this->data['meta_title'] = 'Create Approve Process Type';
+        $this->data['meta_title'] = 'Create Role Permission';
         $this->data['subview'] = 'create_approval_process';
         $this->load->view('backend/_layout_main', $this->data);
     }
@@ -1109,25 +1136,49 @@ public function _valid_csrf_nonce(){
     public function edit_approval_process($id){
         // validate form input
         $this->form_validation->set_rules('name', 'Name', 'required');
-
         if ($this->form_validation->run() == true){
             $form_data = array(
                 'name' => $this->input->post('name'),
                 'forward_type' => $this->input->post('forward_type'),
-                'fb_url' => $this->input->post('fb_url'),
+                'fb_url' => null,
                 'status' => $this->input->post('status'),
                 'remarks' => $this->input->post('remarks'),
             );
 
             if($this->Common_model->edit('approve_forward_backward_type', $id, 'id', $form_data)){
+                $ids = $this->input->post('ids');
+                $user_id = $this->input->post('user_id');
+                $role_id = $this->input->post('role_id');
+                $type_id = $this->input->post('type_id');
+                $user_ordering = $this->input->post('user_ordering');
+                $access_forward = $this->input->post('access_forward');
+                $access_backward = $this->input->post('access_backward');
+                foreach ($ids as $key => $value) {
+                    $form_data1 = array(
+                        'user_id' => $user_id[$key],
+                        'role_id' => $role_id[$key],
+                        'fb_type_id' => $id,
+                        'type' => $type_id[$key],
+                        'user_ordering' => (empty($user_ordering[$key])) ? null : $user_ordering[$key],
+                        'access_forward' => (empty($access_forward[$key])) ? null : $access_forward[$key],
+                        'access_backward' => (empty($access_backward[$key])) ? null : $access_backward[$key],
+                    );
+                    if ($value == 'new') {
+                        $this->Common_model->save('approval_role_manage', $form_data1);
+                    } else {
+                        $this->db->where('id', $value)->update('approval_role_manage', $form_data1);
+                    }
+                }
+
                 $this->session->set_flashdata('success', 'Type updated successfully.');
                 redirect('acl/create_approval_type');
             }
         }
 
         $this->data['info'] = $this->Acl_model->get_approve_forward_backward_type_info($id);
-
-        $this->data['meta_title'] = 'Edit Approve Process Type';
+        $this->data['results'] = $this->Acl_model->approval_role_manages($id);
+        // dd($this->data['results']);
+        $this->data['meta_title'] = 'Edit Role Permission';
         $this->data['subview'] = 'edit_approval_process';
         $this->load->view('backend/_layout_main', $this->data);
     }
@@ -1140,6 +1191,12 @@ public function _valid_csrf_nonce(){
         }else{
             redirect('dashboard');
         }
+    }
+
+    public function ajax_delete_approval_process(){
+        $id = $this->input->post('id');
+        $this->db->where('id', $id)->delete('approval_role_manage');
+        echo json_encode(array('status' => TRUE));
     }
 
 }

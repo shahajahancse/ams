@@ -1,3 +1,23 @@
+<style>
+   .select2.form-control {
+      box-shadow: none;
+      border: 1px solid #0aa699 !important;
+   }
+   .select2-container .select2-choice {
+      border-radius: 2px;
+      border: 1px solid #e5e9ec !important;
+      padding: 2px 10px !important;
+      height: 30px !important;
+   }
+   .select2-search {
+      min-height: 20px !important;
+   }
+   .select2-search input {
+      line-height: 20px !important;
+   }
+</style>
+
+
 <div class="page-content">
    <div class="content">
       <ul class="breadcrumb">
@@ -27,8 +47,12 @@
                   <div class="row form-row">
                      <div class="col-md-6">
                         <label class="form-label">Asset Name</label>
-                        <input type="hidden" name="asset_id" value="<?=set_value('asset_id', $asset_info->id)?>">
-                        <input type="text" class="form-control input-sm" value="<?=set_value('asset_name', $asset_info->item_name)?>" >
+                        <select name="asset_id" id="asset_id" class="form-control input-sm select2">
+                           <option value="">Select Asset</option>
+                           <?php foreach ($asset_info as $asset) { ?>
+                              <option value="<?=$asset->id?>"><?=$asset->item_name?></option>
+                           <?php } ?>
+                        </select>
                      </div>
                      <div class="col-md-6">
                         <label class="form-label">Movement Date <span class="required">*</span></label>

@@ -1,3 +1,9 @@
+<style>
+   .grid.simple .grid-body {
+      height: 70vh;
+   }
+</style>
+
 <div class="page-content">
    <div class="content">
       <ul class="breadcrumb">
@@ -12,7 +18,7 @@
                <div class="grid-title">
                   <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
                   <div class="pull-right">
-                     <a href="<?=base_url('items')?>" class="btn btn-info btn-xs btn-mini"> Items List</a>
+                     <a href="<?=base_url('movement/record')?>" class="btn btn-info btn-xs btn-mini"> Create New</a>
                   </div>
                </div>
                <div class="grid-body" style="padding: 26px 29px;">
@@ -33,6 +39,7 @@
                            <th>To Custodian</th>
                            <th>Notes</th>
                            <th>Recorded By</th>
+                           <th>Action</th>
                         </tr>
                      </thead>
                      <tbody>
@@ -47,6 +54,17 @@
                                  <td><?=$row->to_custodian_fname . ' ' . $row->to_custodian_lname?></td>
                                  <td><?=$row->notes?></td>
                                  <td><?=$row->created_by_fname . ' ' . $row->created_by_lname?></td>
+                                 <td>
+                                    <div class="btn-group">
+                                       <button type="button" class="btn btn-primary btn-xs btn-mini dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                           Action <span class="caret"></span>
+                                       </button>
+                                       <ul class="dropdown-menu pull-right">
+                                           <li><a href="<?=base_url('movement/record/'.encrypt_url($row->id))?>"> View </a></li>
+                                           <li><a href="<?=base_url('movement/delete/'.encrypt_url($row->id))?>"> Delete </a></li>
+                                       </ul>
+                                    </div>
+                                 </td>
                               </tr>
                            <?php endforeach; ?>
                         <?php else: ?>

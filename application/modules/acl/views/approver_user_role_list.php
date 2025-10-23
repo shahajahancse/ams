@@ -13,7 +13,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('acl/create_approver_user_role')?>" class="btn btn-info btn-xs btn-mini"> Create Approver User Role</a>
+              <a href="<?=base_url('acl/create_approver_user_role')?>" class="btn btn-info btn-xs btn-mini"> Create User Role</a>
             </div>
           </div>
 

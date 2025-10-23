@@ -25,7 +25,7 @@
                 <div class="col-md-4">
                   <label class="form-label">Forward Type</label>
                   <?php
-                  $options = array('only_forward'  => 'Only Forward', 'forward_backward'    => 'Forward Backward', 'multi_forward'   => 'Multi Forward', 'multi_forward_backward'   => 'Multi Forward Backward');
+                  $options = array('only_forward'  => 'Only Forward', 'forward_backward'    => 'Forward Backward');
                   echo form_dropdown('forward_type', $options, '', 'class="form-control"');
                   ?>
                 </div>
@@ -39,12 +39,12 @@
               </div>
 
               <div class="row form-row">
-                <div class="col-md-6">
+                <!-- <div class="col-md-6">
                   <label class="form-label">Forward/Backward URL</label>
                   <input name="fb_url" id="fb_url" type="text" class="form-control input-sm" placeholder="http:/example.com" required>
-                </div>
+                </div> -->
 
-                <div class="col-md-6">
+                <div class="col-md-12">
                   <label class="form-label">Remarks</label>
                   <textarea name="remarks" id="remarks" class="form-control" rows="1"></textarea>
                 </div>
@@ -122,4 +122,12 @@
     $('#tbody').append(new_row);
     $('#tbody tr:last .user-select').select2({ width: '100%' });
   }
+</script>
+
+<script>
+  $(document).ready(function () {
+    $('#tbody').on('click', '.remove_row', function () {
+      $(this).closest('tr').remove();
+    })
+  })
 </script>
