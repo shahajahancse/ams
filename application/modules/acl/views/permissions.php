@@ -13,13 +13,12 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('acl/create_approval_process')?>" class="btn btn-info btn-xs btn-mini"> Create Role Permission</a>
+              <a href="<?=base_url('acl/create_permission')?>" class="btn btn-info btn-xs btn-mini"> Create Permission</a>
             </div>
           </div>
 
           <div class="grid-body ">
-            <?php if($this->session->flashdata('success')):
-?>
+            <?php if($this->session->flashdata('success')):?>
                 <div class="alert alert-success">
                     <?php echo $this->session->flashdata('success');?>
                 </div>
@@ -30,11 +29,9 @@
                   <tr>
                     <th>SL</th>
                     <th>Name</th>
-                    <th>Forward Type</th>
-                    <th>FB URL</th>
+                    <th>Type</th>
                     <th>Status</th>
                     <th>Remarks</th>
-                    <th width="150">Action</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -46,11 +43,9 @@
                     <tr>
                       <td><?=$sl.'.'?></td>
                       <td><?php echo $row->name;?></td>
-                      <td><?php echo $row->forward_type;?></td>
-                      <td><?php echo $row->fb_url;?></td>
+                      <td><?php echo $row->type;?></td>
                       <td><?php echo ($row->status == 1) ? 'Active' : 'Inactive';?></td>
                       <td><?php echo $row->remarks;?></td>
-                      <td><?php echo anchor("acl/edit_approval_process/" . $row->id, 'Edit','class="btn btn-mini btn-primary"') ;?>&nbsp;<?php echo anchor("acl/delete_approval_process/" . $row->id, 'Delete','class="btn btn-mini btn-danger" onclick="return confirm(\'Are you sure you want to delete this?\')"') ;?></td>
                     </tr>
                   <?php endforeach;?>
                 </tbody>

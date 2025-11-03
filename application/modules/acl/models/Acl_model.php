@@ -225,9 +225,36 @@ class Acl_model extends CI_Model {
         return $result;
     }
 
+    public function get_permissions($limit = 1000, $offset = 0) {
+        $this->db->select('*');
+        $this->db->from('permissions');
+        $this->db->limit($limit);
+        $this->db->offset($offset);
+        $this->db->order_by('id', 'ASC');
+        $result['rows'] = $this->db->get()->result();
+
+        $q = $this->db->select('COUNT(*) as count');
+        $this->db->from('permissions');
+        $tmp = $this->db->get()->result();
+        $result['num_rows'] = $tmp[0]->count;
+        return $result;
+    }
+
     public function get_approver_user_role_info($id) {
         $query = $this->db->from('approver_user_role')->where('id', $id)->get()->row();
         return $query;
+    }
+
+    public function approval_role_manages($id) {
+        $this->db->select('arm.*, u.first_name, aur.name as role_name, afbt.name as fb_type_name');
+        $this->db->from('approval_role_manage arm');
+        $this->db->join('users u', 'u.id = arm.user_id');
+        $this->db->join('approver_user_role aur', 'aur.id = arm.role_id');
+        $this->db->join('approve_forward_backward_type afbt', 'afbt.id = arm.fb_type_id');
+        $this->db->where('arm.fb_type_id', $id);
+        $this->db->order_by('arm.id', 'ASC');
+        $result = $this->db->get()->result();
+        return $result;
     }
 
     public function get_approval_role_manages($limit = 1000, $offset = 0) {

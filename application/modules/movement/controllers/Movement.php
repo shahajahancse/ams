@@ -21,11 +21,8 @@ class Movement extends Backend_Controller {
    }
 
    public function record($asset_id = NULL){
-      // Form to record asset movement
-
       // Fetch asset info
-      $this->data['asset_info'] = $this->db->where('id', $asset_id)->get('items')->row();
-
+      $this->data['asset_info'] = $this->db->get('items')->result();
       // Fetch custodians (users)
       $this->data['custodians'] = $this->ion_auth->users()->result();
 

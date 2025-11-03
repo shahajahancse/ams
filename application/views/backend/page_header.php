@@ -188,27 +188,22 @@
                                 ?>
 
                                 <!-- New Asset Management Sub-menu -->
-                                <li class="start <?=backend_activate_menu_class('depreciation')?> <?=backend_activate_menu_class('disposal')?> <?=backend_activate_menu_class('movement')?>">
+                                <li class="start <?=backend_activate_menu_class('depreciation')?> <?=backend_activate_menu_class('disposal')?> <?=backend_activate_menu_class('movement')?> <?=backend_activate_menu_class('items')?>">
                                     <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">Asset Management</span> <span class="selected"></span> <span class="arrow"></span> </a>
                                     <ul class="sub-menu">
-                                        <li> <a href="<?=base_url('depreciation');?>"><i class="fa fa-info"></i> Depreciation </a> </li>
-                                        <li> <a href="<?=base_url('disposal');?>"><i class="fa fa-plus-square-o"></i> Disposal </a> </li>
+                                        <li> <a href="<?=base_url('items');?>"><i class="fa fa-list"></i> Asset List </a> </li>
+                                        <!-- <li> <a href="<?=base_url('depreciation');?>"><i class="fa fa-info"></i> Depreciation </a> </li>
+                                        <li> <a href="<?=base_url('disposal');?>"><i class="fa fa-plus-square-o"></i> Disposal </a> </li> -->
                                         <li> <a href="<?=base_url('movement');?>"> <i class="fa fa-plus-square"></i> Movement </a> </li>
-                                        <li> <a href="<?=base_url('qrimages');?>"><i class="fa fa-tags"></i> Generate Asset Tags </a> </li>
+                                        <!-- <li> <a href="<?=base_url('qrimages');?>"><i class="fa fa-tags"></i> Generate Asset Tags </a> </li>
                                         <li> <a href="<?=base_url('excel_import');?>"> <i class="fa fa-arrow-down"></i> Import Assets </a> </li>
-                                        <li> <a href="<?=base_url('assets/export');?>"> <i class="fa fa-arrow-up"></i> Export Assets </a> </li>
+                                        <li> <a href="<?=base_url('assets/export');?>"> <i class="fa fa-arrow-up"></i> Export Assets </a> </li> -->
+                                        <li> <a href="<?=base_url('items/assigned_emp');?>"><i class="fa fa-user"></i> Assigned Employee </a> </li>
                                     </ul>
                                 </li>
 
                                 <!-- Report section -->
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
-                                    <li class="start <?=backend_activate_menu_class('cbs_integration')?>">
-                                        <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">CBS Integration</span> <span class="selected"></span> <span class="arrow"></span> </a>
-                                        <ul class="sub-menu">
-                                            <li> <a href="<?=base_url('cbs_integration/gl_account_mapping');?>"> <i class="fa fa-globe"></i> GL Account Mapping </a> </li>
-                                            <li> <a href="<?=base_url('cbs_integration/reconciliation_report');?>"> <i class="fa fa-file-text"></i> Reconciliation Report </a> </li>
-                                        </ul>
-                                    </li>
                                     <li class="start <?=backend_activate_menu_class('reports')?>"> <a href="javascript:;"> <i class="fa fa-th"></i><span class="title">Reports</span> <span class="selected"></span> <span class="arrow"></span> </a>
                                         <ul class="sub-menu">
                                             <li> <a href="<?=base_url('reports/asset_register_report');?>" target="_blank"><i class="fa fa-file-text"></i> Asset Register Report </a> </li>
@@ -218,22 +213,21 @@
                                             <li> <a href="<?=base_url('reports/custom_asset_report');?>" target="_blank"> <i class="fa fa-file-text"></i> Custom Asset Report </a> </li>
                                         </ul>
                                     </li>
+
+
+                                    <li class="start <?=backend_activate_menu_class('cbs_integration')?>">
+                                        <a href="javascript:;"> <i class="fa fa-money"></i><span class="title">CBS Integration</span> <span class="selected"></span> <span class="arrow"></span> </a>
+                                        <ul class="sub-menu">
+                                            <li> <a href="<?=base_url('cbs_integration/gl_account_mapping');?>"> <i class="fa fa-globe"></i> GL Account Mapping </a> </li>
+                                            <li> <a href="<?=base_url('cbs_integration/reconciliation_report');?>"> <i class="fa fa-file-text"></i> Reconciliation Report </a> </li>
+                                        </ul>
+                                    </li>
                                 <?php } ?>
 
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){
                                     $low = 0;
                                     // $low = $this->Common_model->count_low_stock();
                                 } ?>
-                                <!-- Item Setup section -->
-                                <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
-                                <li class="start <?=backend_activate_menu_class('items')?>">
-                                    <a href="javascript:;"> <i class="fa fa-tags"></i><span class="title">Asset Setup </span> <span class="selected"></span> <span class="badge badge-danger pull-right"></span> <span class="arrow"></span> </a>
-                                    <ul class="sub-menu">
-                                        <li> <a href="<?=base_url('items');?>"><i class="fa fa-list"></i> Asset List </a> </li>
-                                        <li> <a href="<?=base_url('items/assigned_emp');?>"><i class="fa fa-user"></i> Assigned Employee </a> </li>
-                                    </ul>
-                                </li>
-                                <?php } ?>
 
                                 <!-- General Setting  -->
                                 <?php if($this->ion_auth->in_group(array('admin','do','sm'))){ ?>
@@ -244,7 +238,7 @@
                                     <ul class="sub-menu">
                                         <!-- <li> <a href="< ?=base_url('general_setting/item_locker');?>"><i class="fa fa-file"></i> Item Locker</a></li>
                                         <li> <a href="< ?=base_url('general_setting/locker_setup');?>"><i class="fa fa-lock"></i> Locker Setup</a></li>-->
-                                        <li> <a href="<?=base_url('general_setting/room_setup');?>"> <i class="fa fa-home"></i> Room Setup</a></li> 
+                                        <li> <a href="<?=base_url('general_setting/room_setup');?>"> <i class="fa fa-home"></i> Room Setup</a></li>
                                         <li> <a href="<?=base_url('general_setting/categories');?>"> <i class="fa fa-bars"></i> Categories</a></li>
                                         <li> <a href="<?=base_url('general_setting/sub_categories');?>"> <i class="fa fa-list"></i> Sub Categories</a></li>
                                         <li> <a href="<?=base_url('general_setting/item_unit');?>"><i class="fa fa-th-list"></i> Item Unit</a></li>
@@ -265,20 +259,19 @@
 
                                 <!-- User ACL -->
                                 <?php if($this->ion_auth->in_group(array('admin','do'))){ ?>
-                                <li class="start <?=backend_activate_menu_class('acl')?>"> <a href="javascript:;"> <i
-                                            class="fa fa-key"></i> <span class="title">Access Control</span> <span
-                                            class="selected"></span> <span class="arrow"></span> </a>
+                                <li class="start <?=backend_activate_menu_class('acl')?>">
+                                    <a href="javascript:;"> <i class="fa fa-key"></i> <span class="title">Access Control</span> <span class="selected"></span> <span class="arrow"></span>
+                                    </a>
                                     <ul class="sub-menu">
+                                        <li> <a href="<?=base_url('acl/permissions');?>"> Permissions </a> </li>
                                         <li> <a href="<?=base_url('acl');?>"> User List </a> </li>
-                                        <li> <a href="<?=base_url('acl/approver_user_role');?>"> Approver User Role </a> </li>
-                                        <li> <a href="<?=base_url('acl/create_approval_type');?>"> Create Approval Type </a> </li>
-                                        <li> <a href="<?=base_url('acl/approval_role_manage');?>"> Approval Role Manage </a> </li>
+                                        <li> <a href="<?=base_url('acl/approver_user_role');?>"> User Role </a> </li>
+                                        <li> <a href="<?=base_url('acl/create_approval_type');?>"> Role Permission </a> </li>
+                                        <!-- <li> <a href="<?=base_url('acl/approval_role_manage');?>"> Approval Role Manage </a> </li> -->
                                     </ul>
                                 </li>
                                 <?php } ?>
-                                <li class="start"><a href="<?=base_url('logout')?>">
-                                        <i class="fa fa-power-off"></i>
-                                        <span class="title">Log Out</span> </a>
+                                <li class="start"><a href="<?=base_url('logout')?>"> <i class="fa fa-power-off"></i> <span class="title">Log Out</span> </a>
                                 </li>
                             </ul>
                             <div class="clearfix"></div>

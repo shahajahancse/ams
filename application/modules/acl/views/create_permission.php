@@ -14,7 +14,7 @@
               <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
              </div>
              <div class="grid-body">
-              <?php echo form_open("acl/create_approver_user_role", array('id' => 'form-approve'));?>
+              <?php echo form_open("acl/create_permission", array('id' => 'form-approve'));?>
               <div><?=validation_errors() ?></div>
 
               <div class="row form-row">
@@ -24,28 +24,9 @@
                 </div>
                 <div class="col-md-6">
                   <label class="form-label">Type</label>
-                  <?php
-                  $options = array('approver'  => 'Approver', 'reviewer'    => 'Reviewer', 'verifier'   => 'Verifier');
-                  echo form_dropdown('type', $options, '', 'class="form-control"');
-                  ?>
+                  <input type="text" name="type" id="type" class="form-control input-sm" placeholder="Type" required>
                 </div>
               </div>
-
-
-              <div class="row form-row">
-                <div class="col-md-6">
-                  <label class="form-label">SL</label>
-                  <input name="sl" id="sl" type="number" class="form-control input-sm" placeholder="SL" min="1" oninput="this.value = Math.max(this.value, 1);" onkeyup="this.value = (this.value > 0) ? this.value : 1;">
-                </div>
-                <div class="col-md-6">
-                  <label class="form-label">Status</label>
-                  <?php
-                  $options = array(1  => 'Active', 0    => 'Inactive');
-                  echo form_dropdown('status', $options, '', 'class="form-control"');
-                  ?>
-                </div>
-              </div>
-
               <div class="row form-row">
                 <div class="col-md-12">
                   <label class="form-label">Remarks</label>
