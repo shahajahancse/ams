@@ -35,7 +35,7 @@
                      <thead>
                         <tr>
                            <th style="vertical-align:middle" class="text-center"> SL </th>
-                           <th style="vertical-align:middle" class="text-center">Branch</th>
+                           <!-- <th style="vertical-align:middle" class="text-center">Branch</th> -->
                            <th style="vertical-align:middle" class="text-center">Category</th>
                            <th style="vertical-align:middle" class="text-center">Sub Category</th>
                            <th style="vertical-align:middle" class="text-center">Item Name</th>
@@ -86,7 +86,7 @@
                            ?>
                            <tr>
                               <td style="vertical-align:middle" class="text-center"><?=++$i?>.</td>
-                              <td style="vertical-align:middle" class="text-center"><?=$row->branch_name?></td>
+                              <!-- <td style="vertical-align:middle" class="text-center"><?=$row->branch_name?></td> -->
                               <td style="vertical-align:middle" class="text-center"><?=$row->category_name?></td>
                               <td style="vertical-align:middle" class="text-center"><?=$row->sub_cate_name?></td>
                               <td style="vertical-align:middle" class="text-center"><strong><?=$row->item_name?></strong></td>

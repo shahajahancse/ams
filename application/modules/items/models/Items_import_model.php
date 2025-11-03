@@ -46,13 +46,13 @@ class Items_import_model extends CI_Model {
                     'warranty_months' => $rowData[0][14], 
                     // 'custodian_id' => $rowData[0][15], 
                     'asset_status' => $rowData[0][16], 
-                    'branch_id' => $rowData[0][17], 
-                    'department_id' => $rowData[0][18], 
-                    'floor_id' => $rowData[0][19], 
-                    'room_id' => $rowData[0][20], 
-                    'depreciation_method' => $rowData[0][21], 
-                    'useful_life' => $rowData[0][22], 
-                    'salvage_value' => $rowData[0][23]
+                    // 'branch_id' => $rowData[0][17], 
+                    // 'department_id' => $rowData[0][18], 
+                    // 'floor_id' => $rowData[0][19], 
+                    // 'room_id' => $rowData[0][20], 
+                    'depreciation_method' => $rowData[0][17], 
+                    'useful_life' => $rowData[0][18], 
+                    'salvage_value' => $rowData[0][19]
                 );
                 $this->db->insert('items', $item_data);
             }

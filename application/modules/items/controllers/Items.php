@@ -28,88 +28,63 @@ class Items extends Backend_Controller {
    }
 
    public function create() {
-      // dd($_POST);
-      // Validation rules
-      $this->form_validation->set_rules('category_id', 'Select category', 'required|trim');
-      $this->form_validation->set_rules('sub_cat_id', 'Select sub category', 'required|trim');
-      $this->form_validation->set_rules('type', 'Select type', 'required|trim');
-      $this->form_validation->set_rules('value_type', 'Select value type', 'required|trim');
-      $this->form_validation->set_rules('rate', 'Enter rate', 'required|trim|numeric');
-      $this->form_validation->set_rules('item_name', 'Item name', 'required|trim');
-      $this->form_validation->set_rules('unit_id', 'Select unit', 'required|trim');
-      $this->form_validation->set_rules('asset_image', 'Item image', 'trim');
-      $this->form_validation->set_rules('description', 'Item description', 'trim');
-      $this->form_validation->set_rules('acquisition_date', 'Acquisition date', 'trim');
-      $this->form_validation->set_rules('manufacture_date', 'Manufacture date', 'trim');
-      $this->form_validation->set_rules('original_cost', 'Original cost', 'trim|numeric');
-      $this->form_validation->set_rules('capitalized_cost', 'Capitalized cost', 'trim|numeric');
-      $this->form_validation->set_rules('serial_number', 'Serial number', 'trim');
-      $this->form_validation->set_rules('warranty_months', 'Warranty months', 'trim');
-      $this->form_validation->set_rules('asset_status', 'Asset status', 'trim');
-      $this->form_validation->set_rules('supplier_id', 'Supplier', 'trim');
-      $status = $this->input->post('asset_status');
-      if ($status == 1 || $status == 2) {
-         $this->form_validation->set_rules('branch_id', 'Branch', 'required');
-         $this->form_validation->set_rules('dept_id', 'Department', 'required');
-         $this->form_validation->set_rules('floor_id', 'Floor', 'required');
-         $this->form_validation->set_rules('room_id', 'Room', 'required');
-         $this->form_validation->set_rules('user_id', 'User', 'required');
-      }
+
+      $this->form_validation->set_rules('asset_status', 'Select Asset Status', 'required|trim');
+
       if ($this->form_validation->run() == true) {
-         // Upload image if exists
+         // Initialize upload variables
          $asset_image = null;
          $warranty_months = null;
+         // Upload asset image
          if (!empty($_FILES['asset_image']['name'])) {
-            $upload_path = './uploads/items/';
-            if (!file_exists($upload_path)) {
-               mkdir($upload_path, 0777, true);
-            }
-            $config['upload_path'] = $upload_path;
-            $config['allowed_types'] = 'jpg|jpeg|png';
-            $config['max_size']      = 2048; // 2MB
-            $config['file_name']     = time() . '_' . $_FILES['asset_image']['name'];
-            // dd($config);
-            $this->load->library('upload', $config);
-
-            if (!$this->upload->do_upload('asset_image')) {
-               $this->session->set_flashdata('error', $this->upload->display_errors());
-               redirect('items/create');
-            } else {
-               $upload_data = $this->upload->data();
-               $asset_image = $upload_data['file_name'];
-            }
+               $upload_path = './uploads/items/';
+               if (!file_exists($upload_path)) {
+                  mkdir($upload_path, 0777, true);
+               }
+               $config = [
+                  'upload_path'   => $upload_path,
+                  'allowed_types' => 'jpg|jpeg|png',
+                  'max_size'      => 2048,
+                  'file_name'     => time() . '_' . $_FILES['asset_image']['name']
+               ];
+               $this->load->library('upload', $config);
+               if (!$this->upload->do_upload('asset_image')) {
+                  $this->session->set_flashdata('error', $this->upload->display_errors());
+                  redirect('items/create');
+               } else {
+                  $upload_data = $this->upload->data();
+                  $asset_image = $upload_data['file_name'];
+               }
          }
+         // Upload warranty file
          if (!empty($_FILES['warranty_months']['name'])) {
-            $upload_path = './uploads/items/';
-            if (!file_exists($upload_path)) {
-               mkdir($upload_path, 0777, true);
-            }
-            $config['upload_path'] = $upload_path;
-            $config['allowed_types'] = 'jpg|jpeg|png|pdf';
-            $config['max_size']      = 2048; // 2MB
-            $config['file_name']     = time() . '_' . $_FILES['warranty_months']['name'];
-            // dd($config);
-            $this->load->library('upload', $config);
-
-            if (!$this->upload->do_upload('warranty_months')) {
-               $this->session->set_flashdata('error', $this->upload->display_errors());
-               redirect('items/create');
-            } else {
-               $upload_data = $this->upload->data();
-               $form_data['warranty_months'] = $upload_data['file_name'];
-            }
+               $upload_path = './uploads/items/';
+               if (!file_exists($upload_path)) {
+                  mkdir($upload_path, 0777, true);
+               }
+               $config = [
+                  'upload_path'   => $upload_path,
+                  'allowed_types' => 'jpg|jpeg|png|pdf',
+                  'max_size'      => 2048,
+                  'file_name'     => time() . '_' . $_FILES['warranty_months']['name']
+               ];
+               $this->upload->initialize($config);
+               if (!$this->upload->do_upload('warranty_months')) {
+                  $this->session->set_flashdata('error', $this->upload->display_errors());
+                  redirect('items/create');
+               } else {
+                  $upload_data = $this->upload->data();
+                  $warranty_months = $upload_data['file_name'];
+               }
          }
          // Prepare form data
-         $form_data = array(
+         $form_data = [
             'category_id'      => $this->input->post('category_id'),
             'sub_cat_id'       => $this->input->post('sub_cat_id'),
-            'type'             => $this->input->post('type'),
-            'value_type'       => $this->input->post('value_type'),
-            'rate'             => $this->input->post('rate'),
             'item_name'        => $this->input->post('item_name'),
             'unit_id'          => $this->input->post('unit_id'),
             'asset_image'      => $asset_image,
-            'warranty_months'   => $warranty_month,
+            'warranty_months'  => $warranty_months,
             'description'      => $this->input->post('description'),
             'acquisition_date' => $this->input->post('acquisition_date'),
             'manufacture_date' => $this->input->post('manufacture_date'),
@@ -118,26 +93,21 @@ class Items extends Backend_Controller {
             'serial_number'    => $this->input->post('serial_number'),
             'asset_status'     => $this->input->post('asset_status'),
             'supplier_id'      => $this->input->post('supplier_id'),
-         );
-         if ($status == 1 || $status == 2) {
-            $form_data = array_merge($form_data, array(
-               'branch_id' => $this->input->post('branch_id'),
-               'dept_id'   => $this->input->post('dept_id'),
-               'floor_id'  => $this->input->post('floor_id'),
-               'room_id'   => $this->input->post('room_id'),
-               'user_id'   => $this->input->post('user_id'),
-            ));
+            'method_type'      => $this->input->post('value_type'),
+         ];
+         $method_type = $this->input->post('value_type');
+         if ($method_type == '1') {
+            $form_data['residual_cost'] = $this->input->post('residual_cost');
+            $form_data['life_year'] = $this->input->post('life_year');
+         } elseif ($method_type == '2') {
+            $form_data['residual_cost'] = $this->input->post('residual_cost');
+            $form_data['rate'] = $this->input->post('rate');
          }
-
-         // dd($form_data);
-         // Save data
+         // dd($form_data); 
+         // // Debug
          if ($this->Common_model->save('items', $form_data)) {
             $insert_id = $this->db->insert_id();
-
-            // Generate journal entry
             $this->cbs_model->generate_capitalization_journal_entry($insert_id);
-
-            // Save custom fields
             $custom_fields_definitions = $this->custom_fields_model->get_custom_fields();
             foreach ($custom_fields_definitions as $field) {
                $field_name = 'custom_field_' . $field->id;
@@ -148,24 +118,28 @@ class Items extends Backend_Controller {
             }
             $this->session->set_flashdata('success', 'Asset added successfully.');
             redirect('items');
+         } else {
+            $this->session->set_flashdata('error', 'Asset not added successfully.');
+            redirect('items');
          }
       }
       // else{
-      //    dd($_POST);
+      //    dd("Form validation failed");
       // }
 
-      // Dropdowns
+
+      // Load data for view
       $this->data['units'] = $this->Common_model->get_units();
       $this->data['suppliers'] = $this->db->get('suppliers')->result();
       $this->data['custodians'] = $this->ion_auth->users()->result();
       $this->data['branches'] = $this->Common_model->get_dropdown('office_unit', 'unit_name', 'id');
       $this->data['custom_fields'] = $this->custom_fields_model->get_custom_fields();
 
-      // Load page
       $this->data['meta_title'] = 'Add Asset Form';
       $this->data['subview'] = 'create';
       $this->load->view('backend/_layout_main', $this->data);
    }
+
    public function edit($id){
       $dataID = (int) decrypt_url($id);
       if (!$this->Common_model->exists('items', 'id', $dataID)) {
@@ -896,6 +870,7 @@ class Items extends Backend_Controller {
    // assigned employees
    public function assigned_emp(){
       $this->data['meta_title'] = 'Assigned Employee List';
+      $this->data['assets'] = $this->Items_model->get_emp_asset_assign_list();
       $this->data['subview'] = 'assigned_emp';
       $this->load->view('backend/_layout_main', $this->data);
    }
@@ -903,5 +878,91 @@ class Items extends Backend_Controller {
       $this->data['meta_title'] = 'Assigned Employee Entry Form';
       $this->data['subview'] = 'create_assigned_emp';
       $this->load->view('backend/_layout_main', $this->data);
+   }
+   public function emp_asset_create($id = null){
+      $this->form_validation->set_rules('user_id', 'Select Employee', 'required|trim');
+      $this->form_validation->set_rules('asset_ids[]', 'Select Assets', 'required');
+
+      if ($this->form_validation->run() == FALSE) {
+         // Load form again with errors
+         if($id){
+            $data['assigned_emps'] = $this->db->get_where('emp_asset_assign', ['id' => $id])->row();
+         }
+         $this->load->view('your_form_view', isset($data) ? $data : []);
+         return;
+      }
+
+      // Handle asset_ids array
+      $asset_ids = $this->input->post('asset_ids');
+      if (is_array($asset_ids)) {
+         $asset_ids = json_encode($asset_ids); // store as JSON
+      }
+
+      $data = array(
+         'emp_id'      => $this->input->post('user_id'),
+         'asset_ids'   => $asset_ids,
+         'remarks'     => $this->input->post('remarks'),
+      );
+      // dd( );
+      if ($id) {
+         $this->db->where('id', $id);
+         if($this->db->update('emp_asset_assign', $data)){
+            $this->session->set_flashdata('success', 'Asset assignment updated successfully.');
+         } else {
+            $this->session->set_flashdata('error', 'Failed to update asset assignment.');
+         }
+      } else {
+         // Insert new record
+         $data['assigned_by'] = $this->session->userdata('user_id');
+         $data['created_at'] = date('Y-m-d H:i:s');
+         if($this->db->insert('emp_asset_assign', $data)){
+            $insert_id = $this->db->insert_id();
+            $l_data    = json_decode($asset_ids);
+            $batch_data = [];
+            foreach ($l_data as $item) {
+               $batch_data[] = array(
+                  'eas_id'    => $insert_id,
+                  'user_id'   => $data['emp_id'],
+                  'asset_id'  => $item,
+                  'status'    => 1,
+                  'remarks'   => "",
+                  'created_at'=> $data['created_at'],
+                  'updated_at'=> $data['created_at'],
+                  'updated_by'=> $data['assigned_by']
+               );
+            }
+            $this->db->insert_batch('asset_assigned_details', $batch_data);
+            $this->session->set_flashdata('success', 'Asset assigned to employee successfully.');
+         } else {
+            $this->session->set_flashdata('error', 'Failed to assign asset to employee.');
+         }
+      }
+      redirect('items/assigned_emp');
+   }
+
+
+   public function get_asset_details()
+   {
+      $ids = $this->input->post('ids');
+      // dd($_POST);
+      if (!empty($ids)) {
+         $this->db->where_in('id', $ids);
+         $query = $this->db->get('items');
+         // dd($query->result());
+         echo json_encode($query->result());
+      } else {
+         echo json_encode([]);
+      }
+   }
+   public function assigned_emp_edit($id)
+   {
+      $this->data['assigned_emps'] = $this->db->where('id', $id)->get('emp_asset_assign')->row();
+      $this->data['meta_title'] = 'Assigned Employee Entry Form';
+      $this->data['subview'] = 'create_assigned_emp';
+      $this->load->view('backend/_layout_main', $this->data);
+   }
+   public function update_asset_data()
+   {
+      dd($_POST);
    }
 }

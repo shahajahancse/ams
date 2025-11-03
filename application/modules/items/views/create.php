@@ -81,7 +81,7 @@
                   </div>
 
                   <div class="row form-row">
-                      <div class="col-md-3">
+                     <div class="col-md-3">
                         <label class="form-label">Orginal Cost <span  class="required">*</span></label>
                         <input name="original_cost" id="original_cost" type="number" step="0.01" value="<?=set_value('original_cost')?>" class="form-control input-sm">
                      </div>
@@ -106,7 +106,7 @@
                      </div>
                      <div class="col-md-3">
                         <label class="form-label">Asset Image <span  class="required">*</span></label>
-                        <input type="file" name="asset_image" id="asset_image" class="form-control input-sm" accept=".jpg,.jpeg,.png" />
+                        <input type="file" name="asset_image" id="asset_image" class="form-control input-sm" value="<?=set_value('asset_image')?>" accept=".jpg,.jpeg,.png" />
                      </div>
                      <div class="col-md-3">
                         <label class="form-label">Warranty</label>
@@ -117,16 +117,16 @@
                         <label class="form-label">Asset Status <span  class="required">*</span></label>
                         <select name="asset_status" class="form-control input-sm" id="asset_status">
                            <option value="">-- Select One --</option>
-                           <option value="1">In Stock</option>
-                           <option value="2">Under Maintenance</option>
-                           <option value="3">Disposed</option>
-                           <option value="4">Retired</option>
+                           <option value="1" <?= (set_value('asset_status') == '1') ? 'selected' : '' ?>>In Stock</option>
+                           <option value="2" <?= (set_value('asset_status') == '2') ? 'selected' : '' ?>>Under Maintenance</option>
+                           <option value="3" <?= (set_value('asset_status') == '3') ? 'selected' : '' ?>>Disposed</option>
+                           <option value="4" <?= (set_value('asset_status') == '4') ? 'selected' : '' ?>>Retired</option>
                         </select>
                      </div>
                   </div>
 
                   <div class="row form-row">
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <label class="form-label">Asset Specification</label>
                         <textarea name="description" id="description" class="form-control input-sm" rows="3"><?=set_value('description')?></textarea>
                      </div>
@@ -136,27 +136,33 @@
                         <?php echo form_error('type'); ?>
                         <select name="type" id="type" class="form-control input-sm">
                            <option value="">--Select Type--</option>
-                           <option value="1">Depriciation</option>
-                           <option value="2">Non Depriciation</option>
-                           <option value="3">Fixed</option>
+                           <option value="1" <?= (set_value('type') == '1') ? 'selected' : '' ?>>Depriciation</option>
+                           <option value="2" <?= (set_value('type') == '2') ? 'selected' : '' ?>>Non Depriciation</option>
+                           <option value="3" <?= (set_value('type') == '3') ? 'selected' : '' ?>>Fixed</option>
                         </select>
                      </div>
                      <div class="col-md-2">
                         <label class="form-label">Method <span  class="required">*</span></label>
                         <select name="value_type" id="value_type" class="form-control input-sm"  >
                            <option value="">-- Select Method --</option>
-                           <option value="1">Straight-Line Method (SlM)</option>
+                           <option value="1" >Straight-Line Method (SlM)</option>
                            <option value="2">Written Down Value (WDV)</option>
                            <option value="3">Units of Production Method (Future)</option>
                         </select>
                      </div>
-                     <div class="col-md-2">
-                        <label class="form-label">Residual Cost<span  class="required">*</span></label>
-                        <input name="residual_cost" id="residual_cost" type="number" step="10" value="<?=set_value('residual_cost', 0)?>" class="form-control input-sm">
+                     <div class="col-md-2" id="residual_cost_div" style="display: none;">
+                        <label class="form-label">R.Cost <span  class="required">*</span> </label>
+                        <input name="residual_cost" id="residual_cost" type="number" step="10"  class="form-control input-sm">
+                     </div>
+                     <div class="col-md-2" id="life_year_div" style="display: none;">
+                        <label class="form-label">Life Year <span  class="required">*</span> </label>
+                        <input name="life_year" id="life_year" type="number" step="10"  class="form-control input-sm">
+                     </div>
+                     <div class="col-md-2" id="rate_div" style="display: none;">
+                        <label class="form-label">Rate<span  class="required">*</span> </label>
+                        <input name="rate" id="rate" type="number" step="10"  class="form-control input-sm">
                      </div>
                   </div>
-
-
                   
                   <div class="row form-row">
                      <div class="col-md-12">
@@ -164,7 +170,7 @@
                         <hr>
                      </div>
                      <div class="col-md-3">
-                        <label class="form-label">Supplier</label>
+                        <label class="form-label">Supplier <span  class="required">*</span></label>
                         <select name="supplier_id" id="supplier_id" class="form-control input-sm">
                            <option value="">-- Select Supplier --</option>
                            <?php foreach ($suppliers as $supplier) { ?>
@@ -174,86 +180,25 @@
                      </div>
                      <div class="col-md-3">
                         <label class="form-label">Email </label>
-                        <input name="email" id="email" type="email" value="<?=set_value('email')?>" class="form-control input-sm" readonly>
+                        <input name="email" id="email" type="email" class="form-control input-sm" readonly>
                      </div>
                      <div class="col-md-2">
                         <label class="form-label">Phone Number</label>
-                        <input name="phone" id="phone" type="text" value="<?=set_value('phone')?>" class="form-control input-sm" readonly>
+                        <input name="phone" id="phone" type="text" class="form-control input-sm" readonly>
                      </div>
                      <div class="col-md-4">
                         <label class="form-label">Address</label>
-                        <input name="address" id="address" type="text" value="<?=set_value('address')?>" class="form-control input-sm" readonly>
+                        <input name="address" id="address" type="text"  class="form-control input-sm" readonly>
                      </div>
                      
                   </div>
-                  <!-- <div class="row form-row" id="assigned_emp">
-                     <div class="col-md-12">
-                        <h4 class="semi-bold">Assigned Employee/Custodian</h4>
-                        <hr>
-                     </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Branch <span  class="required">*</span></label>
-                        <?php $divs = $this->db->where('status', 1)->get('units')->result(); ?>
-                        <select name="branch_id" class="form-control input-sm"  >
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($divs as $key => $value) { ?>
-                              <option value="<?=$value->id?>"><?=$value->name_en?></option>
-                           <?php } ?>
-                           <option value="0">Others</option>
-                        </select>
-                     </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Department <span  class="required">*</span></label>
-                        <select name="dept_id" id="dept_id" class="form-control input-sm"  >
-                        <?php $dept = $this->db->where('status', 1)->get('departments')->result(); ?>
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($dept as $key => $value) { ?>
-                              <option value="<?=$value->id?>"><?=$value->dept_name?></option>
-                           <?php } ?>
-                           <option value="0">Others</option>
-                        </select>
-                     </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Floor <span  class="required">*</span></label>
-                        <?php $floor = $this->db->where('status', 1)->get('asset_floors')->result(); ?> 
-                        <select name="floor_id" id="floor_id" class="form-control input-sm"  >
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($floor as $key => $value) { ?>
-                              <option value="<?=$value->id?>"><?=$value->floor_name?></option>
-                           <?php } ?>
-                           <option value="0">Others</option>
-                        </select>
-                     </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Room <span  class="required">*</span></label>
-                        <?php $rooms = $this->db->where('status', 1)->get('item_rooms')->result(); ?> 
-                        <select name="room_id" id="room_id" class="form-control input-sm"  >
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($rooms as $key => $value) { ?>
-                              <option value="<?=$value->id?>"> <?=$value->name_en ?> </option>
-                           <?php } ?>
-                           <option value="0">Others</option>
-                        </select>
-                     </div>
-                     <div class="col-md-3">
-                        <label class="form-label">Assigned Employee/Custodian <span  class="required">*</span></label>
-                        <?php $users = $this->db->where('status', 1)->get('users')->result(); ?> 
-                        <select name="user_id" id="user_id" class="form-control input-sm"  >
-                           <option value="">-- Select One --</option>
-                           <?php foreach ($users as $key => $value) { ?>
-                              <option value="<?=$value->id?>"> <?=$value->first_name ?> </option>
-                           <?php } ?>
-                           <option value="0">Others</option>
-                        </select>
-                     </div>
-                  </div> -->
                   <div class="row form-row">
                      <div class="col-md-12">
                         <h4 class="semi-bold">Custom Fields </h4>
                      </div>
                      <?php foreach ($custom_fields as $field): ?>
                      <div class="col-md-4">
-                        <label class="form-label"><?=$field->field_name?> <?=($field->is_  == 1) ? '<span  class="required">*</span>' : ''?> <span  class="required">*</span></label>
+                        <label class="form-label"><?=$field->field_name?> <?=($field->is_  == 1) ? '' : ''?> </label>
                         <?php
                         $field_name = 'custom_field_' . $field->id;
                         $field_value = set_value($field_name); // For validation errors
@@ -311,7 +256,34 @@
             sub_cat_id: {  required: true },
             item_name: {  required: true },
             unit_id: { required : true },
-            type: { required : true },
+            original_cost: { required : true },
+            capitalized_cost: { required : true },
+            serial_number: { required : true },
+            acquisition_date: { required : true },
+            manufacture_date: { required : true },
+            expire_date: { required : true },
+            asset_status: { required: true },
+            asset_image: { required: true },
+            type: { required: true },
+            value_type: { required: true },
+            residual_cost: {
+               required: {
+                  depends: function() { var v = $('#value_type').val(); return v == '1' || v == '2'; }
+               }
+            },
+            life_year: {
+               required: {
+                  depends: function() { return $('#value_type').val() == '1'; }
+               }
+            },
+            rate: {
+               required: {
+                  depends: function() { return $('#value_type').val() == '2'; }
+               }
+            },
+            quantity: { required : true },
+            supplier_id: { required : true },
+            status: { required : true },           
          }
       });
    });
@@ -333,59 +305,11 @@
       });
 
    }
-
-   $(document).ready(function() {
-      $('#branch_id').change(function() {
-         var branch_id = $(this).val();
-         if (branch_id) {
-            $.ajax({
-               url: '<?=base_url('items/get_floors_by_branch/');?>',
-               data: {id: branch_id},
-               type: 'POST',
-               dataType: 'json',
-               success: function(data) {
-                  $('#floor_id').empty();
-                  $('#floor_id').append('<option value="">-- Select Floor --</option>');
-                  $.each(data, function(key, value) {
-                     $('#floor_id').append('<option value="' + value.id + '">' + value.floor_name + '</option>');
-                  });
-               }
-            });
-         } else {
-            $('#floor_id').empty();
-            $('#floor_id').append('<option value="">-- Select Floor --</option>');
-            $('#room_id').empty();
-            $('#room_id').append('<option value="">-- Select Room --</option>');
-         }
-      });
-
-      $('#floor_id').change(function() {
-         var floor_id = $(this).val();
-         if (floor_id) {
-            $.ajax({
-               url: '<?=base_url('items/get_rooms_by_floor/');?>',
-               data: {id: floor_id},
-               type: 'POST',
-               dataType: 'json',
-               success: function(data) {
-                  $('#room_id').empty();
-                  $('#room_id').append('<option value="">-- Select Room --</option>');
-                  $.each(data, function(key, value) {
-                     $('#room_id').append('<option value="' + value.id + '">' + value.room_name + '</option>');
-                  });
-               }
-            });
-         } else {
-            $('#room_id').empty();
-            $('#room_id').append('<option value="">-- Select Room --</option>');
-         }
-      });
-   });
 </script>
 
 <script>
    $(document).ready(function () {
-       $('#supplier_id').on('change', function () {
+      $('#supplier_id').on('change', function () {
          var id = $(this).val();
          $.ajax({
             type: "POST",
@@ -400,28 +324,26 @@
          });
       });
    });
-</script>
 
-<script>
    $(document).ready(function () {
-      $('#branch_id').on('change', function () {
-         let id = $(this).val();
-         if (id !== '') {
-            $.ajax({
-               url: "<?= base_url('general_setting/getDeptByBranch') ?>",
-               type: "POST",
-               data: { id: id },
-               dataType: "json",
-               success: function (response) {
-                  $('#dept_id').empty();
-                  $('#dept_id').append('<option value="">-- Select oned --</option>');
-                  $.each(response, function (key, value) {
-                     $('#dept_id').append('<option value="' + key + '">' + value + '</option>');
-                  });
-               }
-            });
-         } else {
-            $('#dept_id').html('<option value="">-- Select oned --</option>');
+      // $('#residual_cost_div').hide();
+      // $('#life_year_div').hide();
+      // $('#rate_div').hide();
+      $('#value_type').on('change', function () {
+
+         var method = $(this).val();
+         if(method == 1){
+            $('#residual_cost_div').fadeIn(400);
+            $('#life_year_div').fadeIn(400);
+            $('#rate_div').fadeOut(400);
+         } else if(method == 2){
+            $('#residual_cost_div').fadeIn(400);
+            $('#rate_div').fadeIn(400);
+            $('#life_year_div').fadeOut(400);
+         }else{
+            $('#residual_cost_div').fadeOut(400);
+            $('#life_year_div').fadeOut(400);
+            $('#rate_div').fadeOut(400);
          }
       });
    });
