@@ -427,7 +427,7 @@ class Reports extends Backend_Controller {
     ob_clean();
     // flush();
     $this->data['results'] = $this->Reports_model->get_asset_register_data();
-
+    // dd($this->data['results']);
     $this->data['meta_title'] = 'Asset Register Report';
     $this->data['headding'] = 'Asset Register Report';
     $html = $this->load->view('pdf_asset_register_report', $this->data, true);

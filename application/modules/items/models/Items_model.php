@@ -51,7 +51,7 @@ class Items_model extends CI_Model {
         $unit_id = $this->session->userdata('unit_id');
         $this->db->select('i.*, i.acquisition_date, i.serial_number,   c.category_name, sc.sub_cate_name, u.unit_name, sup.name as supplier_name');
         $this->db->from('items i');
-        // $this->db->join('units branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
+        $this->db->join('units branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
         $this->db->join('item_categories c', 'c.id=i.category_id', 'LEFT');
         $this->db->join('item_sub_categories sc', 'sc.id=i.sub_cat_id', 'LEFT');
         $this->db->join('item_unit u', 'u.id = i.unit_id', 'LEFT');
@@ -69,7 +69,7 @@ class Items_model extends CI_Model {
         $unit_id = $this->session->userdata('unit_id');
         $this->db->select('i.*, i.acquisition_date, i.serial_number,  c.category_name, sc.sub_cate_name, u.unit_name, sup.name as supplier_name');
         $this->db->from('items i');
-        // $this->db->join('units branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
+        $this->db->join('units branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
         $this->db->join('item_categories c', 'c.id=i.category_id', 'LEFT');
         $this->db->join('item_sub_categories sc', 'sc.id=i.sub_cat_id', 'LEFT');
         $this->db->join('item_unit u', 'u.id = i.unit_id', 'LEFT');
@@ -96,7 +96,7 @@ class Items_model extends CI_Model {
         $this->db->select('i.*, i.acquisition_date, i.serial_number, sup.name as supplier_name');
         $this->db->from('items i');
         $this->db->join('suppliers sup', 'sup.id=i.supplier_id', 'LEFT'); // Join with suppliers table
-        // $this->db->join('office_unit branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
+        $this->db->join('office_unit branch', 'branch.id=i.branch_id', 'LEFT'); // Join for branch
         $this->db->where('i.id', $id);
         $query = $this->db->get()->row();
         return $query;

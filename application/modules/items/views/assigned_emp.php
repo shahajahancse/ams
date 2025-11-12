@@ -103,35 +103,35 @@
 
                         <table class="table table-bordered dataTable table-condensed">
                             <thead>
-                                <tr>
-                                    <th style="display:none"></th>
-                                    <th class="text-center">SL</th>
-                                    <th class="text-center">Employee Name</th>
-                                    <th class="text-center">Department</th>
-                                    <th class="text-center">Branch</th>
-                                    <th class="text-center">Action</th>
-                                </tr>
+                              <tr>
+                                <th style="display:none"></th>
+                                <th class="text-center">SL</th>
+                                <th class="text-center">Employee Name</th>
+                                <th class="text-center">Department</th>
+                                <th class="text-center">Branch</th>
+                                <th class="text-center">Action</th>
+                              </tr>
                             </thead>
                             <tbody>
                                 <?php if (!empty($assets)): $i = 0; ?>
-                                    <?php foreach ($assets as $asset): $i++; 
-                                      // dd($asset);
-                                    ?>
-                                        <tr>
-                                            <td style="display:none"><?= $asset['id'] ?></td>
-                                            <td class="text-center"><?= $i ?></td>
-                                            <td class="text-center"><?= $asset['first_name'] ?></td>
-                                            <td class="text-center"><?= $asset['dept_name'] ?></td>
-                                            <td class="text-center"><?= $asset['branch_name'] ?></td>
-                                            <td class="text-center">
-                                              <button class="btn btn-primary btn-mini view-details" data-asset='<?= json_encode($asset) ?>'>
-                                                Details
-                                              </button>
-                                            </td>
-                                        </tr>
-                                    <?php endforeach; ?>
+                                  <?php foreach ($assets as $asset): $i++; 
+                                    dd($asset);
+                                  ?>
+                                    <tr>
+                                      <td style="display:none"><?= $asset['id'] ?></td>
+                                      <td class="text-center"><?= $i ?></td>
+                                      <td class="text-center"><?= $asset['first_name'] ?></td>
+                                      <td class="text-center"><?= $asset['dept_name'] ?></td>
+                                      <td class="text-center"><?= $asset['branch_name'] ?></td>
+                                      <td class="text-center">
+                                        <button class="btn btn-primary btn-mini view-details" data-asset='<?= json_encode($asset) ?>'>
+                                          Details
+                                        </button>
+                                      </td>
+                                    </tr>
+                                  <?php endforeach; ?>
                                 <?php else: ?>
-                                    <tr><td colspan="5" class="text-center">No Data Found</td></tr>
+                                  <tr><td colspan="5" class="text-center">No Data Found</td></tr>
                                 <?php endif; ?>
                             </tbody>
                         </table>

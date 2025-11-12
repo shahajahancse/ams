@@ -789,28 +789,29 @@ public function get_scout_group_committee($region_id=NULL, $sc_district_id=NULL,
     return $result;
   }
 
-    public function get_custom_asset_report_data($selected_columns) {
-      $this->db->select(implode(', ', $selected_columns));
-      return $this->db->get('items')->result_array();
-    }
-    public function get_all_movements() {
-      $this->db->select('am.*, i.item_name, u.first_name as moved_by_user');
-      $this->db->from('asset_movements am'); // Assuming 'asset_movements' table
-      $this->db->join('items i', 'i.id = am.asset_id', 'left'); // Assuming 'items' table for asset details
-      $this->db->join('users u', 'u.id = am.to_custodian', 'left'); // Assuming 'users' table for user details
-      $this->db->order_by('am.movement_date', 'DESC');
-      return $this->db->get()->result();
-    }
+  public function get_custom_asset_report_data($selected_columns) {
+    $this->db->select(implode(', ', $selected_columns));
+    return $this->db->get('items')->result_array();
+  }
+  public function get_all_movements() {
+    $this->db->select('am.*, i.item_name, u.first_name as moved_by_user');
+    $this->db->from('asset_movements am'); // Assuming 'asset_movements' table
+    $this->db->join('items i', 'i.id = am.asset_id', 'left'); // Assuming 'items' table for asset details
+    $this->db->join('users u', 'u.id = am.to_custodian', 'left'); // Assuming 'users' table for user details
+    $this->db->order_by('am.movement_date', 'DESC');
+    return $this->db->get()->result();
+  }
 
-    public function get_asset_register_data() {
-      $this->db->select('i.*, c.category_name, sc.sub_cate_name, u.unit_name, d.dept_name,branch.name_en as branch_name');
-      $this->db->from('items i');
-      $this->db->join('item_categories c', 'c.id = i.category_id', 'left');
-      $this->db->join('item_sub_categories sc', 'sc.id = i.sub_cat_id', 'left');
-      $this->db->join('item_unit u', 'u.id = i.unit_id', 'left');
-      $this->db->join('units branch', 'branch.id = i.branch_id', 'left');
-      $this->db->join('departments d', 'd.id = i.dept_id', 'left');
-      $this->db->order_by('i.item_name', 'ASC');
-      return $this->db->get()->result();
-    }
+  public function get_asset_register_data() {
+
+    $this->db->select('i.*, c.category_name, sc.sub_cate_name, u.unit_name, d.dept_name,branch.name_en as branch_name');
+    $this->db->from('items i');
+    $this->db->join('item_categories c', 'c.id = i.category_id', 'left');
+    $this->db->join('item_sub_categories sc', 'sc.id = i.sub_cat_id', 'left');
+    $this->db->join('item_unit u', 'u.id = i.unit_id', 'left');
+    $this->db->join('units branch', 'branch.id = i.branch_id', 'left');
+    $this->db->join('departments d', 'd.id = i.dept_id', 'left');
+    $this->db->order_by('i.item_name', 'ASC');
+    return $this->db->get()->result();
+  }
 }
