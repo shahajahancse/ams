@@ -45,7 +45,7 @@
                   <?php $attributes = array('id' => 'validate');
                   echo form_open_multipart("movement/record", $attributes);?>
                   <div class="row form-row">
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <label class="form-label">Asset Name</label>
                         <select name="asset_id" id="asset_id" class="form-control input-sm select2">
                            <option value="">Select Asset</option>
@@ -54,25 +54,28 @@
                            <?php } ?>
                         </select>
                      </div>
-                     <div class="col-md-6">
-                        <label class="form-label">Movement Date <span class="required">*</span></label>
-                        <input name="movement_date" type="date" value="<?=set_value('movement_date')?>" class="form-control input-sm" required>
-                     </div>
-                  </div>
-
-                  <div class="row form-row">
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <label class="form-label">From Location</label>
-                        <input name="from_location" type="text" value="<?=set_value('from_location')?>" class="form-control input-sm">
+                        <select name="from_location" id="from_location" class="form-control input-sm select2">
+                           <option value="">Select Location</option>
+                           <?php foreach ($branches as $asset) { ?>
+                              <option value="<?=$asset->id?>"><?=$asset->name_en?></option>
+                           <?php } ?>
+                        </select>
                      </div>
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <label class="form-label">To Location</label>
-                        <input name="to_location" type="text" value="<?=set_value('to_location')?>" class="form-control input-sm">
+                        <select name="to_location" id="to_location" class="form-control input-sm select2">
+                           <option value="">Select Location</option>
+                           <?php foreach ($branches as $asset) { ?>
+                              <option value="<?=$asset->id?>"><?=$asset->name_en?></option>
+                           <?php } ?>
+                        </select>
                      </div>
                   </div>
 
                   <div class="row form-row">
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <label class="form-label">From Custodian</label>
                         <select name="from_custodian" class="form-control input-sm">
                            <option value="">-- Select Custodian --</option>
@@ -81,7 +84,7 @@
                            <?php } ?>
                         </select>
                      </div>
-                     <div class="col-md-6">
+                     <div class="col-md-4">
                         <label class="form-label">To Custodian</label>
                         <select name="to_custodian" class="form-control input-sm">
                            <option value="">-- Select Custodian --</option>
@@ -89,6 +92,10 @@
                               <option value="<?=$custodian->id?>" <?=set_value('to_custodian') == $custodian->id ? 'selected' : ''?>><?=$custodian->first_name . ' ' . $custodian->last_name?></option>
                            <?php } ?>
                         </select>
+                     </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Movement Date <span class="required">*</span></label>
+                        <input name="movement_date" type="date" value="<?=set_value('movement_date')?>" class="form-control input-sm" required>
                      </div>
                   </div>
 
