@@ -1,7 +1,7 @@
 <div class="page-content">     
   <div class="content">  
     <ul class="breadcrumb" style="margin-bottom: 20px;">
-      <li> <a href="<?=base_url()?>" class="active"> Dashboard </a> </li>
+      <li> <a href="<?= base_url()?>" class="active"> Dashboard </a> </li>
       <li> General Setting</li>
       <li><?=$meta_title; ?> </li>
     </ul>
@@ -12,7 +12,7 @@
           <div class="grid-title">
             <h4><span class="semi-bold"><?=$meta_title; ?></span></h4>
             <div class="pull-right">
-              <a href="<?=base_url('general_setting/supplier_add')?>" class="btn btn-info btn-xs btn-mini"> Add New </a>
+              <a href="<?= base_url('general_setting/supplier_add')?>" class="btn btn-info btn-xs btn-mini"> Add New </a>
             </div>            
           </div>
 

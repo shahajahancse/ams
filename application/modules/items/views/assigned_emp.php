@@ -115,7 +115,7 @@
                             <tbody>
                                 <?php if (!empty($assets)): $i = 0; ?>
                                   <?php foreach ($assets as $asset): $i++; 
-                                    dd($asset);
+                                    // dd($asset);
                                   ?>
                                     <tr>
                                       <td style="display:none"><?= $asset['id'] ?></td>

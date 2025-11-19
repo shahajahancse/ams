@@ -448,7 +448,7 @@ class General_setting extends Backend_Controller {
       if ($this->form_validation->run() == true){
          $form_data = array(
             'category_name'  => $this->input->post('cate_name'),
-            'status'      => 'Enable'
+            'status'      => $this->input->post('status')
          );
          $this->db->insert('item_categories', $form_data);
          $this->session->set_flashdata('success', 'Category create successfully.');
@@ -504,16 +504,16 @@ class General_setting extends Backend_Controller {
       if ($this->form_validation->run() == true) {
 
          $form_data = array(
-               'cate_id'      => $this->input->post('cate_id'),
-               'sub_cate_name'=> $this->input->post('sub_cate_name'),
-               'status'       => $this->input->post('status')
+            'cate_id'      => $this->input->post('cate_id'),
+            'sub_cate_name'=> $this->input->post('sub_cate_name'),
+            'status'       => $this->input->post('status')
          );
 
          if($this->Common_model->save('item_sub_categories', $form_data)){
-               $this->session->set_flashdata('success', 'Sub category created successfully.');
-               redirect('general_setting/sub_categories');
+            $this->session->set_flashdata('success', 'Sub category created successfully.');
+            redirect('general_setting/sub_categories');
          }else{
-               $this->session->set_flashdata('error', 'Sub category not created successfully.');
+            $this->session->set_flashdata('error', 'Sub category not created successfully.');
          }
       }
 

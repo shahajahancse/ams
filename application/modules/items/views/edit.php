@@ -174,7 +174,7 @@
                      </div>
                      
                   </div>
-                  <div class="row form-row" id="assigned_emp">
+                  <!-- <div class="row form-row" id="assigned_emp">
                      <div class="col-md-12">
                         <h4 class="semi-bold">Assigned Employee/Custodian</h4>
                         <hr>
@@ -229,7 +229,7 @@
                            <?php } ?>
                         </select>
                      </div>
-                  </div>
+                  </div> -->
 
                   <div class="row form-row">
                      <div class="col-md-12">
@@ -237,7 +237,7 @@
                      </div>
                   </div>
                   <?php foreach ($custom_fields as $field): ?>
-                  <div class="row form-row">
+                  <div class="row form-cloumn">
                      <div class="col-md-4">
                         <label class="form-label"><?=$field->field_name?> <?=($field->is_  == 1) ? '<span  class="required">*</span>' : ''?> <span  class="required">*</span></label>
                         <?php
@@ -272,15 +272,12 @@
                      </div>
                   </div>
                   <?php endforeach; ?>
-
                   <div class="form-actions">
                      <div class="pull-right">
                         <button type="submit" class="btn btn-primary btn-cons"><i class="icon-ok"></i> Update</button>
                      </div>
                   </div>
-
                   <?php echo form_close();?>
-
                </div>  <!-- END GRID BODY -->
             </div> <!-- END GRID -->
          </div>

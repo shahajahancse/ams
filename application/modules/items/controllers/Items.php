@@ -141,7 +141,8 @@ class Items extends Backend_Controller {
    }
 
    public function edit($id){
-      $dataID = (int) decrypt_url($id);
+      $dataID = decrypt_url($id);
+      // dd(decrypt_url($id));
       if (!$this->Common_model->exists('items', 'id', $dataID)) {
          show_404('items - edit - exitsts', TRUE);
       }
@@ -151,27 +152,16 @@ class Items extends Backend_Controller {
       $this->form_validation->set_rules('sub_cat_id', 'Select sub category', 'required|trim');
       $this->form_validation->set_rules('type', 'Select type', 'required|trim');
       $this->form_validation->set_rules('value_type', 'Select value type', 'required|trim');
-      $this->form_validation->set_rules('rate', 'Enter rate', 'required|trim|numeric');
       $this->form_validation->set_rules('item_name', 'Item name', 'required|trim');
       $this->form_validation->set_rules('unit_id', 'Select unit', 'required|trim');
-      $this->form_validation->set_rules('asset_image', 'Item image', 'trim');
-      $this->form_validation->set_rules('description', 'Item description', 'trim');
       $this->form_validation->set_rules('acquisition_date', 'Acquisition date', 'trim');
       $this->form_validation->set_rules('manufacture_date', 'Manufacture date', 'trim');
       $this->form_validation->set_rules('original_cost', 'Original cost', 'trim|numeric');
       $this->form_validation->set_rules('capitalized_cost', 'Capitalized cost', 'trim|numeric');
-      $this->form_validation->set_rules('serial_number', 'Serial number', 'trim');
-      $this->form_validation->set_rules('warranty_months', 'Warranty months', 'trim');
       $this->form_validation->set_rules('asset_status', 'Asset status', 'trim');
       $this->form_validation->set_rules('supplier_id', 'Supplier', 'trim');
       $status = $this->input->post('asset_status');
-      // if ($status == 1 || $status == 2) {
-      //    $this->form_validation->set_rules('branch_id', 'Branch', 'required');
-      //    $this->form_validation->set_rules('dept_id', 'Department', 'required');
-      //    $this->form_validation->set_rules('floor_id', 'Floor', 'required');
-      //    $this->form_validation->set_rules('room_id', 'Room', 'required');
-      //    $this->form_validation->set_rules('user_id', 'User', 'required');
-      // }
+
       if ($this->form_validation->run() == true){
          if (!empty($_FILES['asset_image']['name'])) {
             $upload_path = './uploads/items/';
@@ -217,8 +207,8 @@ class Items extends Backend_Controller {
             'category_id'      => $this->input->post('category_id'),
             'sub_cat_id'       => $this->input->post('sub_cat_id'),
             'type'             => $this->input->post('type'),
-            'value_type'       => $this->input->post('value_type'),
-            'rate'             => $this->input->post('rate'),
+            'method_type'      => $this->input->post('value_type'),
+            'rate'             => $this->input->post('rate') !== null ? $this->input->post('rate') : 0,
             'item_name'        => $this->input->post('item_name'),
             'unit_id'          => $this->input->post('unit_id'),
             'asset_image'      => $asset_image,
@@ -232,15 +222,15 @@ class Items extends Backend_Controller {
             'asset_status'     => $this->input->post('asset_status'),
             'supplier_id'      => $this->input->post('supplier_id'),
          );
-         if ($status == 1 || $status == 2) {
-            $form_data = array_merge($form_data, array(
-               'branch_id' => $this->input->post('branch_id'),
-               'dept_id'   => $this->input->post('dept_id'),
-               'floor_id'  => $this->input->post('floor_id'),
-               'room_id'   => $this->input->post('room_id'),
-               'user_id'   => $this->input->post('user_id'),
-            ));
-         }
+         // if ($status == 1 || $status == 2) {
+         //    $form_data = array_merge($form_data, array(
+         //       'branch_id' => $this->input->post('branch_id'),
+         //       'dept_id'   => $this->input->post('dept_id'),
+         //       'floor_id'  => $this->input->post('floor_id'),
+         //       'room_id'   => $this->input->post('room_id'),
+         //       'user_id'   => $this->input->post('user_id'),
+         //    ));
+         // }
 
          if($this->Common_model->edit('items', $dataID, 'id', $form_data)){
             $unit_id = $this->session->userdata('unit_id');

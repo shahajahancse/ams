@@ -13,8 +13,8 @@ class Assets extends CI_Controller {
         $this->db->join('suppliers sup',   'sup.id    = i.supplier_id', 'LEFT'); 
         // $this->db->join('users cust',      'cust.id   = i.user_id','LEFT');        
         $this->db->join('item_unit unit',  'unit.id   = i.unit_id',     'LEFT'); 
-        $this->db->join('units branch',    'branch.id = i.branch_id',   'LEFT'); 
-        $this->db->join('departments dept','dept.id   = i.dept_id',     'LEFT'); 
+        // $this->db->join('units branch',    'branch.id = i.branch_id',   'LEFT'); 
+        // $this->db->join('departments dept','dept.id   = i.dept_id',     'LEFT'); 
         // $this->db->join('asset_floors floor', 'floor.id  = i.floor_id',    'LEFT'); 
         // $this->db->join('item_rooms room',    'room.id   = i.room_id',     'LEFT'); 
         $this->db->where('i.id', $asset_id);

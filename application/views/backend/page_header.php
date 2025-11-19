@@ -248,7 +248,7 @@
                                         <li> <a href="<?=base_url('general_setting/branch_type');?>"> <i class="fa fa-list-alt"></i>Branch Type </a>
                                         <li> <a href="<?=base_url('general_setting/depreciation');?>"><i class="fa fa-list-alt"></i> Depreciation</a>
                                         </li>
-                                        <li> <a href="<?=base_url('general_setting/supplie');?>"><i class="fa fa-list-alt"></i> Supplie</a>
+                                        <li> <a href="<?=base_url('general_setting/supplier'); ?> "><i class="fa fa-list-alt"></i> Supplie</a>
                                         </li>
                                         <li>
                                             <a href="<?=base_url('custom_fields');?>"><i class="fa fa-list"></i> Custom Fields</a>

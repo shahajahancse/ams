@@ -45,12 +45,18 @@
                         <input name="sub_cate_name" type="text" value="<?=set_value('sub_cate_name')?>" class="form-control input-sm" placeholder="">
                      </div>
                      <div class="col-md-4">
-                        <label class="form-label">Status</label>
+                        <label class="form-label">Status </label>
                         <?php echo form_error('status'); ?>
-                        <select name="status" class="form-control input-sm">
-                           <option value="1" <?=set_select('status', '1', set_value('status', '1'))?>>Active</option>
-                           <option value="2" <?=set_select('status', '2', set_value('status', '2'))?>>Inactive</option>
-                        </select>
+                        <div class="form-group">
+                           <label class="radio-inline">
+                              <input type="radio" name="status" value="1" <?=set_radio('status', '1', set_value('status', '1'))?> checked>
+                              Active
+                           </label>
+                           <label class="radio-inline">
+                              <input type="radio" name="status" value="2" <?=set_radio('status', '2', set_value('status', '2'))?>>
+                              Inactive
+                           </label>
+                        </div>
                      </div>
                   </div>
 

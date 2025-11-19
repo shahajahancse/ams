@@ -45,7 +45,7 @@
                 foreach ($results as $row):
                   $sl++;
 
-                  if($row->status){
+                  if($row->status == 1){
                      $status = '<span class="badge badge-success">Enable</span>';
                   }else{
                      $status = '<span class="badge badge-danger">Disable</span>';

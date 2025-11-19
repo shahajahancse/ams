@@ -63,7 +63,7 @@
                                 Active
                             </label>
                             <label class="radio-inline">
-                                <input type="radio" name="status" value="0" <?=($sub_categorie->status == 0) ? 'checked' : ''?>>
+                                <input type="radio" name="status" value="0" <?=($sub_categorie->status == 2) ? 'checked' : ''?>>
                                 Inactive
                             </label>
                         </div>

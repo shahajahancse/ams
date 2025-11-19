@@ -38,14 +38,20 @@
                   <?php echo form_error('name_en'); ?>
                   <input name="name_en" id="name_en" type="text" value="<?=set_value('name_en')?>" class="form-control input-sm" placeholder="">
                 </div>
-                <div class="col-md-4">
-                  <label class="form-label">Status <span style="color:red">*</span></label>
-                  <?php echo form_error('status'); ?>
-                  <div class="radio">
-                    <label><input type="radio" name="status" value="1"> Active</label>
-                    <label><input type="radio" name="status" value="2"> Inactive</label>
-                  </div>
-                </div>
+                     <div class="col-md-4">
+                        <label class="form-label">Status </label>
+                        <?php echo form_error('status'); ?>
+                        <div class="form-group">
+                           <label class="radio-inline">
+                              <input type="radio" name="status" value="1" <?=set_radio('status', '1', set_value('status', '1'))?> checked>
+                              Active
+                           </label>
+                           <label class="radio-inline">
+                              <input type="radio" name="status" value="2" <?=set_radio('status', '2', set_value('status', '2'))?>>
+                              Inactive
+                           </label>
+                        </div>
+                     </div>
               </div>
 
               <div class="form-actions">
